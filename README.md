@@ -1,2 +1,6 @@
-# catgirl_aichat_bot
-A cat would accompany you forever.
+# 🐱 猫娘桌面助手
+
+一个可爱的猫娘桌面AI助手，集成Ollama模型，支持个性化定制和模型微调。
+
+## 项目愿景
+创建一个可爱的猫娘桌面助手，能够在Windows 11桌面上以聊天气泡的形式与用户进行智能对话，支持Ollama模型微调和个性化定制。
