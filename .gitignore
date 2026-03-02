@@ -1,0 +1,21 @@
+# Ignore model files
+*.gguf
+
+# Ignore other common files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.swp
+*.swo
+*~
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
