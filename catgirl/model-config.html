@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模型配置 - 猫娘助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        
+        * {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .model-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .model-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .model-card.selected {
+            border: 2px solid #ec4899;
+            background: rgba(236, 72, 153, 0.1);
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        .status-available { background: #10b981; }
+        .status-downloading { background: #f59e0b; animation: pulse 2s infinite; }
+        .status-error { background: #ef4444; }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            height: 8px;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #ec4899, #8b5cf6);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        .training-chart {
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .file-upload-area:hover {
+            border-color: #ec4899;
+            background: rgba(236, 72, 153, 0.05);
+        }
+        
+        .file-upload-area.dragover {
+            border-color: #ec4899;
+            background: rgba(236, 72, 153, 0.1);
+        }
+        
+        .parameter-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: white;
+            width: 100%;
+        }
+        
+        .parameter-input:focus {
+            outline: none;
+            border-color: #ec4899;
+            box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .log-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #10b981;
+        }
+        
+        .log-entry {
+            margin-bottom: 4px;
+            padding: 2px 0;
+        }
+        
+        .log-entry.error {
+            color: #ef4444;
+        }
+        
+        .log-entry.warning {
+            color: #f59e0b;
+        }
+        
+        .log-entry.info {
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="max-w-7xl mx-auto">
+        <!-- 头部 -->
+        <div class="glass-card p-6 mb-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-white mb-2">🤖 模型配置中心</h1>
+                    <p class="text-white/70">管理和定制你的AI模型</p>
+                </div>
+                <div class="flex space-x-3">
+                    <button class="btn-secondary" onclick="refreshModels()">🔄 刷新模型</button>
+                    <button class="btn-primary" onclick="testConnection()">🔌 测试连接</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- 模型列表 -->
+            <div class="lg:col-span-2">
+                <div class="glass-card p-6">
+                    <h2 class="text-xl font-semibold text-white mb-4">可用模型</h2>
+                    <div id="modelsList" class="space-y-4">
+                        <!-- 模型卡片将在这里动态生成 -->
+                    </div>
+                </div>
+                
+                <!-- 训练配置 -->
+                <div class="glass-card p-6 mt-6">
+                    <h2 class="text-xl font-semibold text-white mb-4">模型微调</h2>
+                    
+                    <!-- 数据上传 -->
+                    <div class="mb-6">
+                        <h3 class="text-white font-medium mb-3">训练数据</h3>
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <div class="text-white/70">
+                                <div class="text-4xl mb-2">📁</div>
+                                <div>拖拽文件到此处或点击上传</div>
+                                <div class="text-sm mt-1">支持 .txt, .json, .csv 格式</div>
+                            </div>
+                            <input type="file" id="fileInput" multiple accept=".txt,.json,.csv" class="hidden">
+                        </div>
+                        <div id="uploadedFiles" class="mt-3 space-y-2"></div>
+                    </div>
+                    
+                    <!-- 训练参数 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="text-white text-sm mb-2 block">学习率</label>
+                            <input type="number" class="parameter-input" id="learningRate" value="0.001" step="0.0001" min="0.0001" max="0.1">
+                        </div>
+                        <div>
+                            <label class="text-white text-sm mb-2 block">训练轮数</label>
+                            <input type="number" class="parameter-input" id="epochs" value="10" min="1" max="100">
+                        </div>
+                        <div>
+                            <label class="text-white text-sm mb-2 block">批次大小</label>
+                            <input type="number" class="parameter-input" id="batchSize" value="4" min="1" max="32">
+                        </div>
+                        <div>
+                            <label class="text-white text-sm mb-2 block">温度参数</label>
+                            <input type="number" class="parameter-input" id="temperature" value="0.7" step="0.1" min="0.1" max="2.0">
+                        </div>
+                    </div>
+                    
+                    <!-- 训练控制 -->
+                    <div class="flex space-x-3 mb-6">
+                        <button class="btn-primary" onclick="startTraining()">🚀 开始训练</button>
+                        <button class="btn-secondary" onclick="stopTraining()">⏹️ 停止训练</button>
+                        <button class="btn-secondary" onclick="saveModel()">💾 保存模型</button>
+                    </div>
+                    
+                    <!-- 训练图表 -->
+                    <div class="training-chart" id="trainingChart"></div>
+                </div>
+            </div>
+            
+            <!-- 侧边栏 -->
+            <div class="space-y-6">
+                <!-- 当前模型信息 -->
+                <div class="glass-card p-6">
+                    <h3 class="text-lg font-semibold text-white mb-4">当前模型</h3>
+                    <div id="currentModelInfo">
+                        <div class="text-white/70 text-center py-8">
+                            <div class="text-4xl mb-2">🤖</div>
+                            <div>请选择模型</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 训练日志 -->
+                <div class="glass-card p-6">
+                    <h3 class="text-lg font-semibold text-white mb-4">训练日志</h3>
+                    <div class="log-container" id="trainingLog">
+                        <div class="log-entry info">系统就绪，等待训练开始...</div>
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn-secondary w-full" onclick="clearLog()">🗑️ 清空日志</button>
+                    </div>
+                </div>
+                
+                <!-- 快速操作 -->
+                <div class="glass-card p-6">
+                    <h3 class="text-lg font-semibold text-white mb-4">快速操作</h3>
+                    <div class="space-y-3">
+                        <button class="btn-secondary w-full" onclick="downloadModel()">📥 下载模型</button>
+                        <button class="btn-secondary w-full" onclick="uploadModel()">📤 上传模型</button>
+                        <button class="btn-secondary w-full" onclick="cloneModel()">🔄 克隆模型</button>
+                        <button class="btn-secondary w-full" onclick="deleteModel()">🗑️ 删除模型</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class ModelManager {
+            constructor() {
+                this.models = [];
+                this.selectedModel = null;
+                this.isTraining = false;
+                this.trainingChart = null;
+                this.trainingData = {
+                    loss: [],
+                    accuracy: [],
+                    epochs: []
+                };
+                
+                this.init();
+            }
+            
+            async init() {
+                await this.loadModels();
+                this.setupFileUpload();
+                this.initTrainingChart();
+                this.log('模型管理器初始化完成');
+            }
+            
+            async loadModels() {
+                try {
+                    const response = await fetch('http://localhost:11434/api/tags');
+                    if (response.ok) {
+                        const data = await response.json();
+                        this.models = data.models || [];
+                        this.renderModelsList();
+                        this.log(`成功加载 ${this.models.length} 个模型`);
+                    } else {
+                        throw new Error('无法获取模型列表');
+                    }
+                } catch (error) {
+                    this.log(`加载模型失败: ${error.message}`, 'error');
+                    // 显示示例数据
+                    this.models = [
+                        { name: 'llama2', size: '3.8GB', modified: '2024-01-15', digest: 'abc123' },
+                        { name: 'mistral', size: '4.1GB', modified: '2024-01-14', digest: 'def456' },
+                        { name: 'codellama', size: '3.9GB', modified: '2024-01-13', digest: 'ghi789' }
+                    ];
+                    this.renderModelsList();
+                }
+            }
+            
+            renderModelsList() {
+                const container = document.getElementById('modelsList');
+                container.innerHTML = '';
+                
+                this.models.forEach(model => {
+                    const modelCard = document.createElement('div');
+                    modelCard.className = `model-card glass-card p-4 ${model.name === this.selectedModel ? 'selected' : ''}`;
+                    modelCard.onclick = () => this.selectModel(model.name);
+                    
+                    modelCard.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <span class="status-indicator status-available"></span>
+                                <div>
+                                    <h4 class="text-white font-semibold">${model.name}</h4>
+                                    <p class="text-white/60 text-sm">大小: ${model.size || '未知'}</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-white/60 text-sm">${model.modified || '未知'}</div>
+                                <button class="btn-secondary text-xs mt-1" onclick="event.stopPropagation(); testModel('${model.name}')">
+                                    测试
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    container.appendChild(modelCard);
+                });
+            }
+            
+            selectModel(modelName) {
+                this.selectedModel = modelName;
+                this.renderModelsList();
+                this.updateCurrentModelInfo();
+                this.log(`已选择模型: ${modelName}`);
+            }
+            
+            updateCurrentModelInfo() {
+                const container = document.getElementById('currentModelInfo');
+                
+                if (!this.selectedModel) {
+                    container.innerHTML = `
+                        <div class="text-white/70 text-center py-8">
+                            <div class="text-4xl mb-2">🤖</div>
+                            <div>请选择模型</div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const model = this.models.find(m => m.name === this.selectedModel);
+                if (model) {
+                    container.innerHTML = `
+                        <div class="text-center">
+                            <div class="text-2xl mb-2">🤖</div>
+                            <h4 class="text-white font-semibold mb-2">${model.name}</h4>
+                            <div class="space-y-2 text-sm text-white/70">
+                                <div>大小: ${model.size || '未知'}</div>
+                                <div>修改时间: ${model.modified || '未知'}</div>
+                                <div>状态: <span class="text-green-400">可用</span></div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            setupFileUpload() {
+                const uploadArea = document.getElementById('fileUploadArea');
+                const fileInput = document.getElementById('fileInput');
+                
+                uploadArea.addEventListener('click', () => fileInput.click());
+                
+                uploadArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    uploadArea.classList.add('dragover');
+                });
+                
+                uploadArea.addEventListener('dragleave', () => {
+                    uploadArea.classList.remove('dragover');
+                });
+                
+                uploadArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    uploadArea.classList.remove('dragover');
+                    this.handleFiles(e.dataTransfer.files);
+                });
+                
+                fileInput.addEventListener('change', (e) => {
+                    this.handleFiles(e.target.files);
+                });
+            }
+            
+            handleFiles(files) {
+                const container = document.getElementById('uploadedFiles');
+                
+                Array.from(files).forEach(file => {
+                    const fileDiv = document.createElement('div');
+                    fileDiv.className = 'flex items-center justify-between bg-white/10 rounded-lg p-2';
+                    fileDiv.innerHTML = `
+                        <div class="flex items-center">
+                            <span class="text-white/70 mr-2">📄</span>
+                            <span class="text-white text-sm">${file.name}</span>
+                        </div>
+                        <span class="text-white/50 text-xs">${(file.size / 1024).toFixed(1)}KB</span>
+                    `;
+                    container.appendChild(fileDiv);
+                });
+                
+                this.log(`已上传 ${files.length} 个文件`);
+            }
+            
+            initTrainingChart() {
+                const chartDom = document.getElementById('trainingChart');
+                this.trainingChart = echarts.init(chartDom);
+                
+                const option = {
+                    backgroundColor: 'transparent',
+                    title: {
+                        text: '训练进度',
+                        textStyle: { color: '#fff' }
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: ['损失', '准确率'],
+                        textStyle: { color: '#fff' }
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: [],
+                        axisLine: { lineStyle: { color: '#fff' } },
+                        axisLabel: { color: '#fff' }
+                    },
+                    yAxis: {
+                        type: 'value',
+                        axisLine: { lineStyle: { color: '#fff' } },
+                        axisLabel: { color: '#fff' },
+                        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } }
+                    },
+                    series: [
+                        {
+                            name: '损失',
+                            type: 'line',
+                            data: [],
+                            itemStyle: { color: '#ec4899' },
+                            lineStyle: { color: '#ec4899' }
+                        },
+                        {
+                            name: '准确率',
+                            type: 'line',
+                            data: [],
+                            itemStyle: { color: '#10b981' },
+                            lineStyle: { color: '#10b981' }
+                        }
+                    ]
+                };
+                
+                this.trainingChart.setOption(option);
+            }
+            
+            async startTraining() {
+                if (!this.selectedModel) {
+                    alert('请先选择一个模型');
+                    return;
+                }
+                
+                if (this.isTraining) {
+                    alert('训练已在进行中');
+                    return;
+                }
+                
+                this.isTraining = true;
+                this.log('开始训练模型...', 'info');
+                
+                // 获取训练参数
+                const params = {
+                    learningRate: parseFloat(document.getElementById('learningRate').value),
+                    epochs: parseInt(document.getElementById('epochs').value),
+                    batchSize: parseInt(document.getElementById('batchSize').value),
+                    temperature: parseFloat(document.getElementById('temperature').value)
+                };
+                
+                this.log(`训练参数: ${JSON.stringify(params)}`, 'info');
+                
+                // 模拟训练过程
+                await this.simulateTraining(params);
+            }
+            
+            async simulateTraining(params) {
+                const epochs = params.epochs;
+                this.trainingData = { loss: [], accuracy: [], epochs: [] };
+                
+                for (let i = 0; i < epochs && this.isTraining; i++) {
+                    // 模拟训练进度
+                    const loss = Math.max(0.1, 2.0 - i * 0.1 + Math.random() * 0.2);
+                    const accuracy = Math.min(0.95, 0.5 + i * 0.04 + Math.random() * 0.1);
+                    
+                    this.trainingData.loss.push(loss);
+                    this.trainingData.accuracy.push(accuracy);
+                    this.trainingData.epochs.push(`Epoch ${i + 1}`);
+                    
+                    // 更新图表
+                    this.updateTrainingChart();
+                    
+                    // 记录日志
+                    this.log(`Epoch ${i + 1}/${epochs} - Loss: ${loss.toFixed(4)} - Accuracy: ${(accuracy * 100).toFixed(2)}%`);
+                    
+                    // 模拟训练时间
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+                
+                if (this.isTraining) {
+                    this.log('训练完成！', 'info');
+                    this.isTraining = false;
+                }
+            }
+            
+            updateTrainingChart() {
+                const option = {
+                    xAxis: {
+                        data: this.trainingData.epochs
+                    },
+                    series: [
+                        {
+                            data: this.trainingData.loss
+                        },
+                        {
+                            data: this.trainingData.accuracy
+                        }
+                    ]
+                };
+                
+                this.trainingChart.setOption(option);
+            }
+            
+            stopTraining() {
+                if (this.isTraining) {
+                    this.isTraining = false;
+                    this.log('训练已停止', 'warning');
+                }
+            }
+            
+            saveModel() {
+                if (!this.selectedModel) {
+                    alert('请先选择一个模型');
+                    return;
+                }
+                
+                // 模拟保存过程
+                this.log(`正在保存模型: ${this.selectedModel}...`, 'info');
+                setTimeout(() => {
+                    this.log('模型保存完成', 'info');
+                }, 2000);
+            }
+            
+            log(message, type = 'info') {
+                const logContainer = document.getElementById('trainingLog');
+                const logEntry = document.createElement('div');
+                logEntry.className = `log-entry ${type}`;
+                
+                const timestamp = new Date().toLocaleTimeString();
+                logEntry.textContent = `[${timestamp}] ${message}`;
+                
+                logContainer.appendChild(logEntry);
+                logContainer.scrollTop = logContainer.scrollHeight;
+            }
+            
+            clearLog() {
+                document.getElementById('trainingLog').innerHTML = '';
+            }
+        }
+        
+        // 全局函数
+        async function refreshModels() {
+            await window.modelManager.loadModels();
+        }
+        
+        async function testConnection() {
+            try {
+                const response = await fetch('http://localhost:11434/api/tags');
+                if (response.ok) {
+                    alert('连接成功！');
+                } else {
+                    throw new Error('连接失败');
+                }
+            } catch (error) {
+                alert('连接失败：' + error.message);
+            }
+        }
+        
+        async function testModel(modelName) {
+            try {
+                const response = await fetch('http://localhost:11434/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        model: modelName,
+                        prompt: '你好',
+                        stream: false
+                    })
+                });
+                
+                if (response.ok) {
+                    alert('模型测试成功！');
+                } else {
+                    throw new Error('测试失败');
+                }
+            } catch (error) {
+                alert('模型测试失败：' + error.message);
+            }
+        }
+        
+        function startTraining() {
+            window.modelManager.startTraining();
+        }
+        
+        function stopTraining() {
+            window.modelManager.stopTraining();
+        }
+        
+        function saveModel() {
+            window.modelManager.saveModel();
+        }
+        
+        function clearLog() {
+            window.modelManager.clearLog();
+        }
+        
+        function downloadModel() {
+            alert('下载功能开发中...');
+        }
+        
+        function uploadModel() {
+            alert('上传功能开发中...');
+        }
+        
+        function cloneModel() {
+            alert('克隆功能开发中...');
+        }
+        
+        function deleteModel() {
+            if (confirm('确定要删除选中的模型吗？')) {
+                alert('删除功能开发中...');
+            }
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            window.modelManager = new ModelManager();
+        });
+        
+        // 键盘事件
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                window.close();
+            }
+        });
+    </script>
+</body>
+</html>

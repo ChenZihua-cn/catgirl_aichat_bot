@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猫娘助手设置</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        
+        * {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .setting-item {
+            transition: all 0.3s ease;
+        }
+        
+        .setting-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .color-picker {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .color-picker:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ec4899;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ec4899;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-switch.active {
+            background: #ec4899;
+        }
+        
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-switch.active::after {
+            transform: translateX(26px);
+        }
+        
+        .preview-area {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .preview-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            margin: 0 auto 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button {
+            padding: 12px 24px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 8px;
+        }
+        
+        .tab-button.active {
+            background: rgba(236, 72, 153, 0.8);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-card p-8 max-w-4xl w-full">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-white mb-2">⚙️ 猫娘助手设置</h1>
+            <p class="text-white/70">个性化你的猫娘助手体验</p>
+        </div>
+        
+        <!-- 标签页导航 -->
+        <div class="flex justify-center mb-8">
+            <button class="tab-button active" onclick="switchTab('appearance')">外观设置</button>
+            <button class="tab-button" onclick="switchTab('behavior')">行为设置</button>
+            <button class="tab-button" onclick="switchTab('advanced')">高级设置</button>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- 设置选项 -->
+            <div>
+                <!-- 外观设置 -->
+                <div id="appearance-tab" class="tab-content active">
+                    <div class="space-y-6">
+                        <div class="setting-item glass-card p-4">
+                            <h3 class="text-white font-semibold mb-3">主题颜色</h3>
+                            <div class="flex space-x-3">
+                                <div class="color-picker" style="background: #ec4899" onclick="setThemeColor('#ec4899')"></div>
+                                <div class="color-picker" style="background: #3b82f6" onclick="setThemeColor('#3b82f6')"></div>
+                                <div class="color-picker" style="background: #8b5cf6" onclick="setThemeColor('#8b5cf6')"></div>
+                                <div class="color-picker" style="background: #10b981" onclick="setThemeColor('#10b981')"></div>
+                                <div class="color-picker" style="background: #f59e0b" onclick="setThemeColor('#f59e0b')"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item glass-card p-4">
+                            <h3 class="text-white font-semibold mb-3">透明度</h3>
+                            <div class="flex items-center space-x-4">
+                                <span class="text-white/70 text-sm">0%</span>
+                                <input type="range" class="slider flex-1" id="opacitySlider" min="0" max="100" value="80">
+                                <span class="text-white/70 text-sm">100%</span>
+                            </div>
+                            <div class="text-white/50 text-xs mt-2">当前值: <span id="opacityValue">80</span>%</div>
+                        </div>
+                        
+                        <div class="setting-item glass-card p-4">
+                            <h3 class="text-white font-semibold mb-3">字体大小</h3>
+                            <div class="flex items-center space-x-4">
+                                <span class="text-white/70 text-sm">小</span>
+                                <input type="range" class="slider flex-1" id="fontSizeSlider" min="12" max="20" value="14">
+                                <span class="text-white/70 text-sm">大</span>
+                            </div>
+                            <div class="text-white/50 text-xs mt-2">当前值: <span id="fontSizeValue">14</span>px</div>
+                        </div>
+                        
+                        <div class="setting-item glass-card p-4">
+                            <h3 class="text-white font-semibold mb-3">动画效果</h3>
+                            <div class="flex items-center justify-between">
+                                <span class="text-white/70">启用动画</span>
+                                <div class="toggle-switch active" id="animationToggle" onclick="toggleAnimation()"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 行为设置 -->
+                <div id="behavior-tab" class="tab-content">
+                    <div class="space-y-6">
+                        <div class="setting-item glass-card p-4">
+                            <h3 class="text-white font-semibold mb-3">猫娘性格</h3>
+                            <select class="w-full p-3 bg-white/10 text-white rounded-lg border border-white/20" id="personalitySelect">
+                                <option value="cute">可爱型</option>
+                                <option value="mature">知性型</option>
+                                <option value="energetic">活泼型</option>
+                                <option value="gentle">温柔型</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-item glass-card p-4">
+                            <h3 class="text-white font-semibold mb-3">自动隐藏</h3>
+                            <div class="flex items-center justify-between">
+                                <span class="text-white/70">空闲时自动隐藏</span>
+                                <div class="toggle-switch" id="autoHideToggle" onclick="toggleAutoHide()"></div>
+                            </div>
+                            <div class="mt-3">
+                                <label class="text-white/70 text-sm">隐藏延迟 (秒)</label>
+                                <input type="number" class="w-full p-2 mt-1 bg-white/10 text-white rounded border border-white/20" 
+                                       id="autoHideDelay" value="30" min="10" max="300">
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item glass-card p-4">
+                            <h3 class="text-white font-semibold mb-3">声音提示</h3>
+                            <div class="flex items-center justify-between">
+                                <span class="text-white/70">启用声音</span>
+                                <div class="toggle-switch active" id="soundToggle" onclick="toggleSound()"></div>
+                            </div>
+                            <div class="mt-3">
+                                <label class="text-white/70 text-sm">音量</label>
+                                <div class="flex items-center space-x-4 mt-1">
+                                    <span class="text-white/70 text-sm">0%</span>
+                                    <input type="range" class="slider flex-1" id="volumeSlider" min="0" max="100" value="50">
+                                    <span class="text-white/70 text-sm">100%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 高级设置 -->
+                <div id="advanced-tab" class="tab-content">
+                    <div class="space-y-6">
+                        <div class="setting-item glass-card p-4">
+                            <h3 class="text-white font-semibold mb-3">API设置</h3>
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="text-white/70 text-sm">Ollama地址</label>
+                                    <input type="text" class="w-full p-2 mt-1 bg-white/10 text-white rounded border border-white/20" 
+                                           id="ollamaUrl" value="http://localhost:11434">
+                                </div>
+                                <div>
+                                    <label class="text-white/70 text-sm">默认模型</label>
+                                    <select class="w-full p-2 mt-1 bg-white/10 text-white rounded border border-white/20" id="defaultModel">
+                                        <option value="llama2">Llama 2</option>
+                                        <option value="mistral">Mistral</option>
+                                        <option value="codellama">Code Llama</option>
+                                        <option value="vicuna">Vicuna</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item glass-card p-4">
+                            <h3 class="text-white font-semibold mb-3">数据管理</h3>
+                            <div class="space-y-3">
+                                <button class="w-full p-3 bg-blue-500/80 text-white rounded-lg hover:bg-blue-600/80 transition-colors" 
+                                        onclick="exportSettings()">导出设置</button>
+                                <button class="w-full p-3 bg-green-500/80 text-white rounded-lg hover:bg-green-600/80 transition-colors" 
+                                        onclick="importSettings()">导入设置</button>
+                                <button class="w-full p-3 bg-red-500/80 text-white rounded-lg hover:bg-red-600/80 transition-colors" 
+                                        onclick="resetSettings()">重置所有设置</button>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item glass-card p-4">
+                            <h3 class="text-white font-semibold mb-3">性能优化</h3>
+                            <div class="flex items-center justify-between">
+                                <span class="text-white/70">启用硬件加速</span>
+                                <div class="toggle-switch active" id="hardwareAccelToggle" onclick="toggleHardwareAccel()"></div>
+                            </div>
+                            <div class="mt-3">
+                                <label class="text-white/70 text-sm">内存限制 (MB)</label>
+                                <input type="number" class="w-full p-2 mt-1 bg-white/10 text-white rounded border border-white/20" 
+                                       id="memoryLimit" value="512" min="256" max="2048">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 预览区域 -->
+            <div>
+                <div class="preview-area">
+                    <h3 class="text-white font-semibold mb-4">实时预览</h3>
+                    <img src="resources/catgirl_character.png" alt="预览" class="preview-avatar" id="previewAvatar">
+                    <div class="text-white/70 text-sm mb-4">猫娘助手</div>
+                    
+                    <div class="glass-card p-3 mb-4">
+                        <div class="text-white text-sm mb-2">你好呀！我是你的猫娘助手～</div>
+                        <div class="text-white/50 text-xs">预览消息</div>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <button class="w-full p-2 bg-pink-500/80 text-white rounded-lg hover:bg-pink-600/80 transition-colors text-sm" 
+                                onclick="applySettings()">应用设置</button>
+                        <button class="w-full p-2 bg-gray-500/80 text-white rounded-lg hover:bg-gray-600/80 transition-colors text-sm" 
+                                onclick="window.close()">取消</button>
+                    </div>
+                </div>
+                
+                <!-- 快捷键说明 -->
+                <div class="glass-card p-4 mt-6">
+                    <h4 class="text-white font-semibold mb-3">快捷键</h4>
+                    <div class="space-y-2 text-white/70 text-sm">
+                        <div>Ctrl + M: 切换聊天窗口</div>
+                        <div>Ctrl + S: 打开设置</div>
+                        <div>Esc: 关闭当前窗口</div>
+                        <div>Enter: 发送消息</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 设置管理
+        let settings = {
+            themeColor: '#ec4899',
+            opacity: 80,
+            fontSize: 14,
+            animation: true,
+            personality: 'cute',
+            autoHide: false,
+            autoHideDelay: 30,
+            sound: true,
+            volume: 50,
+            ollamaUrl: 'http://localhost:11434',
+            defaultModel: 'llama2',
+            hardwareAccel: true,
+            memoryLimit: 512
+        };
+        
+        // 标签页切换
+        function switchTab(tabName) {
+            // 隐藏所有标签页内容
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // 移除所有按钮的激活状态
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // 显示选中的标签页
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // 主题颜色设置
+        function setThemeColor(color) {
+            settings.themeColor = color;
+            updatePreview();
+        }
+        
+        // 滑块事件
+        document.getElementById('opacitySlider').addEventListener('input', (e) => {
+            settings.opacity = e.target.value;
+            document.getElementById('opacityValue').textContent = e.target.value;
+            updatePreview();
+        });
+        
+        document.getElementById('fontSizeSlider').addEventListener('input', (e) => {
+            settings.fontSize = e.target.value;
+            document.getElementById('fontSizeValue').textContent = e.target.value;
+            updatePreview();
+        });
+        
+        document.getElementById('volumeSlider').addEventListener('input', (e) => {
+            settings.volume = e.target.value;
+        });
+        
+        // 切换开关
+        function toggleAnimation() {
+            const toggle = document.getElementById('animationToggle');
+            toggle.classList.toggle('active');
+            settings.animation = toggle.classList.contains('active');
+        }
+        
+        function toggleAutoHide() {
+            const toggle = document.getElementById('autoHideToggle');
+            toggle.classList.toggle('active');
+            settings.autoHide = toggle.classList.contains('active');
+        }
+        
+        function toggleSound() {
+            const toggle = document.getElementById('soundToggle');
+            toggle.classList.toggle('active');
+            settings.sound = toggle.classList.contains('active');
+        }
+        
+        function toggleHardwareAccel() {
+            const toggle = document.getElementById('hardwareAccelToggle');
+            toggle.classList.toggle('active');
+            settings.hardwareAccel = toggle.classList.contains('active');
+        }
+        
+        // 更新预览
+        function updatePreview() {
+            const previewAvatar = document.getElementById('previewAvatar');
+            previewAvatar.style.borderColor = settings.themeColor + '80';
+            previewAvatar.style.boxShadow = `0 8px 32px ${settings.themeColor}40`;
+        }
+        
+        // 应用设置
+        function applySettings() {
+            localStorage.setItem('catgirlAssistantSettings', JSON.stringify(settings));
+            
+            // 通知主窗口更新设置
+            if (window.opener) {
+                window.opener.postMessage('updateSettings', JSON.stringify(settings), '*');
+            }
+            
+            // 显示成功消息
+            alert('设置已应用！');
+            window.close();
+        }
+        
+        // 导出设置
+        function exportSettings() {
+            const blob = new Blob([JSON.stringify(settings, null, 2)], {
+                type: 'application/json'
+            });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'catgirl-assistant-settings.json';
+            a.click();
+            
+            URL.revokeObjectURL(url);
+        }
+        
+        // 导入设置
+        function importSettings() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        try {
+                            const importedSettings = JSON.parse(e.target.result);
+                            settings = { ...settings, ...importedSettings };
+                            loadSettingsToUI();
+                            alert('设置已导入！');
+                        } catch (error) {
+                            alert('导入失败：文件格式错误');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            
+            input.click();
+        }
+        
+        // 重置设置
+        function resetSettings() {
+            if (confirm('确定要重置所有设置吗？此操作不可撤销。')) {
+                localStorage.removeItem('catgirlAssistantSettings');
+                location.reload();
+            }
+        }
+        
+        // 加载设置到UI
+        function loadSettingsToUI() {
+            document.getElementById('opacitySlider').value = settings.opacity;
+            document.getElementById('opacityValue').textContent = settings.opacity;
+            document.getElementById('fontSizeSlider').value = settings.fontSize;
+            document.getElementById('fontSizeValue').textContent = settings.fontSize;
+            document.getElementById('volumeSlider').value = settings.volume;
+            document.getElementById('personalitySelect').value = settings.personality;
+            document.getElementById('ollamaUrl').value = settings.ollamaUrl;
+            document.getElementById('defaultModel').value = settings.defaultModel;
+            document.getElementById('autoHideDelay').value = settings.autoHideDelay;
+            document.getElementById('memoryLimit').value = settings.memoryLimit;
+            
+            // 更新开关状态
+            document.getElementById('animationToggle').classList.toggle('active', settings.animation);
+            document.getElementById('autoHideToggle').classList.toggle('active', settings.autoHide);
+            document.getElementById('soundToggle').classList.toggle('active', settings.sound);
+            document.getElementById('hardwareAccelToggle').classList.toggle('active', settings.hardwareAccel);
+        }
+        
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 加载保存的设置
+            const saved = localStorage.getItem('catgirlAssistantSettings');
+            if (saved) {
+                try {
+                    settings = { ...settings, ...JSON.parse(saved) };
+                } catch (error) {
+                    console.error('加载设置失败:', error);
+                }
+            }
+            
+            loadSettingsToUI();
+            updatePreview();
+        });
+        
+        // 键盘事件
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                window.close();
+            }
+        });
+    </script>
+</body>
+</html>
