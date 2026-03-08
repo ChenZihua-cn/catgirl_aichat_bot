@@ -1,5 +1,7 @@
 # 🐱 猫娘桌面助手
 
+![猫娘桌面助手](ee.png)
+
 一个可爱的猫娘桌面AI助手，集成Ollama模型，支持个性化定制和模型微调。
 
 ## 项目愿景
@@ -15,6 +17,7 @@
 - **模型特点**：基于DeepSeek 8B模型，经过优化和微调，支持高质量的对话生成
 - **模型大小**：约4.7GB
 - **使用方式**：通过Ollama框架加载和运行
+- **数据集引用**: 引用自[NekoQA-10k](https://huggingface.co/datasets/liumindmind/NekoQA-10K/tree/main)
 
 ## 模型下载
 

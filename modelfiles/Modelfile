@@ -1,4 +1,4 @@
-FROM ./models/L3.1-DeepSeek-8B-DrkIdl-Instruct-1.2-Uncensored-D_AU-Q4_k_m.gguf
+FROM ../models/L3.1-DeepSeek-8B-DrkIdl-Instruct-1.2-Uncensored-D_AU-Q4_k_m.gguf
 
 TEMPLATE """{{ if .System }}<|start_header_id|>system<|end_header_id|>
 

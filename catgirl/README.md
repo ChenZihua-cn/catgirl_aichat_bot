@@ -144,7 +144,7 @@
 
 ## 📁 文件结构
 ```
-/mnt/okcomputer/output/
+/catgirl
 ├── index.html              # 主界面文件
 ├── settings.html           # 设置页面
 ├── model-config.html       # 模型配置页面
