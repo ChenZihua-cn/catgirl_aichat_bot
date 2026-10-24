@@ -1,0 +1,21 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "pet 窗口的权限：调整自身尺寸位置、点击穿透、显示隐藏，以及监听移动事件",
+  "windows": ["pet"],
+  "permissions": [
+    "core:default",
+    "core:event:allow-listen",
+    "core:window:allow-hide",
+    "core:window:allow-show",
+    "core:window:allow-set-focus",
+    "core:window:allow-set-size",
+    "core:window:allow-set-position",
+    "core:window:allow-set-ignore-cursor-events",
+    "core:window:allow-outer-position",
+    "core:window:allow-outer-size",
+    "core:window:allow-is-visible",
+    "core:window:allow-scale-factor",
+    "core:window:allow-primary-monitor"
+  ]
+}

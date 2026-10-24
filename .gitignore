@@ -19,3 +19,9 @@ __pycache__/
 *.njsproj
 *.sln
 *.sw?
+
+# Ignore Tauri + Vite build artifacts
+node_modules/
+catgirl/dist/
+catgirl/src-tauri/target/
+catgirl/src-tauri/gen/

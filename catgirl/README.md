@@ -1,216 +1,102 @@
-# 🐱 猫娘桌面助手
+# 猫娘桌宠 · Tauri + TypeScript
 
-一个可爱的猫娘桌面AI助手，集成Ollama模型，支持个性化定制和模型微调。
+透明、置顶、能拖的桌面小人，接本机 `llama-server` 的 OpenAI 兼容接口。人设直接引用微调语料里的同一份 system prompt，训练和推理不会说两套话。
 
-## ✨ 功能特色
+## 运行前提
 
-### 🎨 视觉设计
-- **现代Windows 11美学**：毛玻璃效果、圆角设计、柔和色彩
-- **可爱猫娘角色**：精美的动漫风格角色形象
-- **流畅动画**：使用Anime.js实现丰富的交互动画
-- **个性化主题**：支持多种颜色主题和外观定制
+桌宠只认 llama-server，不再管 Ollama。先起服务：
 
-### 🤖 智能对话
-- **Ollama集成**：支持多种7B模型（Llama2、Mistral、CodeLlama等）
-- **实时对话**：流式响应，自然的打字机效果
-- **上下文记忆**：记住对话历史，保持连贯性
-- **多模型切换**：可根据需求切换不同的AI模型
-
-### ⚙️ 高级功能
-- **模型微调**：支持用户数据训练，定制个性化对话风格
-- **可视化训练**：实时显示训练进度和损失曲线
-- **数据管理**：支持导入导出对话历史和设置
-- **性能优化**：硬件加速、内存限制等高级选项
-
-### 🎯 用户体验
-- **桌面集成**：浮动窗口设计，支持拖拽定位
-- **快捷键支持**：Ctrl+M快速切换聊天窗口
-- **自动隐藏**：可设置空闲时自动隐藏
-- **声音提示**：可选的声音反馈系统
-
-## 🚀 快速开始
-
-### 环境要求
-- Windows 11 操作系统
-- Ollama 已安装并运行
-- 现代浏览器（Chrome、Edge、Firefox等）
-
-### 安装步骤
-
-1. **启动Ollama服务**
-   ```bash
-   ollama serve
-   ```
-
-2. **下载所需模型**
-   ```bash
-   ollama pull llama2
-   ollama pull mistral
-   # 根据需要下载其他模型
-   ```
-
-3. **运行猫娘助手**
-   - 双击 `index.html` 文件在浏览器中打开
-   - 或者使用本地服务器：
-     ```bash
-     python -m http.server 8000
-     ```
-
-4. **首次使用**
-   - 点击右下角的猫娘头像打开聊天窗口
-   - 在设置中配置Ollama连接（通常保持默认即可）
-   - 选择喜欢的模型开始对话
-
-## 📖 使用指南
-
-### 基本操作
-- **打开聊天**：点击猫娘头像或按 Ctrl+M
-- **发送消息**：在输入框输入后按Enter或点击发送按钮
-- **拖拽移动**：按住猫娘头像可以拖拽到桌面任意位置
-- **关闭聊天**：点击聊天窗口外部或再次点击猫娘头像
-
-### 设置配置
-点击控制菜单中的"设置"按钮可以打开设置面板：
-
-#### 外观设置
-- **主题颜色**：选择喜欢的颜色主题
-- **透明度**：调节窗口透明度
-- **字体大小**：调整聊天文字大小
-- **动画效果**：开关各种动画效果
-
-#### 行为设置
-- **猫娘性格**：选择不同的对话风格
-- **自动隐藏**：设置空闲时自动隐藏
-- **声音提示**：开关声音反馈
-- **音量控制**：调节声音大小
-
-#### 高级设置
-- **API配置**：设置Ollama连接地址
-- **默认模型**：选择启动时使用的模型
-- **性能优化**：硬件加速和内存限制
-- **数据管理**：导入导出设置
-
-### 模型配置
-点击控制菜单中的"模型"按钮可以打开模型配置面板：
-
-#### 模型管理
-- **查看可用模型**：显示所有已下载的模型
-- **切换模型**：点击选择要使用的模型
-- **测试模型**：验证模型是否正常工作
-
-#### 模型微调
-1. **准备训练数据**：支持.txt、.json、.csv格式
-2. **设置训练参数**：学习率、训练轮数、批次大小等
-3. **开始训练**：点击开始按钮进行模型微调
-4. **监控进度**：实时查看训练损失和准确率
-5. **保存模型**：训练完成后保存自定义模型
-
-## 🔧 技术架构
-
-### 前端技术栈
-- **HTML5 + CSS3**：现代Web标准
-- **Tailwind CSS**：快速样式开发
-- **JavaScript ES6+**：现代JavaScript特性
-- **Anime.js**：流畅动画效果
-- **ECharts.js**：数据可视化图表
-
-### 后端集成
-- **Ollama REST API**：本地AI模型服务
-- **本地存储**：LocalStorage保存用户设置
-- **文件处理**：支持训练数据上传和处理
-
-### 设计理念
-- **模块化架构**：清晰的代码组织结构
-- **响应式设计**：适配不同屏幕尺寸
-- **渐进增强**：基础功能优先，高级功能可选
-- **用户体验优先**：直观的操作界面和反馈
-
-## 🎨 个性化定制
-
-### 外观定制
-- 多种预设主题颜色
-- 可调节的透明度和字体大小
-- 丰富的动画效果选项
-
-### 行为定制
-- 四种不同的猫娘性格模式
-- 可配置的智能隐藏功能
-- 个性化的声音设置
-
-### 模型定制
-- 支持多种AI模型选择
-- 用户数据训练功能
-- 自定义对话风格调整
-
-## 📁 文件结构
-```
-/catgirl
-├── index.html              # 主界面文件
-├── settings.html           # 设置页面
-├── model-config.html       # 模型配置页面
-├── main.js                 # 主要JavaScript逻辑
-├── resources/              # 资源文件夹
-│   └── catgirl_character.png  # 猫娘角色图片
-├── outline.md              # 项目概述
-├── interaction.md          # 交互设计文档
-└── README.md              # 使用说明
+```bash
+/home/labubu/30856/Model/llama-cpp/build/bin/llama-server \
+  -m /home/labubu/30856/Model/Qwen3.5-9B/Qwen3.5-9B-Q4_K_M.gguf \
+  -a catgirl --port 8080
 ```
 
-## 🔧 故障排除
+- `-a` 决定 `/v1/models` 里返回的别名；桌宠设置里可以指定别名，留空就取服务端返回的第一个。
+- llama-server 的 `--cors-origins` 默认是 `*`，网页/桌宠跨源访问不用额外加参数。
+- 服务没起也能打开桌宠：状态点变红、立绘去色，发消息给一句中文提示，不会白屏。
 
-### 常见问题
+## 开发
 
-#### 无法连接到Ollama
-- 确保Ollama服务正在运行：`ollama serve`
-- 检查防火墙设置是否允许本地连接
-- 确认Ollama API地址设置正确
+```bash
+cd catgirl
+npm install
 
-#### 模型无法加载
-- 检查模型是否已下载：`ollama list`
-- 确保有足够的磁盘空间
-- 尝试重新下载模型
+npm run dev        # 纯浏览器预览：样式/对话/设置都能跑，窗口 API 自动跳过
+npm run typecheck  # tsc --noEmit
+npm run build      # tsc + vite build → dist/
 
-#### 界面显示异常
-- 清除浏览器缓存后重试
-- 确保使用现代浏览器
-- 检查JavaScript是否被禁用
+npx tauri dev      # 真正的桌宠窗口（透明、置顶、托盘）
+npx tauri build
+```
 
-#### 训练失败
-- 检查训练数据格式是否正确
-- 确保有足够的内存资源
-- 尝试调整训练参数
+Linux 上编译 Rust 壳需要系统 C 库（cargo 管不到这层，得 apt 装）：`libdbus-1-dev`、`libgtk-3-dev`、`libwebkit2gtk-4.1-dev`、`libsoup-3.0-dev`、`libjavascriptcoregtk-4.1-dev`、`libayatana-appindicator3-dev`。图标已生成在 `src-tauri/icons/`，换形象后重跑：
 
-### 获取帮助
-- 查看训练日志获取详细错误信息
-- 检查浏览器控制台输出
-- 确保所有依赖项正确安装
+```bash
+npx tauri icon public/assets/catgirl_character.png
+```
 
-## 🚀 未来计划
+## 交互
 
-### 即将推出的功能
-- [ ] 更多猫娘角色选择
-- [ ] 语音对话功能
-- [ ] 插件系统支持
-- [ ] 云端同步功能
-- [ ] 移动端应用
+| 操作 | 结果 |
+|---|---|
+| 左键点立绘 | 展开/收起对话面板 |
+| 拖立绘 | 移动桌宠（`data-tauri-drag-region`，位置存 `localStorage`） |
+| 右键立绘 | 菜单：对话 / 设置 / 点击穿透 / 收进托盘 |
+| `Ctrl+M` | 展开或收起（窗口有焦点时才收得到，系统级全局热键没接） |
+| `Enter` / `Shift+Enter` / `Esc` | 发送 / 换行 / 打断当前回复或关菜单 |
 
-### 技术改进
-- [ ] WebGPU加速支持
-- [ ] 多语言国际化
-- [ ] 更好的错误处理
-- [ ] 性能优化
+**点击穿透打开后，webview 收不到任何鼠标事件，只能从托盘菜单恢复。** 托盘另有「显示 / 隐藏猫娘」和「退出」。
 
-## 📄 许可证
+## 目录
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+```
+catgirl/
+├── index.html              桌宠骨架（无 CDN 依赖）
+├── src/
+│   ├── main.ts             装配：状态、事件、健康轮询
+│   ├── styles.css          玻璃质感样式，替代原 Tailwind Play CDN
+│   ├── types.ts            共享类型
+│   ├── config/persona.ts   ?raw 引入 database/qwen_catgirl_ft/system_prompt.txt
+│   ├── config/defaults.ts  默认设置、取值区间、开场白、存档校验
+│   ├── services/llamaServer.ts  /v1/models + /v1/chat/completions SSE + 错误文案
+│   ├── state/settings.ts   设置读写（localStorage）
+│   ├── state/history.ts    对话存档与上下文窗口裁剪
+│   └── ui/                 pet 窗口几何 / 气泡对话 / 设置面板 / 右键菜单
+├── public/assets/          立绘 PNG
+└── src-tauri/              Rust 壳、tauri.conf.json、capabilities、icons
+```
 
-## 🙏 致谢
+存档键：`catgirl.settings.v1`、`catgirl.history.v1`（最多 200 条）、`catgirl.anchor.v1`（桌宠右下角锚点，物理像素）。
 
-- **Ollama团队**：提供优秀的本地AI模型服务
-- **Anime.js**：出色的动画库
-- **Tailwind CSS**：高效的CSS框架
-- **ECharts.js**：强大的数据可视化库
+## 相对旧版前端砍掉的东西
 
----
+- 好感度数值、情绪状态机、事件加成表、`【debug】` 输出 —— 这些写死在旧 `modelfiles/Modelfile` 里，和微调语料的傲娇口吻互相打架，删。
+- 发色/瞳色/服装定制、模型训练面板与损失曲线：只有 UI 空壳，无实现。
+- `hardwareAccel` / `memoryLimit` / `defaultModel: llama2`：Ollama 专属，随旧版 `launcher.py` 一起失效。
+- `settings.html`、`model-config.html` 两个独立页面：合并成桌宠内的设置标签页。
+- Tailwind Play CDN、anime.js、Splitting.js、Google Fonts 四个外链：动画改用 CSS，字体走系统栈，离线可用。
+- 对话导出成 JSON 文件：webview 里的下载路径不可靠，改成需要时从 `localStorage` 取。
 
-**享受与你的猫娘助手的愉快时光！** 🐱💕
+## 与微调链路的接口
+
+- 人设只有一份：`database/qwen_catgirl_ft/system_prompt.txt`，构建期通过 `?raw` 打进包，语料和桌宠不可能说两套话。改人设改那个文件。
+- 采样默认值取自语料 README 的推理建议：`temperature 0.8`、`top_p 0.9`、`repeat_penalty 1.05`、`max_tokens 256`（语料单条回复 50–200 字）。
+- 上下文默认带 6 轮，语料单条 2–6 轮、system 340 字，仍在 2048 ctx 内。
+- LoRA 合并导出成 GGUF 后，把上面 `llama-server -m` 换成你的文件即可，桌宠侧不用改代码。
+
+## 当前验证状态
+
+已在真机 X11（2048×1280，单屏）上 `npx tauri dev` 跑起来看过：
+
+- 窗口属性实测：`Depth: 32` + TrueColor 可视（ARGB 透明生效）、`_NET_WM_STATE` 带 `ABOVE / SKIP_TASKBAR / SKIP_PAGER`、收起态 200×200 贴右下角留 20px 边距、展开态 340×520 完整在屏内。
+- 面板展开、标签切换、气泡与输入框布局、立绘渲染都截图确认过。
+- WebKit 里 `fetch` 打 `/v1/models` 通（跨源，无 CORS 报错），健康轮询正常。
+- `tsc --noEmit`、`vite build`、`cargo check`（tauri 2.12.5，0 warning）全通过。
+- 真机跑这一轮抓出三个纯逻辑测试看不到的 bug，已修：`[hidden]` 被作者样式的 `display:flex` 盖掉导致面板和打字指示器常显；GTK 把窗口最小尺寸夹到 200×200 而定位按请求尺寸算，立绘被挤出屏幕；`setSize` 后立刻读 `outerSize()` 拿到的是旧尺寸，展开面板时定位差了一整个窗口。
+
+仍未验证：
+
+- **流式回复没在 WebKit 里点过**。这台机器没有 xdotool/xte，合成按键拿不到 GTK 键盘焦点，所以打字机效果只在 Chromium（Vite dev）里验证过；WebKitGTK 2.54 支持 `ReadableStream`，但没实测。
+- 点击穿透、托盘菜单、多屏/高 DPI 下的锚点。
+- 立绘只有 `catgirl_character.png` 在用，`catgirl_effection.png` 暂时没接线。
