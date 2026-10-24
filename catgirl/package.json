@@ -1,9 +1,9 @@
 {
-  "name": "catgirl-pet",
+  "name": "catgirl",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "猫娘桌宠（Tauri + TypeScript），对话走 llama-server 的 OpenAI 兼容接口",
+  "description": "桌面虚拟女友（Tauri + TypeScript），对话走 llama-server 的 OpenAI 兼容接口",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",

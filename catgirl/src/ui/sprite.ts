@@ -1,8 +1,8 @@
 import { LogicalSize, PhysicalPosition } from '@tauri-apps/api/dpi';
 import { getCurrentWindow, primaryMonitor } from '@tauri-apps/api/window';
-import type { PetMood, Settings } from '../types';
+import type { Settings, SpriteMood } from '../types';
 
-export const PET_SIZE = { width: 168, height: 152 };
+export const SPRITE_SIZE = { width: 168, height: 152 };
 export const PANEL_SIZE = { width: 340, height: 520 };
 
 const ANCHOR_KEY = 'catgirl.anchor.v1';
@@ -39,14 +39,14 @@ function readAnchor(): Anchor | null {
   return null;
 }
 
-export class PetWindow {
+export class SpriteWindow {
   private anchor: Anchor = { x: 0, y: 0 };
   private lastResize = 0;
   private persistTimer = 0;
 
-  async init(mood: PetMood): Promise<void> {
+  async init(mood: SpriteMood): Promise<void> {
     this.anchor = readAnchor() ?? (await this.defaultAnchor());
-    await this.resize(PET_SIZE.width, PET_SIZE.height);
+    await this.resize(SPRITE_SIZE.width, SPRITE_SIZE.height);
     this.setMood(mood);
 
     if (!IS_TAURI) return;
@@ -58,7 +58,7 @@ export class PetWindow {
 
   /** 面板展开时窗口变高变宽，立绘始终钉在右下角，所以向左上扩张。 */
   async setPanelOpen(open: boolean): Promise<void> {
-    const size = open ? PANEL_SIZE : PET_SIZE;
+    const size = open ? PANEL_SIZE : SPRITE_SIZE;
     await this.resize(size.width, size.height);
   }
 
@@ -78,9 +78,9 @@ export class PetWindow {
     await win().setFocus();
   }
 
-  setMood(mood: PetMood): void {
-    const pet = document.getElementById('pet');
-    if (pet) pet.dataset.mood = mood;
+  setMood(mood: SpriteMood): void {
+    const root = document.getElementById('sprite');
+    if (root) root.dataset.mood = mood;
   }
 
   poke(): void {

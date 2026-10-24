@@ -3,10 +3,10 @@ import { WELCOME_LINES } from '../config/defaults';
 import { contextWindow, loadHistory, saveHistory } from '../state/history';
 import { formatError, streamChat } from '../services/llamaServer';
 import type { ChatMessage, RequestMessage, Settings } from '../types';
-import type { PetWindow } from './pet';
+import type { SpriteWindow } from './sprite';
 
 export interface ChatDeps {
-  pet: PetWindow;
+  sprite: SpriteWindow;
   getSettings: () => Settings;
   /** 解析实际要请求的模型别名（settings 里可以留空，由调用方回落服务端首个） */
   resolveModel: () => Promise<string>;
@@ -87,7 +87,7 @@ export class Chat {
     this.busy = true;
     this.inflight = new AbortController();
     this.setBusyUi(true);
-    this.deps.pet.setMood('thinking');
+    this.deps.sprite.setMood('thinking');
 
     try {
       const model = await this.deps.resolveModel();
@@ -109,11 +109,11 @@ export class Chat {
       if (content) {
         this.record({ role: 'assistant', content, ts: Date.now() });
         bubble.finalize(content);
-        this.deps.pet.setMood('talking');
+        this.deps.sprite.setMood('talking');
       } else {
         bubble.remove();
         this.setHint('她没接上话，检查 llama-server 的模型别名和上下文长度。');
-        this.deps.pet.setMood('idle');
+        this.deps.sprite.setMood('idle');
       }
     } catch (error) {
       bubble.remove();
@@ -122,7 +122,7 @@ export class Chat {
       } else {
         this.setHint(formatError(error));
       }
-      this.deps.pet.setMood('idle');
+      this.deps.sprite.setMood('idle');
     } finally {
       this.inflight = null;
       this.busy = false;

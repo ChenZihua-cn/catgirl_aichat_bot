@@ -3,7 +3,7 @@ import { loadSettings, saveSettings } from './state/settings';
 import type { Settings } from './types';
 import { Chat } from './ui/chat';
 import { ContextMenu } from './ui/contextMenu';
-import { PetWindow } from './ui/pet';
+import { SpriteWindow } from './ui/sprite';
 import { SettingsPanel } from './ui/settingsPanel';
 
 const HEALTH_POLL_MS = 20_000;
@@ -33,8 +33,8 @@ async function boot(): Promise<void> {
   let isOpen = false;
   let idleTimer = 0;
 
-  const pet = new PetWindow();
-  pet.applyStyle(settings);
+  const sprite = new SpriteWindow();
+  sprite.applyStyle(settings);
 
   const refreshModels = async (): Promise<string[]> => {
     models = await listModels(settings.serverUrl);
@@ -59,7 +59,7 @@ async function boot(): Promise<void> {
   const setOpen = async (open: boolean, tab: 'chat' | 'settings' = 'chat'): Promise<void> => {
     isOpen = open;
     el.panel.hidden = !open;
-    await pet.setPanelOpen(open);
+    await sprite.setPanelOpen(open);
     if (open) showTab(tab);
   };
 
@@ -70,7 +70,7 @@ async function boot(): Promise<void> {
   };
 
   const chat = new Chat({
-    pet,
+    sprite,
     getSettings: () => settings,
     resolveModel,
     onActivity: resetIdle,
@@ -82,13 +82,13 @@ async function boot(): Promise<void> {
     onChange: (next: Settings) => {
       settings = next;
       saveSettings(settings);
-      pet.applyStyle(settings);
+      sprite.applyStyle(settings);
       models = [];
       resetIdle();
     },
     refreshModels,
     onClearChat: () => chat.clear(),
-    onQuit: () => void pet.hide(),
+    onQuit: () => void sprite.hide(),
   });
 
   const menu = new ContextMenu(el.menu);
@@ -97,7 +97,7 @@ async function boot(): Promise<void> {
     await setOpen(!isOpen);
     if (!isOpen) return;
     chat.focusInput();
-    pet.poke();
+    sprite.poke();
     resetIdle();
   };
 
@@ -113,9 +113,9 @@ async function boot(): Promise<void> {
       { label: '设置', onSelect: () => void setOpen(true, 'settings') },
       {
         label: '点击穿透（只能从托盘恢复）',
-        onSelect: () => void pet.setClickThrough(true),
+        onSelect: () => void sprite.setClickThrough(true),
       },
-      { label: '收进托盘', onSelect: () => void pet.hide() },
+      { label: '收进托盘', onSelect: () => void sprite.hide() },
     ]);
   });
 
@@ -126,7 +126,7 @@ async function boot(): Promise<void> {
     }
   });
 
-  await pet.init('idle');
+  await sprite.init('idle');
   chat.greet();
 
   const probe = async (): Promise<void> => {
@@ -140,7 +140,7 @@ async function boot(): Promise<void> {
     if (online === serverOnline) return;
     serverOnline = online;
     el.dot.dataset.state = online ? 'online' : 'offline';
-    pet.setMood(online ? 'idle' : 'offline');
+    sprite.setMood(online ? 'idle' : 'offline');
   };
 
   await probe();

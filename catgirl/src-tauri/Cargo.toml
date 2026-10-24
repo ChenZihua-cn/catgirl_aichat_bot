@@ -1,7 +1,7 @@
 [package]
 name = "catgirl"
 version = "0.1.0"
-description = "猫娘桌宠（llama-server 前端）"
+description = "桌面虚拟女友（llama-server 前端）"
 edition = "2021"
 
 [build-dependencies]

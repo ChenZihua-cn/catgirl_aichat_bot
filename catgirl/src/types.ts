@@ -12,7 +12,7 @@ export interface RequestMessage {
   content: string;
 }
 
-export type PetMood = 'idle' | 'thinking' | 'talking' | 'offline';
+export type SpriteMood = 'idle' | 'thinking' | 'talking' | 'offline';
 
 export interface Settings {
   /** llama-server 基地址，默认端口 8080 */

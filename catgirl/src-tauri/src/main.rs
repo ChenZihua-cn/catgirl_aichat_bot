@@ -6,10 +6,10 @@ use tauri::{
     Manager,
 };
 
-const PET_WINDOW: &str = "pet";
+const WINDOW_LABEL: &str = "catgirl";
 
-fn toggle_pet(app: &tauri::AppHandle) {
-    let Some(window) = app.get_webview_window(PET_WINDOW) else {
+fn toggle_window(app: &tauri::AppHandle) {
+    let Some(window) = app.get_webview_window(WINDOW_LABEL) else {
         return;
     };
     if window.is_visible().unwrap_or(false) {
@@ -30,12 +30,12 @@ fn main() {
             let mut tray = TrayIconBuilder::with_id("main")
                 .menu(&menu)
                 .show_menu_on_left_click(false)
-                .tooltip("猫娘桌宠");
+                .tooltip("猫娘");
             if let Some(icon) = app.default_window_icon() {
                 tray = tray.icon(icon.clone());
             }
             let _tray = tray.on_menu_event(|app, event| match event.id().as_ref() {
-                "toggle" => toggle_pet(app),
+                "toggle" => toggle_window(app),
                 "quit" => app.exit(0),
                 _ => {}
             })
@@ -44,5 +44,5 @@ fn main() {
             Ok(())
         })
         .run(tauri::generate_context!())
-        .expect("猫娘桌宠启动失败");
+        .expect("猫娘启动失败");
 }

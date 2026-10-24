@@ -28,7 +28,7 @@ body {
   color: #1f2937;
 }
 
-.pet {
+.sprite {
   position: fixed;
   inset: 0;
   display: flex;
@@ -41,7 +41,7 @@ body {
 
 /* ---------- 立绘 ---------- */
 
-.pet-body {
+.sprite-body {
   position: relative;
   align-self: flex-end;
 }
@@ -63,12 +63,12 @@ body {
   transform: scale(1.04);
 }
 
-.pet[data-mood="thinking"] .avatar,
-.pet[data-mood="talking"] .avatar {
+.sprite[data-mood="thinking"] .avatar,
+.sprite[data-mood="talking"] .avatar {
   animation: bob 1.6s ease-in-out infinite;
 }
 
-.pet[data-mood="offline"] .avatar {
+.sprite[data-mood="offline"] .avatar {
   filter: grayscale(0.7);
   opacity: calc(var(--avatar-opacity) * 0.75);
 }
