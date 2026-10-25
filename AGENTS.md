@@ -1,6 +1,6 @@
 # AGENTS.md — 本仓库作业规则
 
-分工：**README.md 只放项目状态、实测数字和可复现命令；所有机制解释、"别信什么/为什么会静默失效"写在这里。** 发现新的坑，写这个文件，不要往 README 里加叙述。
+分工：**根 README.md 面向使用者，介绍项目、运行方式、操作和必要的数据/训练事实；所有机制解释、"别信什么/为什么会静默失效"写在这里。** 发现新的坑，写这个文件，不要在 README 里堆实现叙述。
 
 ## 网络与下载
 
@@ -36,7 +36,7 @@
 - **产物只保存你加载过的模块。** 用 `ForCausalLM` 训练再 `save_pretrained`，视觉权重就永久不在那个 checkpoint 里，得手动从原版合并才找得回来。要保住看图能力，从加载那一步就得用 `ForConditionalGeneration`。
 - `mtp.*`（120.6M）不是可选项：两个类都把它列进 `_keys_to_ignore_on_load_unexpected`，HF 训练里既不前向也不进 loss。别把它算进显存预算，也别在"留不留"上花时间——只有导 GGUF 当投机解码草稿头时才有意义。
 - 写量化排除项和 LoRA 目标时用真实前缀：`model.language_model.layers.*`、`model.visual.*`、`mtp.*`。不是 `model.layers.*`，按直觉写会静默匹配不到任何模块。
-- 视觉塔是否常驻会改显存结论（bf16 冻结约 +0.67GB），README §2 的两条预算线就是区分这个的。
+- 视觉塔是否常驻会改显存结论（bf16 冻结约 +0.67GB），根 README「训练配置」的两条预算线就是区分这个的。
 
 ## Qwen3.5 数据侧
 
@@ -52,7 +52,7 @@
 - 图文行的答案必须是最后一轮，否则监督段为空。
 - 数据集仓库的元数据不可信：`ureader_cap` 打着 `language:zh`，实测 0% 含中文。语言、条数、图片是否打包，都要自己抽样量。
 
-`finetune/mix_dataset.py` 已按上面这些实现。README §3 只留数据事实与跑法命令，实测数字记在本文件末尾的「实测记录」。
+`finetune/mix_dataset.py` 已按上面这些实现。根 README「模型与微调」只留数据事实与跑法命令，实测数字记在本文件末尾的「实测记录」。
 
 ### 视觉锚点的两个判断
 
@@ -64,11 +64,12 @@
 
 ## 数字的出处
 
-`database/qwen_catgirl_ft/README.md` 末尾的 LLaMA-Factory 参数是按**单卡 24G / lora_rank 32 / bsz 4**写的，和本仓库 8GB / r=16 / bsz 1 的方案不是一回事。抄之前先确认卡。以 README §1–§2 为准。
+`database/qwen_catgirl_ft/README.md` 末尾的 LLaMA-Factory 参数是按**单卡 24G / lora_rank 32 / bsz 4**写的，和本仓库 8GB / r=16 / bsz 1 的方案不是一回事。抄之前先确认卡。以根 README 的「基座」与「训练配置」为准。
 
 ## 事实与措辞纪律
 
 - **不要用产物缺失反推"没跑过"**。`tauri dev` 走 `beforeDevCommand: npm run dev` + `devUrl`，根本不产出 `dist/`；`target/` 也可能被 clean 掉。用户说跑过就是跑过，要确认就自己启动看窗口，而不是拿目录状态驳回。
+- **裸 `cargo build` 出的二进制不嵌前端资源**：Tauri v2 只在 `custom-protocol` feature（`tauri build` 路径）下才把 `dist/` 嵌进产物，平时直接跑 `target/debug/catgirl` 是去连 devUrl 的——vite 没开时页面空白。又因为窗口已改 `visible: false`、由前端定位后再 show，症状不是"白窗"而是**窗口永远不出现**（X11 里只有一个 10x10 的 UnMapped 壳）。实机自查要么 `npm run tauri dev`，要么 `npm run build` + 带 custom-protocol 重编。
 - 环境/依赖类断言先重新探测再说（`pgrep` 之外还要注意 `pkill -f` 会匹配到自己的命令行，导致自杀式退出 143）。
 - 一次性探针脚本（`_probe*.py`）用完就删，结论进 README；不要把没实现的占位函数留在仓库里。
 
@@ -77,6 +78,38 @@
 - `catgirl/` 是 Tauri + TypeScript 桌面客户端，用户正在重构，工作区里有大量既存改动。不要 `stash` / `checkout` / `reset` / `clean`，未获明确要求不 commit。
 - **措辞纪律**：这个产品不是"桌宠"，是桌面虚拟女友（见 `REACTOR.md` §0）。注释、文档、UI 文案、标识符里都不要重新引入 `桌宠` 或 `pet` 字样。现名：窗口 label `catgirl`、app id `app.catgirl.desktop`、立绘侧标识符统一 `sprite`（`src/ui/sprite.ts` / `SpriteWindow` / `SpriteMood` / `SPRITE_SIZE` / `#sprite`）。改 `identifier` 会连带换 Tauri 用户数据目录（localStorage：设置/历史/锚点位置），2026-10-24 已把 `~/.local/share/app.catgirl.pet` 原样复制到 `app.catgirl.desktop`，旧目录留着没删。
 - 权重和数据集都在仓库外的 `/home/labubu/30856/Model/`，不入库。
+
+## 桌面客户端自查（X11 `:0`，无 xdotool，但 XTest 可用）
+
+本机没有 `xdotool` / `xte`，python3 也没装 Xlib 绑定，但系统里有 `libXtst`：用 ctypes 调 `XTestFakeMotionEvent` / `XTestFakeButtonEvent` / `XTestFakeKeyEvent` 就能注入鼠标和键盘。键盘注入前必须确认猫娘是 `_NET_ACTIVE_WINDOW`（例如先触发二次实例恢复），点击输入框后还要等焦点事件落到 WebView 再发键；否则按键会落进前一个窗口。现在发送消息可以全脚本化。
+
+- 找窗口 + 看尺寸：`xwininfo -root -tree | grep -i catgirl` 拿 id，再 `xwininfo -id 0x…`（几何）与 `xprop -id 0x… WM_NORMAL_HINTS`（min/max 提示）。**断言"setSize 生效了吗"必须看这两个，别信代码逻辑。**
+- 看渲染：`DISPLAY=:0.0 import -window root -crop WxH+X+Y +repage /tmp/x.png` 然后 Read 那张图。**只裁窗口自己的区域**——桌面上开着微信和 QQ，整屏截图会把别人的内容捞进来。
+- 量拖动要读 `xwininfo -id` 的 **Absolute upper-left 坐标差**，不要拿 `outerPosition()` 的返回值自证；`scaleFactor=1` 时实测 1:1 无漂移。
+- 滚轮事件只有指针落在窗口的**输入形状**内才收得到：收起态要先把指针移到右下 200×200 里再 `XTestFakeButtonEvent(4/5)`，否则滚的是桌面。断言看 `#log.scrollTop`（用 WebKit inspector 或临时日志），别只看截图。
+- 托盘图标不是 X11 窗口（StatusNotifier / AppIndicator），XTest 点不到，托盘菜单三项只能人工点；恢复路径可以用"hide + 启动第二个实例"间接验证（走的是同一个 `restore_window`）。
+- 改 `src-tauri/tauri.conf.json` 会触发 `tauri dev` 重建并重启窗口，X11 window id 会变，脚本里别记死。
+
+### 窗口级坑
+
+- **Linux 用固定 surface，不做窗口伸缩**：init 时一次性 `setSize(364×720)`，之后开合面板只改 DOM（`#panel.hidden`）和一张 GDK input shape。收起时输入区是**右下角 200×200**（= `SPRITE_SIZE`），展开时是整窗。两者不同步的症状分别是"面板看得见、点不到"和"收起后透明区域还在吃桌面点击"。
+- **input shape 用 `gtk_window.allocation()`，不是请求尺寸**：`set_panel_input` 按当前 allocation 算矩形；开合时前端用 `lastPanelInput` 跳过重复 IPC，恢复显示前清空该缓存，保证 hide/show 后重新应用一次。传空 region 不是"隐藏"，是整窗不吃事件，别拿它当收起。
+- **固定表面能力由后端声明**：前端不再用 `navigator.platform` 猜平台；init 调 Rust 的 `uses_fixed_surface`，由编译目标决定走固定 surface 还是响应式路径。
+- **非 Linux 走响应式路径**：收起 200×200；展开 364×520 起，按内容高度以 44px 台阶伸缩（240 下限、屏高−48 封顶）。改尺寸的顺序是先 `setPosition` 再 `setSize`，反了右下锚点会漂。要让 `setSize` 落地必须保持 `resizable: true`：`resizable: false` 会让 GTK 发布 min=max 的 `WM_NORMAL_HINTS`，前端所有 `setSize` 被 WM 静默拒掉；无边框靠 `decorations: false`，不是靠关掉 resizable。
+- **拖拽是前端指针状态机，不是原生拖动**：`avatarDrag.ts` 用 `pointerdown/move/up` + 6px 阈值 + `event.screenX/screenY`，位移乘 `scaleFactor` 后 `setPosition(PhysicalPosition)`；拖动期间用一条 `geometry` Promise 串行化并丢弃旧 revision，否则连续 `setPosition` 会乱序抖动。**已经不用 `data-tauri-drag-region` / 原生 `start-dragging`**，对应 capability 已删除，别照旧配置推断实现。
+- **点击与拖动互斥**：超过阈值拖完要在 `click` 里吞掉事件，否则松手会顺带开/收面板。
+- **托盘"显示"之后 WM 会重置几何**：窗口被放回**可用区**正中，尺寸也可能打回配置值。Rust 端只发 `catgirl://restore` / `catgirl://hide`，前端在隐藏状态完成布局后再 show；不要再靠 `onResized` / `onMoved` 和居中坐标猜测系统操作。
+- **透明现在不靠 WebKit 环境变量**：当前 `npm run tauri dev` / 构建产物都不设 `WEBKIT_*`，窗口是 32 位 ARGB、`transparent: true`。旧的"必须同时设 `WEBKIT_DISABLE_DMABUF_RENDERER` + `WEBKIT_DISABLE_COMPOSITING_MODE`"是上一版布局的结论，已不成立；再遇到不透明方块先查窗口深度与合成器，别条件反射加环境变量。
+- **配置里的置顶不等于始终在最上层**：本机出现过 `_NET_WM_STATE_ABOVE` 仍在、窗口却被普通窗口盖住。当前只在 `WindowEvent::Focused(true)` 里重设 `set_always_on_top(true)`，`Focused(false)` 不处理；二次实例恢复已实测能重新置顶。要动这条先量清楚是否真被盖住，别在失焦分支里加对称逻辑。
+- 旧代码曾把 WM 居中落点当成用户拖动存进 `catgirl.anchor.v1`。拖一次立绘即可覆盖，不必清存档。
+
+## 对话与立绘状态
+
+- **SSE 只是协议层流式，UI 不做增量渲染**：`streamChat` 把 `delta.content` 拼完，`chat.ts` 才 `say()` 一条完整气泡；期间立绘 `thinking`，出正文后 `talking`（2.4s 回 `idle`）。想要打字机效果，改的是 `chat.ts` 的 await 点，不是样式。
+- 请求带 `reasoning_effort: 'none'`。正文为空但 `reasoningChars > 0` 时，先怀疑服务端没认这个参数（模型/后端可能忽略它），而不是调 `max_tokens`。
+- 日志是普通 `overflow-y: auto` 容器（`overscroll-behavior: contain`），滚轮原生可用；打开面板、切回对话、新消息、清空后都 `scrollTop = scrollHeight`。别再按"日志不滚、只在顶部裁"去改布局。
+- 四张 mood PNG（idle / thinking / talking / offline）在 init 前 `image.decode()` 预加载，避免切换闪白；`offline` 仅在 `activeMood === 'idle' && serverOnline === false` 时覆盖 idle。
+- 右键菜单已移除（只剩 `contextmenu` 的默认行为拦截）；点击穿透没有入口，`setClickThrough` 只在恢复显示时被调用来复位。
 
 ## 实测记录
 
@@ -88,6 +121,15 @@
 - **桌面客户端**：`cargo build` 46.92s 通过，`target/debug/catgirl` 实机起窗（X11 `:0`），托盘走 libayatana-appindicator，启动打 deprecated 警告。
 - **去"桌宠"改名清账**：`npx tsc --noEmit` 通过；`cargo check` 37.21s、`cargo build` 44.70s 通过，`target/debug/catgirl` 路径不变；`gen/schemas/capabilities.json` 已随 `cargo check` 重新生成为 `catgirl`；浏览器预览（`npm run dev` + 结构校验）`#sprite` 存在、`data-mood=offline`、`.sprite-body` 存在、根节点 `display:flex/align-items:flex-end`、残留 `.pet`/`#pet` 节点 0；全库 `桌宠` 与 `pet` 字样残留 0 处（排除 `node_modules`、`src-tauri/gen`）。**注意：in-app browser 无可见 surface（viewport 0x0），这次只做了 DOM/CSSOM 级校验，透明窗口与托盘仍未被肉眼看过。**
 
+2026-10-25：
+
+- 桌面客户端 `npm run build`、`cargo check` 通过；实机窗口为 32 位 ARGB，Linux 固定 surface 364×720，收起后 GDK 输入形状为右下 200×200，展开为整窗。用户截图确认失焦时圆形透明区域正常，全程没设 `WEBKIT_*`。
+- **XTest/libXtst 注入实机验收**：拖动位移与鼠标位移逐像素一致；开合面板连续 10 轮、标签切换连续 5 轮稳定，没有尺寸或输入形状残留；滚轮上下都能滚 `#log`。
+- **流式终态**：用延迟 SSE 的假服务端把 delta 拆成多段，WebKit 里仍是流结束后才出现一条完整气泡，过程中只有 thinking 指示。
+- **hide → 二次启动恢复**：窗口先 `catgirl://hide`，再启动第二个实例，几何与面板布局保留并被带回前台。
+- 右键菜单已删；四张 mood 图已预加载接线。
+- **未自动化**：托盘图标本身的左/右键和托盘菜单三项（AppIndicator 不是 X11 窗口，XTest 点不到），仍需人工验收。不要把"二次实例恢复已实测"写成"托盘菜单已实测"。
+
 ## 项目进度
 
 - ✅ 语料 565 条 + 校验脚本
@@ -97,6 +139,6 @@
 - ✅ 基座权重下载并校验
 - ✅ 图文锚点数据 + 混采/格式转换管道入仓
 - ⬜ 中文图文数据路线未定，`persona_hook()` 因此仍是恒等函数
-- ⬜ 透明窗口 / 托盘 / 拖拽尚未被人肉眼判定过（进程起过，没看过渲染结果）
+- ⬜ 托盘图标本体的鼠标交互（AppIndicator，XTest 点不到）仍待人工验收；隐藏/显示事件路径与二次实例恢复已实测
 - ⬜ 训练入口脚本未写（无 train.py / yaml）
 - ⬜ LoRA → 合并 → GGUF → llama-server 导出链路未验证：llama.cpp 侧要支持 `qwen3_5`（Gated DeltaNet + MTP）；`modelfiles/Modelfile` 的 `FROM` 仍指向上一版 DeepSeek GGUF，且桌面端已不走 Ollama
