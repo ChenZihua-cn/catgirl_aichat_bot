@@ -1,0 +1,298 @@
+{
+  "total_samples": 360,
+  "total_tokens_est": 318428,
+  "batches": [
+    {
+      "file": "batch_01_起床.jsonl",
+      "scene": "起床",
+      "lines": 20,
+      "tokens": 21683,
+      "cum_tokens": 21683,
+      "avg_reply_chars": 166,
+      "min_reply": 126,
+      "max_reply": 196,
+      "rounds": {
+        "2": 2,
+        "3": 3,
+        "4": 5,
+        "5": 6,
+        "6": 4
+      }
+    },
+    {
+      "file": "batch_02_做饭吃饭.jsonl",
+      "scene": "做饭吃饭",
+      "lines": 20,
+      "tokens": 21779,
+      "cum_tokens": 43462,
+      "avg_reply_chars": 135,
+      "min_reply": 109,
+      "max_reply": 167,
+      "rounds": {
+        "2": 2,
+        "3": 3,
+        "4": 5,
+        "5": 6,
+        "6": 4
+      }
+    },
+    {
+      "file": "batch_03_家务.jsonl",
+      "scene": "家务",
+      "lines": 20,
+      "tokens": 21096,
+      "cum_tokens": 64558,
+      "avg_reply_chars": 167,
+      "min_reply": 136,
+      "max_reply": 198,
+      "rounds": {
+        "2": 2,
+        "3": 3,
+        "4": 5,
+        "5": 6,
+        "6": 4
+      }
+    },
+    {
+      "file": "batch_04_通勤.jsonl",
+      "scene": "通勤",
+      "lines": 20,
+      "tokens": 23478,
+      "cum_tokens": 88036,
+      "avg_reply_chars": 166,
+      "min_reply": 138,
+      "max_reply": 189,
+      "rounds": {
+        "2": 2,
+        "3": 3,
+        "4": 5,
+        "5": 6,
+        "6": 4
+      }
+    },
+    {
+      "file": "batch_05_上班上课.jsonl",
+      "scene": "上班上课",
+      "lines": 20,
+      "tokens": 21748,
+      "cum_tokens": 109784,
+      "avg_reply_chars": 174,
+      "min_reply": 140,
+      "max_reply": 200,
+      "rounds": {
+        "2": 2,
+        "3": 3,
+        "4": 5,
+        "5": 6,
+        "6": 4
+      }
+    },
+    {
+      "file": "batch_06_加班.jsonl",
+      "scene": "加班",
+      "lines": 20,
+      "tokens": 19634,
+      "cum_tokens": 129418,
+      "avg_reply_chars": 133,
+      "min_reply": 111,
+      "max_reply": 163,
+      "rounds": {
+        "2": 2,
+        "3": 3,
+        "4": 5,
+        "5": 6,
+        "6": 4
+      }
+    },
+    {
+      "file": "batch_07_逛街.jsonl",
+      "scene": "逛街",
+      "lines": 20,
+      "tokens": 22976,
+      "cum_tokens": 152394,
+      "avg_reply_chars": 168,
+      "min_reply": 127,
+      "max_reply": 199,
+      "rounds": {
+        "2": 2,
+        "3": 3,
+        "4": 5,
+        "5": 6,
+        "6": 4
+      }
+    },
+    {
+      "file": "batch_08_看电影.jsonl",
+      "scene": "看电影",
+      "lines": 20,
+      "tokens": 23469,
+      "cum_tokens": 175863,
+      "avg_reply_chars": 160,
+      "min_reply": 136,
+      "max_reply": 184,
+      "rounds": {
+        "2": 2,
+        "3": 3,
+        "4": 5,
+        "5": 6,
+        "6": 4
+      }
+    },
+    {
+      "file": "batch_09_生病照顾.jsonl",
+      "scene": "生病照顾",
+      "lines": 20,
+      "tokens": 9916,
+      "cum_tokens": 185779,
+      "avg_reply_chars": 53,
+      "min_reply": 40,
+      "max_reply": 71,
+      "rounds": {
+        "2": 3,
+        "3": 8,
+        "4": 6,
+        "5": 3
+      }
+    },
+    {
+      "file": "batch_10_吵架冷战.jsonl",
+      "scene": "吵架冷战",
+      "lines": 20,
+      "tokens": 10188,
+      "cum_tokens": 195967,
+      "avg_reply_chars": 44,
+      "min_reply": 15,
+      "max_reply": 67,
+      "rounds": {
+        "2": 2,
+        "3": 3,
+        "4": 6,
+        "5": 7,
+        "6": 2
+      }
+    },
+    {
+      "file": "batch_11_和好.jsonl",
+      "scene": "和好",
+      "lines": 20,
+      "tokens": 10059,
+      "cum_tokens": 206026,
+      "avg_reply_chars": 39,
+      "min_reply": 18,
+      "max_reply": 71,
+      "rounds": {
+        "2": 2,
+        "3": 4,
+        "4": 4,
+        "5": 5,
+        "6": 4,
+        "7": 1
+      }
+    },
+    {
+      "file": "batch_12_睡前聊天.jsonl",
+      "scene": "睡前聊天",
+      "lines": 20,
+      "tokens": 10071,
+      "cum_tokens": 216097,
+      "avg_reply_chars": 44,
+      "min_reply": 15,
+      "max_reply": 74,
+      "rounds": {
+        "2": 2,
+        "3": 4,
+        "4": 4,
+        "5": 7,
+        "6": 3
+      }
+    },
+    {
+      "file": "batch_13_混合日常A.jsonl",
+      "scene": "起床",
+      "lines": 20,
+      "tokens": 23729,
+      "cum_tokens": 239826,
+      "avg_reply_chars": 165,
+      "min_reply": 133,
+      "max_reply": 190,
+      "rounds": {
+        "4": 6,
+        "5": 8,
+        "6": 6
+      }
+    },
+    {
+      "file": "batch_14_混合日常B.jsonl",
+      "scene": "生病照顾",
+      "lines": 20,
+      "tokens": 25705,
+      "cum_tokens": 265531,
+      "avg_reply_chars": 177,
+      "min_reply": 151,
+      "max_reply": 188,
+      "rounds": {
+        "4": 6,
+        "5": 8,
+        "6": 6
+      }
+    },
+    {
+      "file": "batch_15_混合日常C.jsonl",
+      "scene": "起床",
+      "lines": 20,
+      "tokens": 25974,
+      "cum_tokens": 291505,
+      "avg_reply_chars": 176,
+      "min_reply": 161,
+      "max_reply": 190,
+      "rounds": {
+        "4": 6,
+        "5": 8,
+        "6": 6
+      }
+    },
+    {
+      "file": "batch_16_微信短聊.jsonl",
+      "scene": "微信短聊",
+      "lines": 20,
+      "tokens": 7799,
+      "cum_tokens": 299304,
+      "avg_reply_chars": 15,
+      "min_reply": 2,
+      "max_reply": 34,
+      "rounds": {
+        "3": 7,
+        "4": 13
+      }
+    },
+    {
+      "file": "batch_17_接梗日常.jsonl",
+      "scene": "接梗日常",
+      "lines": 20,
+      "tokens": 8972,
+      "cum_tokens": 308276,
+      "avg_reply_chars": 46,
+      "min_reply": 8,
+      "max_reply": 78,
+      "rounds": {
+        "2": 5,
+        "3": 15
+      }
+    },
+    {
+      "file": "batch_18_校园回忆.jsonl",
+      "scene": "高一回忆",
+      "lines": 20,
+      "tokens": 10152,
+      "cum_tokens": 318428,
+      "avg_reply_chars": 72,
+      "min_reply": 48,
+      "max_reply": 96,
+      "rounds": {
+        "2": 3,
+        "3": 15,
+        "4": 2
+      }
+    }
+  ]
+}
