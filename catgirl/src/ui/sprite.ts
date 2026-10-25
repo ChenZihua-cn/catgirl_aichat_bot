@@ -1,28 +1,52 @@
+import { invoke } from '@tauri-apps/api/core';
 import { LogicalSize, PhysicalPosition } from '@tauri-apps/api/dpi';
 import { getCurrentWindow, primaryMonitor } from '@tauri-apps/api/window';
 import type { Settings, SpriteMood } from '../types';
 
-export const SPRITE_SIZE = { width: 168, height: 152 };
-export const PANEL_SIZE = { width: 340, height: 520 };
+export const SPRITE_SIZE = { width: 200, height: 200 };
+export const PANEL_SIZE = { width: 364, height: 520 };
 
 const ANCHOR_KEY = 'catgirl.anchor.v1';
+const RESTORE_EVENT = 'catgirl://restore';
+const HIDE_EVENT = 'catgirl://hide';
 const EDGE_MARGIN = 20;
-/** setSize 会连带触发 moved 事件，这段时间内不要把它当成用户拖动。 */
-const RESIZE_GUARD_MS = 250;
+const PANEL_MIN_HEIGHT = 240;
+const SCREEN_TOP_MARGIN = 48;
+const FIT_STEP_PX = 44;
+const FIT_COALESCE_MS = 120;
+const FIXED_SURFACE_HEIGHT = 720;
+const MOOD_SOURCES: Record<SpriteMood, string> = {
+  idle: '/assets/moods/idle.png',
+  thinking: '/assets/moods/thinking.png',
+  talking: '/assets/moods/talking.png',
+  offline: '/assets/moods/offline.png',
+};
 
-/** 用 `npm run dev` 在普通浏览器里预览时，窗口 API 不可用，只跑样式与对话。 */
 const IS_TAURI = '__TAURI_INTERNALS__' in window;
 
-const sleep = (ms: number): Promise<void> => new Promise((resolve) => window.setTimeout(resolve, ms));
-
-const win = (() => {  let cached: ReturnType<typeof getCurrentWindow> | null = null;
-  // 顶层直接调用会在普通浏览器里抛错，所以只在 Tauri 环境内取句柄
+const win = (() => {
+  let cached: ReturnType<typeof getCurrentWindow> | null = null;
   return () => (cached ??= getCurrentWindow());
 })();
 
 interface Anchor {
   x: number;
   y: number;
+}
+
+interface DragOrigin {
+  cursor: Anchor;
+  position: Anchor;
+  width: number;
+  height: number;
+  scale: number;
+}
+
+interface WorkArea {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 }
 
 function readAnchor(): Anchor | null {
@@ -34,32 +58,153 @@ function readAnchor(): Anchor | null {
       return { x: parsed.x, y: parsed.y };
     }
   } catch {
-    // 位置存档坏了就当没存过
+    return null;
   }
   return null;
 }
 
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+function cssPixels(value: string): number {
+  const parsed = Number.parseFloat(value);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+async function preloadMoods(): Promise<void> {
+  await Promise.all(
+    Object.values(MOOD_SOURCES).map(async (source) => {
+      const image = new Image();
+      image.src = source;
+      await image.decode();
+    }),
+  );
+}
+
 export class SpriteWindow {
   private anchor: Anchor = { x: 0, y: 0 };
-  private lastResize = 0;
-  private persistTimer = 0;
+  private dragOrigin: DragOrigin | null = null;
+  private dragRevision = 0;
+  private workArea: WorkArea | null = null;
+  private fixedSurface = false;
+  private lastPanelInput: boolean | null = null;
+  private maxHeight = PANEL_SIZE.height;
+  private fitting = false;
+  private fitTimer = 0;
+  private pokeTimer = 0;
+  private geometry: Promise<void> = Promise.resolve();
+  private geometryRevision = 0;
+  private lastSize: { width: number; height: number } | null = null;
+  private lastPosition: Anchor | null = null;
+  private readonly moodsReady = preloadMoods();
 
   async init(mood: SpriteMood): Promise<void> {
-    this.anchor = readAnchor() ?? (await this.defaultAnchor());
-    await this.resize(SPRITE_SIZE.width, SPRITE_SIZE.height);
+    await this.moodsReady;
+    this.fixedSurface = IS_TAURI ? await invoke<boolean>('uses_fixed_surface') : false;
+    const screen = await this.readScreen();
+    this.anchor = readAnchor() ?? screen.anchor;
+    this.workArea = screen.area;
+    this.maxHeight = screen.maxHeight;
     this.setMood(mood);
+    if (this.fixedSurface) {
+      await this.resize(PANEL_SIZE.width, Math.min(this.maxHeight, FIXED_SURFACE_HEIGHT));
+    } else {
+      await this.resize(SPRITE_SIZE.width, SPRITE_SIZE.height);
+    }
 
     if (!IS_TAURI) return;
-    await win().onMoved(() => {
-      if (Date.now() - this.lastResize < RESIZE_GUARD_MS) return;
-      void this.rememberAnchor();
+    await win().show();
+    if (this.fixedSurface) await this.setPanelInput(false);
+    await win().listen(RESTORE_EVENT, () => void this.showAndFocus());
+    await win().listen(HIDE_EVENT, () => void this.hide());
+  }
+
+  async syncPanelSize(): Promise<void> {
+    const panel = document.getElementById('panel');
+    const open = panel !== null && !panel.hidden;
+    if (this.fixedSurface) {
+      await this.setPanelInput(open);
+      return;
+    }
+    await this.syncResponsiveSize(open);
+  }
+
+  private async syncResponsiveSize(open: boolean): Promise<void> {
+    const chatView = document.getElementById('chatView');
+    this.fitting = open && chatView !== null && !chatView.hidden;
+    if (!open) {
+      this.cancelRefit();
+      await this.resize(SPRITE_SIZE.width, SPRITE_SIZE.height);
+      return;
+    }
+    if (!this.fitting) {
+      window.clearTimeout(this.fitTimer);
+      this.fitTimer = 0;
+      await this.resize(PANEL_SIZE.width, PANEL_SIZE.height);
+      return;
+    }
+    await this.applyFitHeight();
+  }
+
+  refit(): void {
+    if (!this.fitting || this.fitTimer) return;
+    this.fitTimer = window.setTimeout(() => {
+      this.fitTimer = 0;
+      if (this.fitting) void this.applyFitHeight();
+    }, FIT_COALESCE_MS);
+  }
+
+  async beginDrag(screenX: number, screenY: number): Promise<void> {
+    if (!IS_TAURI) return;
+    const revision = ++this.dragRevision;
+    this.dragOrigin = null;
+    const [position, size, scale] = await Promise.all([
+      win().outerPosition(),
+      win().outerSize(),
+      win().scaleFactor(),
+    ]);
+    if (revision !== this.dragRevision) return;
+    this.dragOrigin = {
+      cursor: { x: screenX, y: screenY },
+      position: { x: position.x, y: position.y },
+      width: size.width,
+      height: size.height,
+      scale,
+    };
+  }
+
+  dragTo(screenX: number, screenY: number): void {
+    const origin = this.dragOrigin;
+    if (!origin) return;
+    const position = this.constrainPosition(
+      {
+        x: Math.round(origin.position.x + (screenX - origin.cursor.x) * origin.scale),
+        y: Math.round(origin.position.y + (screenY - origin.cursor.y) * origin.scale),
+      },
+      origin.width,
+      origin.height,
+      1,
+    );
+    this.anchor = { x: position.x + origin.width, y: position.y + origin.height };
+    this.lastPosition = position;
+    void this.queueGeometry(async () => {
+      await win().setPosition(new PhysicalPosition(position.x, position.y));
     });
   }
 
-  /** 面板展开时窗口变高变宽，立绘始终钉在右下角，所以向左上扩张。 */
-  async setPanelOpen(open: boolean): Promise<void> {
-    const size = open ? PANEL_SIZE : SPRITE_SIZE;
-    await this.resize(size.width, size.height);
+  async endDrag(): Promise<void> {
+    if (!IS_TAURI) return;
+    ++this.dragRevision;
+    await this.geometry;
+    this.dragOrigin = null;
+    localStorage.setItem(ANCHOR_KEY, JSON.stringify(this.anchor));
+  }
+
+  private async setPanelInput(open: boolean): Promise<void> {
+    if (this.lastPanelInput === open) return;
+    await invoke('set_panel_input', { open, spriteSize: SPRITE_SIZE.width });
+    this.lastPanelInput = open;
   }
 
   async setClickThrough(enabled: boolean): Promise<void> {
@@ -68,29 +213,38 @@ export class SpriteWindow {
   }
 
   async hide(): Promise<void> {
-    await this.setPanelOpen(false);
+    this.cancelRefit();
     if (IS_TAURI) await win().hide();
   }
 
   async showAndFocus(): Promise<void> {
     if (!IS_TAURI) return;
+    this.cancelRefit();
+    this.lastSize = null;
+    this.lastPosition = null;
+    this.lastPanelInput = null;
+    await this.setClickThrough(false);
+    await this.syncPanelSize();
     await win().show();
     await win().setFocus();
   }
 
   setMood(mood: SpriteMood): void {
     const root = document.getElementById('sprite');
+    const avatar = document.getElementById('avatar');
+    if (root?.dataset.mood === mood) return;
     if (root) root.dataset.mood = mood;
+    if (avatar instanceof HTMLImageElement) avatar.src = MOOD_SOURCES[mood];
   }
 
   poke(): void {
-    const avatar = document.getElementById('avatar');
-    if (!avatar) return;
-    avatar.classList.remove('poke');
-    // 重启动画需要一个回流间隙
-    void avatar.offsetWidth;
-    avatar.classList.add('poke');
-    window.setTimeout(() => avatar.classList.remove('poke'), 600);
+    const body = document.querySelector<HTMLElement>('.sprite-body');
+    if (!body) return;
+    window.clearTimeout(this.pokeTimer);
+    body.classList.remove('poke');
+    void body.offsetWidth;
+    body.classList.add('poke');
+    this.pokeTimer = window.setTimeout(() => body.classList.remove('poke'), 600);
   }
 
   applyStyle(settings: Settings): void {
@@ -100,47 +254,115 @@ export class SpriteWindow {
     document.body.dataset.animations = settings.animations ? 'on' : 'off';
   }
 
-  private async resize(width: number, height: number): Promise<void> {
-    if (!IS_TAURI) return;
-    this.lastResize = Date.now();
-    await win().setSize(new LogicalSize(width, height));
-    await this.snapToAnchor();
+  private cancelRefit(): void {
+    window.clearTimeout(this.fitTimer);
+    this.fitTimer = 0;
+    this.fitting = false;
   }
 
-  /** GTK 的尺寸变更是异步落地的，等外框尺寸稳定后再按锚点贴回去。 */
-  private async snapToAnchor(): Promise<void> {
-    for (let attempt = 0; attempt < 12; attempt += 1) {
-      const size = await win().outerSize();
-      await win().setPosition(new PhysicalPosition(this.anchor.x - size.width, this.anchor.y - size.height));
-      await sleep(30);
-      const settled = await win().outerSize();
-      if (settled.width === size.width && settled.height === size.height) return;
-    }
+  private async applyFitHeight(): Promise<void> {
+    if (!this.fitting) return;
+    const stepped = Math.ceil(this.desiredHeight() / FIT_STEP_PX) * FIT_STEP_PX;
+    const target = Math.round(clamp(stepped, PANEL_MIN_HEIGHT, this.maxHeight));
+    await this.resize(PANEL_SIZE.width, target);
   }
 
-  private async defaultAnchor(): Promise<Anchor> {
-    const scale = IS_TAURI ? await win().scaleFactor() : window.devicePixelRatio;
-    const monitor = IS_TAURI ? await primaryMonitor() : null;
-    if (!monitor) {
-      return {
-        x: window.screen.width * scale - EDGE_MARGIN,
-        y: window.screen.height * scale - EDGE_MARGIN,
-      };
-    }
+  private desiredHeight(): number {
+    const panel = document.getElementById('panel');
+    const log = document.getElementById('log');
+    const body = document.querySelector<HTMLElement>('.sprite-body');
+    if (!panel || !log || !body) return PANEL_SIZE.height;
+    const shell = panel.offsetHeight - log.offsetHeight + body.offsetHeight;
+    return Math.ceil(shell + this.spriteChromeHeight() + this.logContentHeight(log));
+  }
+
+  private spriteChromeHeight(): number {
+    const sprite = document.getElementById('sprite');
+    if (!sprite) return 0;
+    const style = window.getComputedStyle(sprite);
+    return cssPixels(style.paddingTop) + cssPixels(style.paddingBottom) + cssPixels(style.rowGap);
+  }
+
+  private logContentHeight(log: HTMLElement): number {
+    const style = window.getComputedStyle(log);
+    const gap = cssPixels(style.rowGap);
+    const padding = cssPixels(style.paddingTop) + cssPixels(style.paddingBottom);
+    const children = Array.from(log.children) as HTMLElement[];
+    const bubbles = children.reduce((sum, element) => sum + element.offsetHeight, 0);
+    const gaps = children.length > 1 ? gap * (children.length - 1) : 0;
+    return bubbles + gaps + padding;
+  }
+
+  private constrainPosition(
+    position: Anchor,
+    width: number,
+    height: number,
+    scale: number,
+  ): Anchor {
+    if (!this.workArea) return position;
+    const area = this.workArea;
     return {
-      x: monitor.position.x + monitor.size.width - EDGE_MARGIN,
-      y: monitor.position.y + monitor.size.height - EDGE_MARGIN,
+      x: Math.round(clamp(position.x, area.x, Math.max(area.x, area.x + area.width - width * scale))),
+      y: Math.round(clamp(position.y, area.y, Math.max(area.y, area.y + area.height - height * scale))),
     };
   }
 
-  private async rememberAnchor(): Promise<void> {
-    const position = await win().outerPosition();
-    const size = await win().outerSize();
-    this.anchor = { x: position.x + size.width, y: position.y + size.height };
+  private queueGeometry(task: (isCurrent: () => boolean) => Promise<void>): Promise<void> {
+    const revision = ++this.geometryRevision;
+    const operation = this.geometry.then(async () => {
+      const isCurrent = (): boolean => revision === this.geometryRevision;
+      if (!isCurrent()) return;
+      await task(isCurrent);
+    });
+    this.geometry = operation.catch(() => undefined);
+    return operation;
+  }
 
-    window.clearTimeout(this.persistTimer);
-    this.persistTimer = window.setTimeout(() => {
-      localStorage.setItem(ANCHOR_KEY, JSON.stringify(this.anchor));
-    }, 200);
+  private resize(width: number, height: number): Promise<void> {
+    if (!IS_TAURI) return Promise.resolve();
+    return this.queueGeometry(async (isCurrent) => {
+      const scale = await win().scaleFactor();
+      const position = this.constrainPosition(
+        {
+          x: Math.round(this.anchor.x - width * scale),
+          y: Math.round(this.anchor.y - height * scale),
+        },
+        width,
+        height,
+        scale,
+      );
+      const sizeChanged =
+        !this.lastSize || this.lastSize.width !== width || this.lastSize.height !== height;
+      const positionChanged =
+        !this.lastPosition || this.lastPosition.x !== position.x || this.lastPosition.y !== position.y;
+      if (!sizeChanged && !positionChanged) return;
+
+      await win().setPosition(new PhysicalPosition(position.x, position.y));
+      if (!isCurrent()) return;
+      if (sizeChanged) await win().setSize(new LogicalSize(width, height));
+      this.lastSize = { width, height };
+      this.lastPosition = position;
+    });
+  }
+
+  private async readScreen(): Promise<{ anchor: Anchor; maxHeight: number; area: WorkArea }> {
+    const scale = IS_TAURI ? await win().scaleFactor() : window.devicePixelRatio;
+    const monitor = IS_TAURI ? await primaryMonitor() : null;
+    const area = monitor
+      ? {
+          x: monitor.workArea.position.x,
+          y: monitor.workArea.position.y,
+          width: monitor.workArea.size.width,
+          height: monitor.workArea.size.height,
+        }
+      : { x: 0, y: 0, width: window.screen.width * scale, height: window.screen.height * scale };
+    return {
+      anchor: {
+        x: Math.round(area.x + area.width - EDGE_MARGIN),
+        y: Math.round(area.y + area.height - EDGE_MARGIN),
+      },
+      maxHeight: Math.round(area.height / scale - SCREEN_TOP_MARGIN),
+      area,
+    };
   }
 }

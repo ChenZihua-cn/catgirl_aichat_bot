@@ -1,40 +1,53 @@
+import { invoke } from '@tauri-apps/api/core';
 import { LlamaServerError, listModels } from './services/llamaServer';
 import { loadSettings, saveSettings } from './state/settings';
-import type { Settings } from './types';
+import type { Settings, SpriteMood } from './types';
+import { bindAvatarPointer } from './ui/avatarDrag';
 import { Chat } from './ui/chat';
-import { ContextMenu } from './ui/contextMenu';
+import { mustGet } from './ui/dom';
 import { SpriteWindow } from './ui/sprite';
 import { SettingsPanel } from './ui/settingsPanel';
 
 const HEALTH_POLL_MS = 20_000;
+const TALKING_MOOD_MS = 2400;
 
-function must<T extends HTMLElement>(id: string): T {
-  const element = document.getElementById(id);
-  if (!element) throw new Error(`缺少 #${id} 节点`);
-  return element as T;
-}
+type ActiveMood = Exclude<SpriteMood, 'offline'>;
 
 async function boot(): Promise<void> {
   const el = {
-    panel: must<HTMLElement>('panel'),
-    chatView: must<HTMLElement>('chatView'),
-    settingsView: must<HTMLElement>('settingsView'),
-    tabChat: must<HTMLButtonElement>('tabChat'),
-    tabSettings: must<HTMLButtonElement>('tabSettings'),
-    panelClose: must<HTMLButtonElement>('panelClose'),
-    avatar: must<HTMLImageElement>('avatar'),
-    dot: must<HTMLElement>('dot'),
-    menu: must<HTMLUListElement>('menu'),
+    panel: mustGet<HTMLElement>('panel'),
+    chatView: mustGet<HTMLElement>('chatView'),
+    settingsView: mustGet<HTMLElement>('settingsView'),
+    tabChat: mustGet<HTMLButtonElement>('tabChat'),
+    tabSettings: mustGet<HTMLButtonElement>('tabSettings'),
+    panelClose: mustGet<HTMLButtonElement>('panelClose'),
+    avatar: mustGet<HTMLImageElement>('avatar'),
+    dot: mustGet<HTMLElement>('dot'),
   };
 
   let settings = loadSettings();
   let models: string[] = [];
   let serverOnline: boolean | null = null;
+  let activeMood: ActiveMood = 'idle';
   let isOpen = false;
   let idleTimer = 0;
+  let talkingTimer = 0;
 
   const sprite = new SpriteWindow();
   sprite.applyStyle(settings);
+
+  const updateMood = (): void => {
+    const mood = activeMood === 'idle' && serverOnline === false ? 'offline' : activeMood;
+    sprite.setMood(mood);
+  };
+
+  const setActiveMood = (mood: ActiveMood): void => {
+    window.clearTimeout(talkingTimer);
+    activeMood = mood;
+    updateMood();
+    if (mood !== 'talking') return;
+    talkingTimer = window.setTimeout(() => setActiveMood('idle'), TALKING_MOOD_MS);
+  };
 
   const refreshModels = async (): Promise<string[]> => {
     models = await listModels(settings.serverUrl);
@@ -49,18 +62,19 @@ async function boot(): Promise<void> {
     return first;
   };
 
-  const showTab = (tab: 'chat' | 'settings'): void => {
+  const showTab = async (tab: 'chat' | 'settings'): Promise<void> => {
     el.chatView.hidden = tab !== 'chat';
     el.settingsView.hidden = tab !== 'settings';
     el.tabChat.classList.toggle('is-active', tab === 'chat');
     el.tabSettings.classList.toggle('is-active', tab === 'settings');
+    await sprite.syncPanelSize();
   };
 
   const setOpen = async (open: boolean, tab: 'chat' | 'settings' = 'chat'): Promise<void> => {
     isOpen = open;
     el.panel.hidden = !open;
-    await sprite.setPanelOpen(open);
-    if (open) showTab(tab);
+    if (open) await showTab(tab);
+    else await sprite.syncPanelSize();
   };
 
   const resetIdle = (): void => {
@@ -73,6 +87,7 @@ async function boot(): Promise<void> {
     sprite,
     getSettings: () => settings,
     resolveModel,
+    setMood: setActiveMood,
     onActivity: resetIdle,
   });
   chat.mount();
@@ -88,10 +103,8 @@ async function boot(): Promise<void> {
     },
     refreshModels,
     onClearChat: () => chat.clear(),
-    onQuit: () => void sprite.hide(),
+    onQuit: () => void invoke('quit_app'),
   });
-
-  const menu = new ContextMenu(el.menu);
 
   const toggleChat = async (): Promise<void> => {
     await setOpen(!isOpen);
@@ -101,23 +114,13 @@ async function boot(): Promise<void> {
     resetIdle();
   };
 
-  el.avatar.addEventListener('click', () => void toggleChat());
+  bindAvatarPointer(el.avatar, sprite, () => void toggleChat());
   el.panelClose.addEventListener('click', () => void setOpen(false));
-  el.tabChat.addEventListener('click', () => showTab('chat'));
-  el.tabSettings.addEventListener('click', () => showTab('settings'));
-
-  el.avatar.addEventListener('contextmenu', (event) => {
-    event.preventDefault();
-    menu.show(event.clientX, event.clientY, [
-      { label: isOpen ? '收起对话' : '打开对话', onSelect: () => void toggleChat() },
-      { label: '设置', onSelect: () => void setOpen(true, 'settings') },
-      {
-        label: '点击穿透（只能从托盘恢复）',
-        onSelect: () => void sprite.setClickThrough(true),
-      },
-      { label: '收进托盘', onSelect: () => void sprite.hide() },
-    ]);
+  el.tabChat.addEventListener('click', () => {
+    void showTab('chat').then(() => chat.scrollToLatest());
   });
+  el.tabSettings.addEventListener('click', () => void showTab('settings'));
+  el.avatar.addEventListener('contextmenu', (event) => event.preventDefault());
 
   document.addEventListener('keydown', (event) => {
     if (event.ctrlKey && event.key.toLowerCase() === 'm') {
@@ -140,7 +143,7 @@ async function boot(): Promise<void> {
     if (online === serverOnline) return;
     serverOnline = online;
     el.dot.dataset.state = online ? 'online' : 'offline';
-    sprite.setMood(online ? 'idle' : 'offline');
+    updateMood();
   };
 
   await probe();

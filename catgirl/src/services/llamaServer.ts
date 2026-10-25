@@ -49,11 +49,16 @@ export interface StreamArgs {
   messages: RequestMessage[];
   sampling: Sampling;
   signal: AbortSignal;
-  onDelta: (text: string) => void;
+}
+
+export interface StreamResult {
+  content: string;
+  finishReason: string | null;
+  reasoningChars: number;
 }
 
 /** llama-server 的 /v1/chat/completions 流式接口，返回完整文本。 */
-export async function streamChat(args: StreamArgs): Promise<string> {
+export async function streamChat(args: StreamArgs): Promise<StreamResult> {
   const res = await fetch(endpoint(args.baseUrl, '/v1/chat/completions'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -66,6 +71,7 @@ export async function streamChat(args: StreamArgs): Promise<string> {
       top_p: args.sampling.topP,
       repeat_penalty: args.sampling.repeatPenalty,
       max_tokens: args.sampling.maxTokens,
+      reasoning_effort: 'none',
     }),
   });
   if (!res.ok) return fail(res);
@@ -75,6 +81,8 @@ export async function streamChat(args: StreamArgs): Promise<string> {
   const decoder = new TextDecoder('utf-8');
   let buffer = '';
   let full = '';
+  let finishReason: string | null = null;
+  let reasoningChars = 0;
   let finished = false;
 
   const consumeLine = (line: string): void => {
@@ -87,12 +95,17 @@ export async function streamChat(args: StreamArgs): Promise<string> {
     }
     if (!payload) return;
     try {
-      const chunk = JSON.parse(payload) as { choices?: { delta?: { content?: string } }[] };
-      const text = chunk.choices?.[0]?.delta?.content;
-      if (text) {
-        full += text;
-        args.onDelta(text);
-      }
+      const chunk = JSON.parse(payload) as {
+        choices?: {
+          delta?: { content?: string; reasoning_content?: string };
+          finish_reason?: string | null;
+        }[];
+      };
+      const choice = chunk.choices?.[0];
+      reasoningChars += choice?.delta?.reasoning_content?.length ?? 0;
+      finishReason = choice?.finish_reason ?? finishReason;
+      const text = choice?.delta?.content;
+      if (text) full += text;
     } catch {
       // 单行解析失败只丢这一条增量，不中断整个回复
     }
@@ -112,6 +125,6 @@ export async function streamChat(args: StreamArgs): Promise<string> {
     }
   }
 
-  await reader.cancel();
-  return full;
+  await reader.cancel().catch(() => undefined);
+  return { content: full, finishReason, reasoningChars };
 }

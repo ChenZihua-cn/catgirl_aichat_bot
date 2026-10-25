@@ -14,13 +14,14 @@
       {
         "label": "catgirl",
         "title": "猫娘",
-        "width": 168,
-        "height": 152,
-        "resizable": false,
+        "width": 364,
+        "height": 720,
+        "visible": false,
         "decorations": false,
         "transparent": true,
         "alwaysOnTop": true,
-        "skipTaskbar": true
+        "skipTaskbar": true,
+        "resizable": true
       }
     ],
     "security": {
@@ -29,7 +30,7 @@
   },
   "bundle": {
     "active": true,
-    "targets": "all",
+    "targets": ["deb"],
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
