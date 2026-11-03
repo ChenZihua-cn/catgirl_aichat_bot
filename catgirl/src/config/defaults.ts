@@ -4,7 +4,7 @@ export const DEFAULT_SETTINGS: Settings = {
   serverUrl: 'http://127.0.0.1:8080',
   model: '',
   usePersona: true,
-  // 取 database/qwen_catgirl_ft/README.md 的推理建议：temp 0.7–0.9、repeat_penalty 1.05
+  // 取 database/README.md 的推理建议：temp 0.7–0.9、repeat_penalty 1.05
   temperature: 0.8,
   topP: 0.9,
   repeatPenalty: 1.05,

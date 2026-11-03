@@ -1,0 +1,85 @@
+{
+  "mode": "accepted",
+  "prompt_version": "wechat-v1.3",
+  "system_sha256": "759843885bb10d47f8984203e943852660c5fbbee2ca3367d4eac8051fe69b65",
+  "system_chars": 740,
+  "legacy_sha256": "b232725997c5ebc9ef02f0c6f447759f248339516a91855f1073bf07ff347116",
+  "samples": 1652,
+  "gpt_replies": 5577,
+  "assistant_turns": 5577,
+  "bubbles": 9756,
+  "bubble_count": {
+    "1": 2340,
+    "2": 2303,
+    "3": 926,
+    "4": 8
+  },
+  "bubble_len": {
+    "min": 2,
+    "avg": 9.9,
+    "max": 40
+  },
+  "turn_len": {
+    "min": 2,
+    "avg": 18.9,
+    "max": 79
+  },
+  "single_bubble_share": 0.4196,
+  "multi_bubble_share": 0.5804,
+  "emoji_turn_share": 0.185,
+  "question_turn_share": 0.265,
+  "cat_turn_share": 0.2326,
+  "long_turns": 67,
+  "long_rows": 66,
+  "bens_miao_share": 0.0622,
+  "callback": {
+    "sessions_with": 300,
+    "refs": 300
+  },
+  "user_changed": 1826,
+  "cot": {
+    "count": 1652,
+    "min": 8,
+    "avg": 10.9,
+    "max": 24
+  },
+  "by_source": {
+    "distill_new": 300,
+    "nekoqa": 551,
+    "qwen_catgirl_ft": 561,
+    "catgirl_dataset": 240
+  },
+  "by_scene": {
+    "日常问答": 565,
+    "做饭吃饭": 77,
+    "看电影": 76,
+    "加班": 76,
+    "逛街": 76,
+    "通勤": 75,
+    "起床": 75,
+    "家务": 74,
+    "上班上课": 72,
+    "生病照顾": 61,
+    "吵架和好": 58,
+    "睡前聊天": 57,
+    "周末出游": 51,
+    "游戏爱好": 49,
+    "天气雨天": 49,
+    "学习考试": 49,
+    "纪念日礼物": 49,
+    "校园回忆": 32,
+    "微信短聊": 16,
+    "接梗日常": 15
+  },
+  "turns": {
+    "1": 551,
+    "2": 56,
+    "3": 364,
+    "4": 237,
+    "5": 90,
+    "6": 204,
+    "8": 150
+  },
+  "id_map_size": 1652,
+  "seed": 42
+}

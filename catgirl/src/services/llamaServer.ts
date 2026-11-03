@@ -71,7 +71,8 @@ export async function streamChat(args: StreamArgs): Promise<StreamResult> {
       top_p: args.sampling.topP,
       repeat_penalty: args.sampling.repeatPenalty,
       max_tokens: args.sampling.maxTokens,
-      reasoning_effort: 'none',
+      // 训练数据只在最后一条 assistant 前放 <think>，推理时由 Qwen 模板补同样开头。
+      chat_template_kwargs: { enable_thinking: true },
     }),
   });
   if (!res.ok) return fail(res);
@@ -126,5 +127,12 @@ export async function streamChat(args: StreamArgs): Promise<StreamResult> {
   }
 
   await reader.cancel().catch(() => undefined);
-  return { content: full, finishReason, reasoningChars };
+  return { content: stripThink(full), finishReason, reasoningChars };
+}
+
+function stripThink(text: string): string {
+  return text
+    .replace(/<think>[\s\S]*?<\/think>/g, '')
+    .replace(/<\/?think>/g, '')
+    .trim();
 }

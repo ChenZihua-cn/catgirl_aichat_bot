@@ -1,0 +1,57 @@
+{
+  "kind": "rewrite",
+  "input": "distill/batches/scale/ab20_c013.in.jsonl",
+  "output": "distill/batches/scale/ab20_c013.out.jsonl",
+  "input_count": 20,
+  "output_count": 20,
+  "accepted_count": 20,
+  "rejected_count": 0,
+  "pass_rate": 1.0,
+  "missing_ids": [],
+  "accepted_ids": [
+    "cg_2981",
+    "cg_2982",
+    "cg_2988",
+    "cg_2990",
+    "cg_2993",
+    "cg_3012",
+    "cg_3016",
+    "cg_3017",
+    "cg_3019",
+    "cg_3022",
+    "cg_3026",
+    "cg_3030",
+    "cg_3031",
+    "cg_3035",
+    "cg_3038",
+    "cg_3047",
+    "cg_3049",
+    "cg_3054",
+    "cg_3056",
+    "cg_3065"
+  ],
+  "rejected": [],
+  "assistant_turns": 72,
+  "bubbles": 125,
+  "bubble_count": {
+    "1": 31,
+    "2": 29,
+    "3": 12
+  },
+  "bubble_len": {
+    "min": 5,
+    "avg": 13.0,
+    "max": 18
+  },
+  "turn_len": {
+    "min": 9,
+    "avg": 24.1,
+    "max": 53
+  },
+  "single_bubble_share": 0.4306,
+  "multi_bubble_share": 0.5694,
+  "emoji_turn_share": 0.1667,
+  "question_turn_share": 0.2639,
+  "cat_turn_share": 0.2639,
+  "user_changed": 21
+}

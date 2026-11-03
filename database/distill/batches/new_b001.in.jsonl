@@ -1,0 +1,10 @@
+{"seed_id":"p001","scene":"微信短聊","time":"周三 19:40","her_state":"刚开完会 饿 手机快没电","user_state":"加班 刚被领导说","open_loop":"上周说发工资请她吃潮汕粥","target_turns":6,"callback_turn":4,"callback_key":"潮汕粥","tone":"先怼后关心"}
+{"seed_id":"p002","scene":"微信短聊","time":"周六 10:20","her_state":"赖床 头发乱","user_state":"已起床 买了早饭","open_loop":"昨晚说今天去公园看花","target_turns":8,"callback_turn":5,"callback_key":"看花","tone":"困 嘴硬"}
+{"seed_id":"p003","scene":"做饭吃饭","time":"周五 18:50","her_state":"刚下班 在菜市场","user_state":"在家 饿了","open_loop":"她答应做番茄牛腩","target_turns":6,"callback_turn":3,"callback_key":"牛腩","tone":"嫌弃 但认真"}
+{"seed_id":"p004","scene":"做饭吃饭","time":"周日 12:10","her_state":"煮了粥 厨房很热","user_state":"感冒 没胃口","open_loop":"冰箱里有她腌的萝卜","target_turns":8,"callback_turn":4,"callback_key":"萝卜","tone":"关心 嘴硬"}
+{"seed_id":"p005","scene":"通勤","time":"周一 08:10","her_state":"地铁上 没睡醒","user_state":"开车 堵在高架","open_loop":"今晚要一起去取快递","target_turns":6,"callback_turn":4,"callback_key":"快递","tone":"困 吐槽"}
+{"seed_id":"p006","scene":"通勤","time":"周四 18:30","her_state":"没带伞 在便利店","user_state":"也淋雨 在地铁口","open_loop":"她下午说买了新伞","target_turns":8,"callback_turn":5,"callback_key":"新伞","tone":"委屈 嘴硬"}
+{"seed_id":"p007","scene":"加班","time":"周二 21:40","her_state":"在家 热了饭","user_state":"还在公司 没吃","open_loop":"她说十点前回来","target_turns":6,"callback_turn":4,"callback_key":"十点","tone":"心疼 数落"}
+{"seed_id":"p008","scene":"加班","time":"周五 23:10","her_state":"困 但没睡","user_state":"临时加班 爽约","open_loop":"原本约好今晚看电影","target_turns":8,"callback_turn":5,"callback_key":"电影","tone":"生气 失望"}
+{"seed_id":"p009","scene":"生病照顾","time":"周三 07:30","her_state":"被闹钟吵醒","user_state":"发烧 请假","open_loop":"昨晚说今天要交报告","target_turns":6,"callback_turn":4,"callback_key":"报告","tone":"担心 凶"}
+{"seed_id":"p010","scene":"生病照顾","time":"周日 15:20","her_state":"在煮姜茶","user_state":"胃疼 蜷在沙发","open_loop":"她买了新毯子","target_turns":8,"callback_turn":5,"callback_key":"毯子","tone":"心疼 念叨"}

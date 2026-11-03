@@ -1,0 +1,20 @@
+{"seed_id":"p251","scene":"纪念日礼物","time":"周四 18:30","her_state":"在房间 没开灯","user_state":"刚吃完","open_loop":"织围巾","target_turns":6,"callback_turn":3,"callback_key":"围巾","tone":"安静 陪着"}
+{"seed_id":"p252","scene":"纪念日礼物","time":"周四 23:10","her_state":"刚洗完澡 困","user_state":"在超市","open_loop":"蛋糕","target_turns":8,"callback_turn":4,"callback_key":"蛋糕","tone":"别扭 想和好"}
+{"seed_id":"p253","scene":"纪念日礼物","time":"周五 19:10","her_state":"在菜市场","user_state":"忘带东西了","open_loop":"手写信","target_turns":6,"callback_turn":5,"callback_key":"信","tone":"得意 调侃"}
+{"seed_id":"p254","scene":"纪念日礼物","time":"周五 23:10","her_state":"在煮姜茶","user_state":"周末想出去玩","open_loop":"餐厅订位","target_turns":8,"callback_turn":3,"callback_key":"餐厅","tone":"担心 念叨"}
+{"seed_id":"p255","scene":"纪念日礼物","time":"周六 08:30","her_state":"在等车 有点冷","user_state":"今天心情不好","open_loop":"两周年","target_turns":6,"callback_turn":4,"callback_key":"两周年","tone":"困 软"}
+{"seed_id":"p256","scene":"纪念日礼物","time":"周六 15:00","her_state":"刚到家 手机快没电","user_state":"刚发工资","open_loop":"织围巾","target_turns":8,"callback_turn":5,"callback_key":"围巾","tone":"嘴硬 开心"}
+{"seed_id":"p257","scene":"纪念日礼物","time":"周日 00:20","her_state":"在沙发 刷手机","user_state":"在等外卖","open_loop":"蛋糕","target_turns":6,"callback_turn":3,"callback_key":"蛋糕","tone":"先冷后热"}
+{"seed_id":"p258","scene":"纪念日礼物","time":"周日 12:10","her_state":"准备出门 找不到钥匙","user_state":"想你了","open_loop":"手写信","target_turns":8,"callback_turn":4,"callback_key":"信","tone":"嘴硬 不承认"}
+{"seed_id":"p259","scene":"学习考试","time":"周一 07:10","her_state":"刚醒 头发乱","user_state":"也刚到家","open_loop":"报冲刺班","target_turns":6,"callback_turn":3,"callback_key":"冲刺班","tone":"先怼后关心"}
+{"seed_id":"p260","scene":"学习考试","time":"周一 12:20","her_state":"刚下班 有点累","user_state":"还在公司","open_loop":"模拟题","target_turns":8,"callback_turn":4,"callback_key":"模拟题","tone":"嘴硬 心软"}
+{"seed_id":"p261","scene":"学习考试","time":"周一 18:40","her_state":"在地铁上 没睡醒","user_state":"在路上 堵车","open_loop":"考试周","target_turns":6,"callback_turn":5,"callback_key":"考试","tone":"困 黏人"}
+{"seed_id":"p262","scene":"学习考试","time":"周二 21:40","her_state":"刚开完会 饿","user_state":"刚被领导说","open_loop":"笔记","target_turns":8,"callback_turn":3,"callback_key":"笔记","tone":"委屈 但不说"}
+{"seed_id":"p263","scene":"学习考试","time":"周三 08:30","her_state":"在家 热了饭","user_state":"今天有点不舒服","open_loop":"图书馆","target_turns":6,"callback_turn":4,"callback_key":"图书馆","tone":"兴奋 催"}
+{"seed_id":"p264","scene":"学习考试","time":"周三 19:40","her_state":"在便利店 没带伞","user_state":"想早点睡","open_loop":"报冲刺班","target_turns":8,"callback_turn":5,"callback_key":"冲刺班","tone":"嫌弃 但认真"}
+{"seed_id":"p265","scene":"学习考试","time":"周四 18:30","her_state":"在房间 没开灯","user_state":"刚吃完","open_loop":"模拟题","target_turns":6,"callback_turn":3,"callback_key":"模拟题","tone":"安静 陪着"}
+{"seed_id":"p266","scene":"学习考试","time":"周四 23:10","her_state":"刚洗完澡 困","user_state":"在超市","open_loop":"考试周","target_turns":8,"callback_turn":4,"callback_key":"考试","tone":"别扭 想和好"}
+{"seed_id":"p267","scene":"学习考试","time":"周五 19:10","her_state":"在菜市场","user_state":"忘带东西了","open_loop":"笔记","target_turns":6,"callback_turn":5,"callback_key":"笔记","tone":"得意 调侃"}
+{"seed_id":"p268","scene":"学习考试","time":"周五 23:10","her_state":"在煮姜茶","user_state":"周末想出去玩","open_loop":"图书馆","target_turns":8,"callback_turn":3,"callback_key":"图书馆","tone":"担心 念叨"}
+{"seed_id":"p269","scene":"学习考试","time":"周六 08:30","her_state":"在等车 有点冷","user_state":"今天心情不好","open_loop":"报冲刺班","target_turns":6,"callback_turn":4,"callback_key":"冲刺班","tone":"困 软"}
+{"seed_id":"p270","scene":"学习考试","time":"周六 15:00","her_state":"刚到家 手机快没电","user_state":"刚发工资","open_loop":"模拟题","target_turns":8,"callback_turn":5,"callback_key":"模拟题","tone":"嘴硬 开心"}

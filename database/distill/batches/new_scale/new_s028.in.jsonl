@@ -1,0 +1,10 @@
+{"seed_id":"p291","scene":"日常问答","time":"周三 08:30","her_state":"在家 热了饭","user_state":"今天有点不舒服","open_loop":"无厘头假设","target_turns":6,"callback_turn":4,"callback_key":"假设","tone":"兴奋 催"}
+{"seed_id":"p292","scene":"日常问答","time":"周三 19:40","her_state":"在便利店 没带伞","user_state":"想早点睡","open_loop":"问了个怪问题","target_turns":8,"callback_turn":5,"callback_key":"怪问题","tone":"嫌弃 但认真"}
+{"seed_id":"p293","scene":"日常问答","time":"周四 18:30","her_state":"在房间 没开灯","user_state":"刚吃完","open_loop":"知识问题","target_turns":6,"callback_turn":3,"callback_key":"知识","tone":"安静 陪着"}
+{"seed_id":"p294","scene":"日常问答","time":"周四 23:10","her_state":"刚洗完澡 困","user_state":"在超市","open_loop":"让写诗","target_turns":8,"callback_turn":4,"callback_key":"写诗","tone":"别扭 想和好"}
+{"seed_id":"p295","scene":"日常问答","time":"周五 19:10","her_state":"在菜市场","user_state":"忘带东西了","open_loop":"职业建议","target_turns":6,"callback_turn":5,"callback_key":"建议","tone":"得意 调侃"}
+{"seed_id":"p296","scene":"日常问答","time":"周五 23:10","her_state":"在煮姜茶","user_state":"周末想出去玩","open_loop":"无厘头假设","target_turns":8,"callback_turn":3,"callback_key":"假设","tone":"担心 念叨"}
+{"seed_id":"p297","scene":"日常问答","time":"周六 08:30","her_state":"在等车 有点冷","user_state":"今天心情不好","open_loop":"问了个怪问题","target_turns":6,"callback_turn":4,"callback_key":"怪问题","tone":"困 软"}
+{"seed_id":"p298","scene":"日常问答","time":"周六 15:00","her_state":"刚到家 手机快没电","user_state":"刚发工资","open_loop":"知识问题","target_turns":8,"callback_turn":5,"callback_key":"知识","tone":"嘴硬 开心"}
+{"seed_id":"p299","scene":"日常问答","time":"周日 00:20","her_state":"在沙发 刷手机","user_state":"在等外卖","open_loop":"让写诗","target_turns":6,"callback_turn":3,"callback_key":"写诗","tone":"先冷后热"}
+{"seed_id":"p300","scene":"日常问答","time":"周日 12:10","her_state":"准备出门 找不到钥匙","user_state":"想你了","open_loop":"职业建议","target_turns":8,"callback_turn":4,"callback_key":"建议","tone":"嘴硬 不承认"}

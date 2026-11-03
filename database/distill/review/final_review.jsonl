@@ -1,0 +1,92 @@
+{"id": "cg_0002", "severity": "major", "category": "human", "issue": "human 是让 AI 写对话的指令，还自称有丈夫，与男性用户设定冲突", "evidence": "我想跟我丈夫商量假期的计划，请帮我写一段对话表达这个意思", "suggestion": "单点 fix：改写 human 或弃用该 NekoQA 行"}
+{"id": "cg_0006", "severity": "major", "category": "order", "issue": "末条突然冒出“糖咱自己放”，前文没有糖/甜品锚点，语义接不上", "evidence": "碗用蓝边那两个 糖咱自己放 水电费记得交", "suggestion": "单点 fix：删掉“糖咱自己放”或补锚点"}
+{"id": "cg_0024", "severity": "minor", "category": "distribution", "issue": "short 档单条气泡 19/26 字，超 18 字上限，第三条接近整轮上限", "evidence": "天上那么大一片地方 它偏偏挑坑坑洼洼的落", "suggestion": "单点 fix：拆短"}
+{"id": "cg_0025", "severity": "minor", "category": "distribution", "issue": "4 个气泡、整轮 68 字，按 short 上限为 3 条/60 字；若定 long 需显式记录", "evidence": "星辰号 像星星一样在宇宙里发亮", "suggestion": "接受（按 long）或压成 3 条"}
+{"id": "cg_0026", "severity": "minor", "category": "fragment", "issue": "“说岔了 你衬衫我就扔”语义残缺，读者难以还原威胁对象", "evidence": "说岔了 你衬衫我就扔 喵", "suggestion": "单点 fix"}
+{"id": "cg_0030", "severity": "minor", "category": "factual", "issue": "“会淋病”读成性病双关，出戏", "evidence": "不行 会淋病", "suggestion": "单点 fix：改成“会淋感冒”"}
+{"id": "cg_0038", "severity": "major", "category": "persona", "issue": "human 以“你的回复/反馈”元提问，像在跟 AI 说话；回复也没有小咪口吻", "evidence": "我能对你的回复表达观点或反驳吗？还不是指导或反馈", "suggestion": "重生成或弃用该 NekoQA 行"}
+{"id": "cg_0047", "severity": "major", "category": "human", "issue": "human 是女性化傲娇台词，用户角色反转，不像男性用户微信", "evidence": "才不是想和你看电影呢！只是...电影院空调太冷，需要你挡风！", "suggestion": "单点 fix：改成普通男性口吻"}
+{"id": "cg_0055", "severity": "minor", "category": "factual", "issue": "土里埋一年的耳机还问“还有电吗”，不合常理", "evidence": "就是那只 泥擦干净了 还有电吗？", "suggestion": "单点 fix：改成“还能响吗/扔了吧”"}
+{"id": "cg_0069", "severity": "major", "category": "order", "issue": "human 问“你今天出门吗”，首条气泡完全不接，直接反问晚饭", "evidence": "还有百分之四十，够撑到公司了。你今天出门吗？", "suggestion": "单点 fix：补一句应答再转晚饭"}
+{"id": "cg_0070", "severity": "minor", "category": "order", "issue": "同一轮先“信你一次”又“真的假的”，态度自相矛盾；“教你个知识”像 AI 口吻", "evidence": "信你一次😤 真的假的？", "suggestion": "单点 fix"}
+{"id": "cg_0072", "severity": "major", "category": "order", "issue": "前一条拒绝买伞，下一条又问“最便宜的在哪边”，买/不买前后矛盾", "evidence": "买什么 新伞说好一起用的🥺 …… 最便宜的在哪边？", "suggestion": "单点 fix：删掉问价或改成借伞"}
+{"id": "cg_0078", "severity": "minor", "category": "persona", "issue": "“我家楼上”把同居设定说成两家", "evidence": "我家楼上也这样 半夜叮叮当当喵", "suggestion": "单点 fix：改“咱家”"}
+{"id": "cg_0083", "severity": "major", "category": "order", "issue": "human 要“发廊开幕致词”，回复只有两句闲聊式祝贺，没有交出致词", "evidence": "写一段发廊的开幕致词 / 恭喜开业 手艺我最清楚", "suggestion": "重生成或弃用该行"}
+{"id": "cg_0086", "severity": "minor", "category": "cot", "issue": "CoT 写“嘴硬应一声”，正文却直接软下来，CoT 与正文不符", "evidence": "想抱就抱 我心跳也乱了🥺", "suggestion": "单点 fix CoT 或正文"}
+{"id": "cg_0095", "severity": "minor", "category": "order", "issue": "“开到七点半”后突然“鱼还没挑”，与开会场景不衔接", "evidence": "开到七点半 鱼还没挑😂 你等着吧", "suggestion": "单点 fix："}
+{"id": "cg_0110", "severity": "minor", "category": "fragment", "issue": "“我待不住呢”语义含糊，不像完整回应", "evidence": "谁要你陪 我待不住呢", "suggestion": "单点 fix"}
+{"id": "cg_0111", "severity": "minor", "category": "fragment", "issue": "开头“三天？”没有前文锚点，human 并未提三天", "evidence": "三天？上上周六就让你扔旧球鞋", "suggestion": "单点 fix：删掉或补锚点"}
+{"id": "cg_0114", "severity": "major", "category": "persona", "issue": "“你回去吧”把同居男友写成客人，直接违背 system 的同居设定", "evidence": "嗯 你回去吧🥺", "suggestion": "单点 fix：改成回房间/去忙"}
+{"id": "cg_0117", "severity": "major", "category": "order", "issue": "human 用“请您”点单式请求小说结尾，回复只有一句含糊断语，未交付结尾", "evidence": "请您提供一个具有心理紧张感的短篇小说结尾。 / 门一关上 全是她自己吓自己", "suggestion": "重生成或弃用该行"}
+{"id": "cg_0124", "severity": "minor", "category": "other", "issue": "“白起这么早”疑为“白起/白早起”笔误，读着像人名", "evidence": "那你早点说啊 白起这么早", "suggestion": "单点 fix"}
+{"id": "cg_0132", "severity": "minor", "category": "distribution", "issue": "short 档第二条 19 字，略超 18 字上限", "evidence": "记下每天花了什么 分清必须和能省的", "suggestion": "单点 fix：删两字"}
+{"id": "cg_0147", "severity": "minor", "category": "order", "issue": "数学问题用“你说是就是”打发，没给任何有效信息", "evidence": "我脑子打结了 你说是就是", "suggestion": "单点 fix：改说不会但可查"}
+{"id": "cg_0191", "severity": "minor", "category": "order", "issue": "“记着就赶紧发”指代不清，工资不是他能说发就发的", "evidence": "记着就赶紧发 行吗", "suggestion": "单点 fix：改成“记着就行”"}
+{"id": "cg_0220", "severity": "minor", "category": "order", "issue": "没回答网友为何批评，只把批评者比作怪兽，答非所问", "evidence": "说不行的 像不喜欢小鱼干的怪兽", "suggestion": "接受（闲聊式站队）或补一句理由"}
+{"id": "cg_0245", "severity": "minor", "category": "scene_source", "issue": "scene 标“起床”，内容是晚上在超市买土、准备睡觉", "evidence": "在超市 要带什么吗 / 咱先睡了", "suggestion": "单点 fix：改 scene 或重标"}
+{"id": "cg_0258", "severity": "minor", "category": "distribution", "issue": "short 档第三条气泡 26 字，超 18 字上限", "evidence": "要么是小精灵在玩捉迷藏 本喵趴下去找 找到给它系个铃铛", "suggestion": "单点 fix：拆成两条"}
+{"id": "cg_0265", "severity": "minor", "category": "order", "issue": "只纠正“蚊子生蛆”，没回答蛆里有没有人类基因", "evidence": "蚊子不直接生蛆 先下卵变孑孓", "suggestion": "单点 fix：补一句基因不转移"}
+{"id": "cg_0291", "severity": "major", "category": "order", "issue": "“我明天重新种上”没有前文锚点，不知道种的是什么；后文“挖靠墙根”才补出种植语境", "evidence": "那你不生气了？我明天重新种上", "suggestion": "单点 fix：在本行前文补植物锚点或删掉这句"}
+{"id": "cg_0322", "severity": "minor", "category": "factual", "issue": "human 只说“骨头缝都酸”，回复却引成“还叫有点冷”，引文对不上", "evidence": "三十七度八还叫有点冷 体温计我校准过", "suggestion": "单点 fix：改成“还说不严重”"}
+{"id": "cg_0342", "severity": "minor", "category": "order", "issue": "human 在哭诉被打，回复“别急着说没事”接错了话，他没说过没事", "evidence": "别急着说没事 让我看看哪儿破了😭", "suggestion": "单点 fix：改成先安抚/问伤"}
+{"id": "cg_0347", "severity": "minor", "category": "fragment", "issue": "“退热贴吃完给你贴”读成吃退热贴，语序歧义", "evidence": "退热贴吃完给你贴", "suggestion": "单点 fix：改成“吃完药给你贴”"}
+{"id": "cg_0353", "severity": "minor", "category": "order", "issue": "对话发生在十二点二十，human 却问“下午能溜出来吗”，时间线跳脱", "evidence": "下午能溜出来吗", "suggestion": "单点 fix：改成“明天能溜出来吗”"}
+{"id": "cg_0365", "severity": "minor", "category": "order", "issue": "human 回“不喂，就看看”，但前文没有“喂什么”的锚点，接不上", "evidence": "不喂，就看看。我带上相机。", "suggestion": "单点 fix：补一句“不喂蚊子”或删掉"}
+{"id": "cg_0400", "severity": "minor", "category": "order", "issue": "他让“你快去睡”，她回“你先睡我才睡”，可活是他干的，逻辑打结", "evidence": "你先睡我才睡", "suggestion": "单点 fix：改成“你弄完我就睡”"}
+{"id": "cg_0418", "severity": "minor", "category": "factual", "issue": "考试是明天，末条却说“明晚考场门口等”，时间说错", "evidence": "咱明晚考场门口等", "suggestion": "单点 fix：改“明天”"}
+{"id": "cg_0441", "severity": "minor", "category": "fragment", "issue": "“才不是什么使者”没有前文锚点，接不住“保护费”这句玩笑", "evidence": "才不是什么使者", "suggestion": "单点 fix：删掉或改成“保护费就这点”"}
+{"id": "cg_0447", "severity": "minor", "category": "order", "issue": "“碎了才叫潮流”突然提到摔碎，前文没有手机/杯子被摔的锚点", "evidence": "碎了才叫潮流是吧", "suggestion": "单点 fix：补锚点或删"}
+{"id": "cg_0459", "severity": "major", "category": "factual", "issue": "human 忘带钥匙被锁门外，她在菜市场却让他“先把门开了”，物理上不可能", "evidence": "先把门开了 手柄零件我顺路取了", "suggestion": "单点 fix：改成“我这就回去开”"}
+{"id": "cg_0461", "severity": "minor", "category": "order", "issue": "只回“跟汉语没关系 那是英语”，没解释构词，又突然跳到古代货币", "evidence": "跟汉语没关系 那是英语 古代人用铜钱银子 你讲讲以前怎么买？", "suggestion": "接受（闲聊）或补一句解释"}
+{"id": "cg_0485", "severity": "minor", "category": "fragment", "issue": "“你照照右边那盆”用词别扭，应是“看看/照看”", "evidence": "你照照右边那盆 看清了吗", "suggestion": "单点 fix：改“看看”"}
+{"id": "cg_0520", "severity": "minor", "category": "fragment", "issue": "“没有就打车 地铁还有吗”主语缺失，读着像半句话", "evidence": "没有就打车 地铁还有吗", "suggestion": "单点 fix：改“没地铁就打车”"}
+{"id": "cg_0569", "severity": "major", "category": "order", "issue": "human 突然说“我吃，肯定吃”，但前文没提饭/吃，缺一个过渡锚点", "evidence": "我吃，肯定吃。做的什么？", "suggestion": "单点 fix：补“饭在锅里”之类锚点"}
+{"id": "cg_0574", "severity": "minor", "category": "distribution", "issue": "两条气泡各 30/29 字，整轮 59 字：既超 short 单条 18 字，又不到 long 的 60 字下限", "evidence": "最常见的误解是把幸福当成拥有很多 一屋子东西和小鱼干 其实东西会腻", "suggestion": "重生成：压成 short 或补到 long"}
+{"id": "cg_0598", "severity": "minor", "category": "order", "issue": "“可你输了还有人在等你”人称错位：跑最后一名的是她，不是他", "evidence": "可你输了还有人在等你 我记了好多年", "suggestion": "单点 fix：改“可我输了”"}
+{"id": "cg_0600", "severity": "major", "category": "near_duplicate", "issue": "human 与 cg_0541 逐字相同，两行只差回复，属近似重复样本", "evidence": "呐，我喜欢你，你会“接受”吗？", "suggestion": "单点 fix：删一行或改写 human"}
+{"id": "cg_0614", "severity": "minor", "category": "order", "issue": "human 问的是“女儿没遗传我的性别”，回复却拿“长得不像爸妈”来解释，答偏了", "evidence": "孩子不像爸妈也正常 慌啥？", "suggestion": "单点 fix：改说子女性别由父亲精子决定"}
+{"id": "cg_0616", "severity": "major", "category": "order", "issue": "两条线被拼在一起：“她第八集就下线”没有前文，human 突然说“洗衣机我都不会开”，洗衣机话题凭空出现", "evidence": "你现在才知道她第八集就下线 …… 不许 洗衣机我都不会开", "suggestion": "重生成：保留一条主线，补齐锚点"}
+{"id": "cg_0675", "severity": "minor", "category": "order", "issue": "“八点半？”没有前文锚点，human 只说答辩过了第一个告诉你，没提时间", "evidence": "八点半？那个点咱本来就醒着", "suggestion": "单点 fix：删掉或补答辩时间"}
+{"id": "cg_0701", "severity": "minor", "category": "fragment", "issue": "“我假设你再吹风”搭配不通，像半截翻译腔", "evidence": "我假设你再吹风 又烧起来怎么办？", "suggestion": "单点 fix：改“要是你再吹风”"}
+{"id": "cg_0718", "severity": "minor", "category": "order", "issue": "human 问“大家为什么要玩他”，回复只报诗句和生卒梗，没回答被调侃的原因", "evidence": "元稹啊 写曾经沧海难为水那个", "suggestion": "单点 fix：补一句元稹情史被玩梗"}
+{"id": "cg_0730", "severity": "minor", "category": "factual", "issue": "human 只说“好像有点发烧”，回复直接报“三十七度八”，前文没量体温", "evidence": "三十七度八 躺着别动", "suggestion": "单点 fix：改成“量了没”或补量体温动作"}
+{"id": "cg_0758", "severity": "minor", "category": "fragment", "issue": "“我哪样了？”没有前文触发，human 只说自己热饭", "evidence": "中火两分钟 别用高火 我哪样了？", "suggestion": "单点 fix：删掉"}
+{"id": "cg_0772", "severity": "minor", "category": "fragment", "issue": "“别出门前说下次带你去”语序乱，意思读不出来", "evidence": "别出门前说下次带你去", "suggestion": "单点 fix：改成“别每次都说下次带我去”"}
+{"id": "cg_0815", "severity": "minor", "category": "order", "issue": "突然冒出“两千八够买烤箱”，前文没有两千八这个数，锚点缺失", "evidence": "谁上心了 两千八够买烤箱😭", "suggestion": "单点 fix：补报名费/课程费锚点"}
+{"id": "cg_0831", "severity": "minor", "category": "factual", "issue": "前面说“一个人看不下去”，结尾又说“结局我昨天看过了”，前后矛盾", "evidence": "墓地那段太黑了 一个人看不下去 …… 结局我昨天看过了", "suggestion": "单点 fix：改成“听你讲过”"}
+{"id": "cg_0838", "severity": "minor", "category": "order", "issue": "human 突然说“当然记得”，但她上一句没问他记不记得，接不上", "evidence": "当然记得。要不去完海洋馆再吃顿好的？", "suggestion": "单点 fix：改成“那说定了”"}
+{"id": "cg_0875", "severity": "minor", "category": "factual", "issue": "human 只说“感觉有点烧”，回复直接报“三十八度六”，前文没量体温", "evidence": "三十八度六 药过期了 我下楼买😭", "suggestion": "单点 fix：补量体温或改“摸着很烫”"}
+{"id": "cg_0940", "severity": "minor", "category": "order", "issue": "human 在讲科幻设定，回复完全不接，只回了句情话", "evidence": "虚拟再热闹 也没你怀里好❤️", "suggestion": "单点 fix：先接一句设定再撒娇"}
+{"id": "cg_0950", "severity": "minor", "category": "order", "issue": "human 问猫爬架上的灰，回复突然转到衬衫油点，答非所问", "evidence": "衬衫油点我泡一晚上了", "suggestion": "单点 fix：补一句猫爬架再转"}
+{"id": "cg_0959", "severity": "major", "category": "persona", "issue": "human 是露骨性暗示且角色错乱，回复只会装听不懂，整行不宜进女友语料", "evidence": "你怎么不早说你有J8害得我日了你半天", "suggestion": "重生成或直接删行"}
+{"id": "cg_0963", "severity": "blocker", "category": "human", "issue": "human 整条是括号动作旁白“（递热水袋，顺手盖毯子）”，不是可发送的微信消息", "evidence": "（递热水袋，顺手盖毯子）", "suggestion": "单点 fix：改成口语“热水袋给你 毯子也盖上”"}
+{"id": "cg_0963", "severity": "major", "category": "order", "issue": "human 只是递热水袋，回复却说“谢什么谢”，在回应不存在的道谢", "evidence": "谢什么谢 喵 盖着吧 还要什么？🥺", "suggestion": "单点 fix：改成“盖着吧 还要什么”"}
+{"id": "cg_0967", "severity": "minor", "category": "fragment", "issue": "“木马病毒/生死簿”被答成“老鼠我有点怕”，木马与老鼠无关联，答非所问", "evidence": "本喵听不懂 老鼠我有点怕", "suggestion": "单点 fix：改成“生死簿我可黑不动”"}
+{"id": "cg_0993", "severity": "minor", "category": "factual", "issue": "“六个你吃仨 我才三个半”加起来 6.5 个，数量对不上", "evidence": "六个你吃仨 我才三个半", "suggestion": "单点 fix：改成“我才两个半”"}
+{"id": "cg_1068", "severity": "minor", "category": "order", "issue": "human 突然说“还真有伞”，但前文她只提了骑车，没提塞伞，缺锚点", "evidence": "还真有伞，你也太靠谱了吧。", "suggestion": "单点 fix：前一条补“伞也塞你包里了”"}
+{"id": "cg_1074", "severity": "minor", "category": "fragment", "issue": "“右边那颗牙疼 怎么不说？”人称绕，像她在反问他又像自言自语", "evidence": "右边那颗牙疼 怎么不说？", "suggestion": "单点 fix：改成“右边那颗牙 疼好几天了”"}
+{"id": "cg_1078", "severity": "minor", "category": "fragment", "issue": "末条突然冒出“凉拌面别买好吗”，前文没有买面的话题", "evidence": "本喵睡不着🥺 凉拌面别买好吗", "suggestion": "单点 fix：删掉或补站台买面的锚点"}
+{"id": "cg_1094", "severity": "minor", "category": "order", "issue": "human 问真空为何不能运行电脑，回复只用“怕吸尘器”岔开，没给原因", "evidence": "别问真空了 吸尘器已经够吓人", "suggestion": "单点 fix：补一句“没有空气散热”"}
+{"id": "cg_1126", "severity": "minor", "category": "fragment", "issue": "“昨晚马上就好跑了九十分钟”语序乱，读不通", "evidence": "五分钟？昨晚马上就好跑了九十分钟", "suggestion": "单点 fix：改成“昨晚说马上就好 结果跑了九十分钟”"}
+{"id": "cg_1127", "severity": "minor", "category": "order", "issue": "human 只是请喝奶茶，回复“谁是你老婆”在回应不存在的称呼", "evidence": "谁是你老婆 少乱叫😤", "suggestion": "单点 fix：改成“谁要你的奶茶”"}
+{"id": "cg_1181", "severity": "minor", "category": "repetition", "issue": "同一会话里两次派“沙发猫毛你自己粘”，第二次几乎原样重复", "evidence": "沙发猫毛你自己粘 …… 猫毛你自己粘 会吗 沙发归你", "suggestion": "单点 fix：第二次改成验收口吻"}
+{"id": "cg_1212", "severity": "minor", "category": "fragment", "issue": "“本喵盯着你睡的”与视频会语境不搭，读不通", "evidence": "那当然 本喵盯着你睡的", "suggestion": "单点 fix：改“本喵在旁边盯着呢”"}
+{"id": "cg_1251", "severity": "minor", "category": "factual", "issue": "十二指肠指十二个手指宽度，不是“十二根手指并排”", "evidence": "是十二根手指并排 不是拿手去量", "suggestion": "单点 fix：改“十二个手指宽”"}
+{"id": "cg_1259", "severity": "minor", "category": "factual", "issue": "human 只说嗓子疼，回复直接报“三十七度五”，前文没量体温", "evidence": "三十七度五 还嘴硬说没事😤", "suggestion": "单点 fix：补量体温或改“摸着有点烫”"}
+{"id": "cg_1296", "severity": "minor", "category": "fragment", "issue": "“我也累 你呢”把刚说过的话又反问回去，语义空转", "evidence": "我也累 你呢", "suggestion": "单点 fix：改“我也累 想早点回去”"}
+{"id": "cg_1300", "severity": "minor", "category": "order", "issue": "human 突然说“吃了”，前文没人问吃饭，接不上；后半句才转“别站风口”", "evidence": "吃了 你别站风口", "suggestion": "单点 fix：删掉“吃了”或补吃饭话题"}
+{"id": "cg_1301", "severity": "minor", "category": "order", "issue": "human 问刘备为何给儿子起“阿斗”这种名，回复反问“阿斗是谁”，没解释这是小名", "evidence": "阿斗是谁 你又在看打仗的书", "suggestion": "单点 fix：补一句“阿斗是小名 本名刘禅”"}
+{"id": "cg_1327", "severity": "minor", "category": "fragment", "issue": "“伞是你自己拎进去的”前文没有伞，突然插入，接不上", "evidence": "伞是你自己拎进去的", "suggestion": "单点 fix：删掉"}
+{"id": "cg_1330", "severity": "minor", "category": "order", "issue": "human 说“给你带牛奶”，回复“谁偷喝了”在回应不存在的指责", "evidence": "谁偷喝了 那是你剩的", "suggestion": "单点 fix：改成“牛奶不用带”"}
+{"id": "cg_1374", "severity": "minor", "category": "factual", "issue": "9mm 手枪当然能致命，回复顺着“枪没拇指大”的错误前提说打不过人", "evidence": "这么点东西 真打不过人", "suggestion": "单点 fix：改说口径小也危险"}
+{"id": "cg_1397", "severity": "major", "category": "factual", "issue": "插板起火教“拿湿毛巾盖住”，湿布导电，是危险处置", "evidence": "拔插头 拿湿毛巾盖住 然后去阳台", "suggestion": "单点 fix：改成干粉灭火器/厚棉被，并先断电"}
+{"id": "cg_1414", "severity": "minor", "category": "factual", "issue": "“酸梅汤两杯少冰 我不喝冰的”前后矛盾", "evidence": "酸梅汤两杯少冰 我不喝冰的", "suggestion": "单点 fix：改“两杯常温”"}
+{"id": "cg_1433", "severity": "major", "category": "order", "issue": "human 在练新人培训演讲，回复全程在讲游戏二段跳/选关，两条线完全拼错", "evidence": "你非要蓄力 跟木桩似的 …… 咱选第三关 全是水的", "suggestion": "重生成：按演讲练习线重写"}
+{"id": "cg_1497", "severity": "minor", "category": "order", "issue": "问河蚌为何不能陆生，回复只说蜗牛能背壳走，没解释河蚌的鳃/失水问题，也没管螃蟹蝎子", "evidence": "大概是蜗牛能背着壳走 河蚌不行喵", "suggestion": "单点 fix：补一句靠鳃呼吸、离水会干"}
+{"id": "cg_1508", "severity": "minor", "category": "order", "issue": "human 突然说“不淡不淡”，前文没人提味道淡，接不上", "evidence": "不淡不淡，正好，我把碗洗了吧。", "suggestion": "单点 fix：删掉“不淡不淡”"}
+{"id": "cg_1531", "severity": "minor", "category": "factual", "issue": "“发霉那点我切掉吃了”是不安全的示范，霉变食物切掉也不该吃", "evidence": "发霉那点我切掉吃了", "suggestion": "单点 fix：改成“整盒扔了”"}
+{"id": "cg_1563", "severity": "minor", "category": "distribution", "issue": "两条气泡 28/30 字、整轮 58 字：超 short 单条 18 字，又不到 long 的 60 字下限", "evidence": "春天写花香 夏天写阳光晒在背上的温度 秋天写落叶踩碎的声音", "suggestion": "重生成：拆成 3 条或补到 long"}
+{"id": "cg_1619", "severity": "minor", "category": "fragment", "issue": "“哈哈 不是 我是心疼你”语义断裂，不知道在否定什么", "evidence": "哈哈 不是 我是心疼你", "suggestion": "单点 fix：改成“不是笑你 我是心疼你”"}
+{"id": "cg_1648", "severity": "minor", "category": "factual", "issue": "human 只说“好像发烧”，回复直接报“三十八度二”，前文没量体温", "evidence": "三十八度二 还说没事", "suggestion": "单点 fix：补量体温或改“摸着烫”"}
+{"id": "cg_1657", "severity": "minor", "category": "order", "issue": "human 问“海绵你是不是海绵体”，回复跳到“住菠萝屋的黄海绵”，前文没有海绵宝宝语境", "evidence": "本喵说的是住菠萝屋那块黄海绵", "suggestion": "单点 fix：先答不是再岔开"}
+{"id": "GLOBAL", "severity": "major", "category": "distribution", "issue": "场景分布偏斜：微信短聊仅 16/1667（约 1%），远低于 SPEC 对新会话 25–35% 的建议；300 条新会话被摊到 20 个场景", "evidence": "微信短聊 16 行；日常问答 573 行；distill_new 300 行", "suggestion": "改 prompt/补采：集中补微信短聊，或书面接受该偏差"}

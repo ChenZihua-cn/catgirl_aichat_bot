@@ -105,7 +105,7 @@ Linux 产物位于 `catgirl/src-tauri/target/release/bundle/`，默认生成 deb
 - **外观与行为**：字体大小、立绘透明度、动画开关、空闲自动收起时间。
 - **清除聊天记录**：只删除本机历史，不影响模型。
 
-人设原文来自 [`database/catgirl_dataset/system_prompt.txt`](database/catgirl_dataset/system_prompt.txt)，客户端推理直接使用这份文本。
+人设原文来自 [`database/system_prompt.txt`](database/system_prompt.txt)，客户端推理直接使用这份文本。
 
 ### 常见问题
 
@@ -153,7 +153,7 @@ export HF_HUB_DISABLE_XET=1                   # 镜像不代理 Xet 通道
 hf download Qwen/Qwen3.5-4B-Base --local-dir "$MODEL_ROOT/Qwen3.5-4B-Base"
 ```
 
-权重和数据集都放在仓库外，不入库。
+权重和图文数据集放在仓库外，不入库；人设语料在 `database/`。
 
 ### 训练配置
 
@@ -177,12 +177,12 @@ hf download Qwen/Qwen3.5-4B-Base --local-dir "$MODEL_ROOT/Qwen3.5-4B-Base"
 
 ### 数据
 
-**人设语料** [`database/qwen_catgirl_ft/train.jsonl`](database/qwen_catgirl_ft/train.jsonl)：565 条、16 个场景标签均衡、2–6 轮、gpt 回复 50–200 字、固定 system（340 字，各条逐字一致）。纯对话文本 218,663 token / 整文件 JSONL 258,148 token，单条最长 737 字，ctx 2048 足够且不需要 packing。
+**人设语料** [`database/train.jsonl`](database/train.jsonl)：1,652 条微信短聊。assistant 回复按气泡组织，气泡之间用 `\n\n`（Qwen3.5 单 token，id 271）连接；1–4 个气泡，单气泡占 41.96%、双 41.30%、三 16.60%、四 0.14%；emoji 18.5%、问句结尾 26.5%、猫娘口癖 23.26%、`long` 4.0%。来源为 A/B 改写 801、NekoQA 551、新写会话 300，覆盖 20 个中文场景；固定 system 740 字，各条逐字一致。每条另有一条 8–24 字的隐藏 CoT（平均 10.9；规则允许 8–40），对应最后一条 gpt 回复，字段为顶层 `cot`；NekoQA 已压到 33.35%，低于 40% 上限。CoT 由 `finetune/mix_dataset.py` 编码成 Qwen3.5 的 `<think>` 段，客户端只显示正文。
 
-格式与人设规范见 [`database/qwen_catgirl_ft/README.md`](database/qwen_catgirl_ft/README.md)、[`SPEC.md`](database/qwen_catgirl_ft/SPEC.md)。校验：
+格式、气泡规则与场景标签见 [`database/README.md`](database/README.md)、[`SPEC.md`](database/SPEC.md)。重建与校验（确定性 seed=42，会重写 `train.jsonl`；缺 CoT 的候选会被明确丢弃并打印数量）：
 
 ```bash
-python database/qwen_catgirl_ft/tools/validate.py
+python3 database/tools/build_wechat.py --from accepted --drop-missing-cot
 ```
 
 **图文锚点**：为防止纯文本 SFT 改掉视觉通路，另使用三个仓库外数据集（合计约 4.2GB）：
@@ -193,10 +193,10 @@ python database/qwen_catgirl_ft/tools/validate.py
 | `LLaVA-OneVision-Data/llava_wild_4v_12k_filtered` | 0.49GB / 7,562 条 | 单图 image struct + conversations |
 | `LLaVA-OneVision-Data/ureader_cap` | 2.29GB / 4,813 条 | 仓库标 `language:zh`，实测 0% 含中文 |
 
-**图文混采** [`finetune/mix_dataset.py`](finetune/mix_dataset.py) 把人设文本与图文行归一成一个 encoding：`input_ids / labels / attention_mask / mm_token_type_ids / pixel_values / image_grid_thw`，assistant-only loss，按轮次粒度截断，`--ratio` 控制图文占比（默认 33%）。
+**图文混采** [`finetune/mix_dataset.py`](finetune/mix_dataset.py) 把人设文本与图文行归一成一个 encoding：`input_ids / labels / attention_mask / mm_token_type_ids / pixel_values / image_grid_thw`，assistant-only loss，按轮次粒度截断，`--ratio` 控制图文占比（默认 33%）。它会把文本行的 `cot` 按 Qwen3.5 `<think>` 模板编码，开头 `<think>\n` 不监督。
 
 ```bash
-python finetune/mix_dataset.py --text batches --text-cap 60 --image-cap 20
+python finetune/mix_dataset.py --text merged --text-cap 60 --image-cap 20
 ```
 
 `persona_hook()` 目前是恒等函数，图文答案保持原文。中文图文数据和训练入口仍未定稿。
@@ -207,9 +207,7 @@ python finetune/mix_dataset.py --text batches --text-cap 60 --image-cap 20
 |---|---|
 | `catgirl/` | Tauri + TypeScript 桌面客户端 |
 | `catgirl/docs/demo.gif` | 桌面端演示 |
-| `database/qwen_catgirl_ft/` | 当前训练集，565 条 shareGPT JSONL、校验脚本和格式规范 |
-| `database/catgirl_dataset/` | 上一版语料（360 条）与桌面端使用的人设原文 |
-| `database/NekoQA-10K.json` | 更早的外源数据集引用 |
+| `database/` | 唯一训练集（1,652 条微信短聊）、蒸馏/合并管道、原始数据归档 |
 | `finetune/` | 图文混采与格式转换管道 |
 | `modelfiles/` | 旧版 Ollama Modelfile，桌面端已不使用 |
 | `AGENTS.md` | 窗口实现、数据陷阱、实测记录等开发笔记 |

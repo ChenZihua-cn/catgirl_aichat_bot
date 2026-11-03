@@ -64,7 +64,7 @@
 
 ## 数字的出处
 
-`database/qwen_catgirl_ft/README.md` 末尾的 LLaMA-Factory 参数是按**单卡 24G / lora_rank 32 / bsz 4**写的，和本仓库 8GB / r=16 / bsz 1 的方案不是一回事。抄之前先确认卡。以根 README 的「基座」与「训练配置」为准。
+`database/README.md` 已把训练建议指回根 README；旧的 **单卡 24G / lora_rank 32 / bsz 4** LLaMA-Factory 参数只留在 git 历史里。抄之前先确认卡，以根 README 的「基座」与「训练配置」为准。
 
 ## 事实与措辞纪律
 
@@ -130,9 +130,53 @@
 - 右键菜单已删；四张 mood 图已预加载接线。
 - **未自动化**：托盘图标本身的左/右键和托盘菜单三项（AppIndicator 不是 X11 窗口，XTest 点不到），仍需人工验收。不要把"二次实例恢复已实测"写成"托盘菜单已实测"。
 
+2026-10-29：
+
+- **三源合并**：`database/` 成为唯一训练目录。原始 10,991 条 → 3,228 条（A 244/360、B 565/565、NekoQA 2,419/10,066）；5,375 条 gpt 回复、19 个场景、50–200 字；Qwen3.5-4B-Base 分词器计整文件 2,161,887 token（含 CoT）、纯对话 1,867,574 token。
+- **NekoQA 不是日常聊天**：它是「猫娘问答」库（百科/写诗/职业建议/无厘头假设），清洗只能去格式垃圾。丢弃分布：长度 6,501、instruction 长度 505、角色错位 280、元提问 254、名字泄漏 52、禁用词 35、空行 14、残留占位 4、用户猫腔 2。入集仍占 74.9%，全库 62.5% 回复带猫娘口吻词；训练前按 `source` 降采样。
+- **B 集 565 = 28 个批次 560 + `b_samples_5` 的 5 条**。后者不在批次里，只读批次会静默少 5 条。
+- **严格 50–200 字**使 A 的 `微信短聊`（10 字体）20 条全灭、`接梗日常` 只剩 1 条；A 共 116 行因任一条回复 <50 字被丢。
+- NekoQA 的 `用户:初始问题:` 前缀、`主人/宝宝` 称呼、`莉莉/小雪/小橘/咪咪` 自称、`本少爷/本小姐` 用户角色、`*星号动作*`、句尾 `的说` 都已清洗；`build.py` 自检不过直接失败，不写半成品。
+- **CoT**：3,228 条全部补了隐藏内心独白（30–60 字，平均 39.6），由子代理按 `cot/PROMPT.md` 分块生成，`cot/cot.jsonl` 用 id 映射，顶层字段 `cot` 只对应最后一条 gpt。纯对话+CoT 1,975,004 token（整文件 2,161,887）。
+- **CoT 对齐**：`<think>`/`</think>` 是单 token（248068/248069）；`mix_dataset.py` 构造的 id 序列已与 `apply_chat_template(..., enable_thinking=True)` 逐 token 比对通过。开头 `<think>\n` mask，独白+`</think>`+正文监督。客户端发 `chat_template_kwargs.enable_thinking=true` 并剥掉思考标签。
+- **CoT 只加在最后一轮**：Qwen 模板只给「最后一条 user 之后」的 assistant 包 think，更早的 gpt 轮是历史，不加；否则模板与手动编码会分叉。
+- 顶层 `cot` 是自定义字段，LLaMA-Factory 不认识；走 LLaMA-Factory 必须先注入最后一条 gpt 的 `<think>` 内容，或直接用 `mix_dataset.py`。
+
+## 微信短聊语料（2026-10-30）
+
+- 现行 `train.jsonl` 不是旧的 3,228 条长回复语料，而是 **1,652 条微信短聊**：A/B 改写 801 + NekoQA 551 + 新会话 300；旧 3,228 条只作为 `distill/source/legacy_train.jsonl` 的冻结候选池。
+- 气泡分隔用 `\n\n`：Qwen3.5 分词器里是单 token（id 271），不改词表、不需要服务端开关。`system_prompt.txt` 有 6 个单换行、**没有空行**，不会污染分隔；单个气泡内部不出现 `\n\n`。
+- 新会话 seed 是 `distill/seeds/all_scenes.jsonl`（p001–p300，`scenes.jsonl` + `scale_scenes.jsonl` 合并）；`tools/build_wechat.py` 的默认 `SEEDS` 已指向它。
+- 构建命令：`python3 database/tools/build_wechat.py --from accepted --drop-missing-cot --drop-ids distill/review/drop_final_major.ids`。`--drop-missing-cot` 显式丢弃没有 CoT 的候选并打印数量；`--drop-ids` 丢弃最终审查确认不可单点修的 blocker/major 行。本次先丢 1,861 条缺 CoT 的 NekoQA，再丢 15 条审查行；最终 NekoQA 占 33.35%，低于 40%。CoT 重写后，那 15 条淘汰行也不再保留 CoT，重建会打印 1,876 条缺失、0 条 drop-ids，最终行数不变。
+- 改写池接受 **3,228 条**（A/B 809 + NekoQA 2,419），覆盖全部旧语料；最终集只使用有 CoT 的候选。新会话 300 条，全部 1 次可验证 callback。
+- 最终统计：5,577 个 assistant 轮 / 9,756 个气泡；单 41.96% / 双 41.30% / 三 16.60% / 四 0.14%；emoji 18.5%、问句 26.5%、猫娘 23.26%、本喵 6.2%；`long` 66 行（4.0%）；CoT 1,652 条（重写前 10–25 字、平均 20.6；重写后 8–24 字、平均 10.9，旧版备份 `distill/cot.jsonl.v1.bak`）。构建自检覆盖 system 逐字一致、role 交替、气泡长度/空串/`\n\n` 残留、禁用词、动作旁白、human 3–30、CoT 全覆盖、NekoQA ≤40%、long ≤5%。
+- 全量审查走 `distill/review/REVIEW_PROTOCOL.md`：一个子代理顺序读 `train.jsonl` 到 EOF，写 `final_review.jsonl` + `.md`；0 blocker 才交付。该协议原名 `FINAL_REVIEW.md`，与审查产出 `final_review.md` 只差大小写，而本仓库 `.git/config` 里 `core.ignorecase=true`，两个名字进不了同一个索引（`git add` 直接 fatal），已改名；新文件别再用只差大小写的名字。
+- 2026-10-30 子代理队列多次出现 `get_model_policy timeout` / 长时间排队；最终 186 条 NekoQA 的 CoT 没能在队列恢复前补齐，因此用 `--drop-missing-cot` 排除，而不是伪造 CoT。
+
+### CoT 重写（2026-10-30）
+
+- **旧 CoT 的单调不是写手失误，是规则造成的**：`wechat-cot-v1` 明确要求“先…再…最后…”的动作规划。实测 1,667 条里 95.4% 含“先”、97.3% 含“再”、66% 直接以“先”开头，问句/感叹/省略号均为 0，99.9% 含逗号、95% 以句号收尾。
+- 已改为 `wechat-cot-v2`：写内心独白而非回复策略，允许心动、嘴硬、吐槽、心疼、担心、回忆、吃醋、得意、犹豫、自嘲、感官画面、碎念、联想、认命、反问；开头、句式、标点必须分散；长度从 10–25 放宽到 **8–40**（`tools/build_wechat.py:validate_cot` 同步改）。
+- 新集 1,652 条全部唯一：以“先”开头 0.85%、含“先”5.1%、含“再”2.8%；问句 12.6%、感叹 1.6%、省略 2.7%、无句末标点 17.6%；8–24 字、平均 10.9；`他`/`你` 分别出现在 15.9%/16.6% 的条目里。REPORT.json 的 `cot` 字段记录 min/avg/max。
+- 旧 CoT 备份在 `distill/cot.jsonl.v1.bak`；`--drop-ids` 的 15 条淘汰行不再保留 CoT，重建命令会打印 1,876 条缺失、0 条 drop-ids，最终 1,652 行不变。
+
+### DeepSeek-R1-7B QLoRA 代理实验（2026-10-30）
+
+- `Model/deepseek-r1_latest` 那个 4.9GB GGUF 是 **qwen3 架构的 8B 蒸馏**，不是官方 `deepseek-r1:7b`（Qwen2.5-7B distill）；要训 LoRA 必须下 HF 权重，GGUF/Ollama 只能推理。
+- 官方 `deepseek-ai/DeepSeek-R1-Distill-Qwen-7B` 两个分片 8,606,596,466 / 6,624,675,384 字节，已放在 `Model/DeepSeek-R1-Distill-Qwen-7B`。4-bit 加载占 **5.71GB**，896 token 的 smoke 峰值 **7.50GB**，8GB 4060 Laptop 能跑。
+- **别直接调 `prepare_model_for_kbit_training`**：它会把 embedding/lm_head 从 bf16 转 fp32，额外要 2GB，8GB 卡第一步就 OOM。改为手动冻结参数、只把 RMSNorm 转 fp32，并 `enable_input_require_grads()`。
+- 800 条 / 1 epoch / 768 token / lr 2e-4：98 步、1,499s（约 15s/步）、峰值 **7.63GB**、train_loss 4.03；全量 1,652 约 50 分钟/epoch。适配器 155MB，在 `Model/LoRAs/deepseek-r1-7b-cot-qlora`。
+- **896 token 全量 2 epoch 不稳**：跑到 step 193/404（约 50 分钟）时在 `paged_adamw_8bit` 的 `sync_gpu()` 崩 `CUDA illegal memory access`，当时显存 7.89GB/8.19GB，GPU 随后卡死（`nvidia-smi` D 状态），只能重启。768 token 的 800 条 1 epoch 已稳定跑完，恢复时优先 768；checkpoint-150 已保存，可 `--resume-adapter` 续跑。
+- **全量 2 epoch（续跑）**：从 checkpoint-150 用 768 token 续 1.25 epoch，248 步、3,801s、峰值 7.63GB、末段 train_loss 2.82；累计约 2 epoch / 398 步。适配器 155MB，在 `Model/LoRAs/deepseek-r1-7b-cot-qlora-full2e-resume`。
+- **效果对比（同一批 5 条留出，t=0.7）**：全量 adapter 比 800 条连贯（“今天真是累”→“累就早点睡 行吗”；“那我请半天假”→“谁要你请半天 / 跑就跑 本喵陪 / 别又睡到两点”），但仍会跑题或复读（“你笑什么”→“谁笑 你鱼贩子还没走”）；base 在 256 token 内还在 reasoning，没出正文。结论：7B QLoRA 可用于验证管线和数据风格，但还不是可上客户端的最终模型；要可用优先换 Qwen3.5-4B / 更 chat 的基座，或继续 3–5 epoch。
+- 效果：LoRA 明显学会短气泡和猫娘口癖；800 条 1 epoch 的内容相关性仍弱，常复读训练片段。采样 `temperature=0.7` 比贪心自然；base 在 256 token 内还在 reasoning，没出正文。
+- 脚本：`finetune/train_qlora.py`（手工拼 `<｜User｜>/<｜Assistant｜>` 序列，CoT 放 `<think>…</think>`，只监督 assistant 段）、`finetune/sample_qlora.py`（base/adapter 对比，支持 `--sample`）。未接入客户端，全量训练待定。
+
 ## 项目进度
 
-- ✅ 语料 565 条 + 校验脚本
+- ✅ 微信短聊语料 1,652 条：A/B + NekoQA 改写 + 300 新会话 + 气泡格式 + CoT 全覆盖 + 全量审查通过（`database/`）
+- ✅ CoT 重写为多样内心独白（1,652 条，8–24 字，问句 12.6%、无句末标点 17.6%，以“先”开头 0.85%）
+- ✅ 旧三源 3,228 条冻结在 `distill/source/legacy_train.jsonl`，作为改写候选池
 - ✅ 基座选型、参数分组、8GB 显存预算定稿
 - ✅ `catgirl/` 前端重写为 Tauri + TypeScript，对话走 llama-server
 - ✅ 桌面客户端可构建可启动

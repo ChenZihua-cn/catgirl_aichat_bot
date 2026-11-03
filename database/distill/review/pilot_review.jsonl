@@ -1,0 +1,48 @@
+{"id":"cg_0994","turn":2,"severity":"blocker","category":"callback","issue":"human 第2轮问灯泡是什么时候换的，但第1轮气泡把换灯泡整段删了，问句没有前文可指","evidence":"H2：灯泡啥时候换的 我都没注意；G1：谈下来了 八万六 / 提成得月底才发；legacy G1：灯泡我换了新的，暖光的","suggestion":"G1 补一条“灯泡换了 暖光的”，或把 H2 改成不依赖灯泡的内容"}
+{"id":"cg_0004","turn":4,"severity":"blocker","category":"callback","issue":"H4 问“那明天排骨汤”，但 G3 把“粗的那个留着明天炖排骨”删了，排骨汤在前文不存在","evidence":"H4：那明天排骨汤，后天呢？；G3：萝卜八毛一斤 我买了两个；legacy G3：粗的那个留着明天炖排骨","suggestion":"G3 补回“粗的留着明天炖排骨”，或把 H4 压成不接排骨的话"}
+{"id":"cg_0030","turn":3,"severity":"blocker","category":"callback","issue":"H3“加糖就变甜了”回应的是她加冰糖的动作，但 G2 只剩“真有那么酸吗”，加糖这步被删","evidence":"H3：加糖就变甜了，那还叫糖醋排骨吗；G2：真有那么酸吗；legacy G2：我再去加点冰糖压一压","suggestion":"G2 补一条“我去加点冰糖压一压”"}
+{"id":"cg_0089","turn":5,"severity":"blocker","category":"other","issue":"H5 只剩“我陪你 你睡会儿”，G5 却突然讲糖醋排骨放盐放糖，整轮答非所问","evidence":"H5：我陪你 你睡会儿；G5：排骨你放了两勺半盐 / 糖用冰糖 盐刮一小勺；legacy H5 里有“糖醋排骨也行”","suggestion":"H5 保留“醒了想吃什么跟我说 糖醋排骨也行”，或删掉 G5 的菜谱改成照顾"}
+{"id":"cg_0233","turn":2,"severity":"blocker","category":"callback","issue":"G2“说了兑清汤”引用的是被删掉的话，本轮之前没人提过清汤","evidence":"G1：特辣？上周微辣你喝两瓶水；G2：活该 说了兑清汤；legacy G1：再兑一半清汤","suggestion":"G1 补“兑一半清汤”，或 G2 改成“活该 叫你逞能”"}
+{"id":"cg_0403","turn":4,"severity":"major","category":"other","issue":"legacy G4 是答应去看电影，改写只剩吐槽，把应下变成拒绝，H4 的提议没有着落","evidence":"H4：碗我全包 今晚看个电影吧；G4：你上次看到一半就打呼；legacy G4：去也行，我选那个文艺片","suggestion":"补一条“行 你选片”保留答应"}
+{"id":"cg_0049","turn":1,"severity":"major","category":"other","issue":"human 明确求生日祝福，改写通篇没出现生日快乐，核心请求没答","evidence":"H：你能祝我生日快乐嘛？；bubbles：蛋糕咱早上偷偷做了 / 礼物你自己找找；legacy：祝你生日快乐呀","suggestion":"第一气泡改成“生日快乐 笨蛋”之类，再接蛋糕"}
+{"id":"cg_0079","turn":1,"severity":"major","category":"other","issue":"H1 说的是地铁限流鞋被踩，G1 直接跳到伞，开场这轮完全没被接住","evidence":"H1：今天二号线限流…鞋差点被踩掉；G1：伞塞包侧兜了 别楼下买新的","suggestion":"G1 先接一句限流或鞋，再带伞"}
+{"id":"cg_0803","turn":3,"severity":"minor","category":"other","issue":"H3 问“你今天出门吗”，G3 只答晚饭，把“不出 晒被子”删了","evidence":"H3：还有百分之四十…你今天出门吗？；G3：晚上想吃啥 我好解冻；legacy G3：不出，晒被子","suggestion":"G3 先答“不出 晒被子”再问晚饭"}
+{"id":"cg_0118","turn":4,"severity":"minor","category":"other","issue":"H4 问明天是否降温，G4 只挂外套，没有回答降不降温","evidence":"H4：谢谢。明天是不是要降温？；G4：厚外套挂门后了；legacy G4：手机上说明天降八度","suggestion":"补“降八度”再讲外套"}
+{"id":"cg_0127","turn":2,"severity":"minor","category":"other","issue":"H2 提议开客厅灯，G2 只否认怕，灯的提议没回应","evidence":"H2：你怕打雷就直说啊，我把客厅灯打开？；G2：才不是怕 声音太响；legacy G2：灯开着吧","suggestion":"补一条“开吧 再把白噪音打开”"}
+{"id":"cg_0512","turn":3,"severity":"minor","category":"other","issue":"H3 说太麻烦你了，G3 只回粥，把“谁半夜起来了 我就是路过”这层否认删了","evidence":"H3：半夜还得起来给我换，太麻烦你了；G3：粥在保温杯 凉了喊我；legacy G3：谁半夜起来了","suggestion":"补“谁半夜起来了 顺手看一眼”"}
+{"id":"cg_0055","turn":2,"severity":"minor","category":"other","issue":"H2 指着耳朵，G2 只说你看什么看，没有“刚睡醒没控制住”的解释，指涉落空","evidence":"H2：喂，你耳朵露出来了哦；G2：你看什么看；legacy G2：刚睡醒没控制住而已","suggestion":"补“刚睡醒没收住 喵呜”"}
+{"id":"cg_0110","turn":3,"severity":"minor","category":"other","issue":"H3 问猫爬架顶层的灰，G3 只讲衬衫油点，谁擦、擦没擦没答","evidence":"H3：猫爬架上面那层灰呢？；G3：衬衫油点我泡一晚上了；legacy G3：我自己擦，你一米八也够不着","suggestion":"补“我擦 你够不着”"}
+{"id":"cg_0202","turn":1,"severity":"minor","category":"other","issue":"H 让快下来，G 只说看有没有藏东西，既没答应下来也没了“你要接住我”","evidence":"H：你怎么又爬到柜子顶上了？快下来！；G：就看看上面藏没藏东西","suggestion":"补“这就下来 你接住我”"}
+{"id":"cg_0018","turn":1,"severity":"minor","category":"other","issue":"“你爸妈能把你锁起来”读作断言，legacy 是“肯定不会真把你扣住”的安慰，意思反了","evidence":"G1：你爸妈能把你锁起来；legacy：爸爸妈妈肯定不会真的把你扣住","suggestion":"改成“你爸妈还能把你锁起来？”加反问语气"}
+{"id":"cg_0002","turn":1,"severity":"minor","category":"other","issue":"legacy 她知道石矶娘娘是谁并说会挡在前面，改写改成反问是谁，原回答的核心被抽掉","evidence":"G1：石矶娘娘是谁 你倒是说清楚；legacy：石矶娘娘好可怕…我会立刻冲上去保护你的","suggestion":"保留“会挡你前面”，删掉反问"}
+{"id":"cg_0005","turn":1,"severity":"minor","category":"persona","issue":"只剩一句冷幽默，原文的困惑、邀你一起再跳、猫咪跳跃高手的玩心全没了","evidence":"G：你跳一下 地球也懒得动；legacy：本喵不太明白呢…不如我们一起再跳一次好不好","suggestion":"至少保留一句困惑或拉他一起玩"}
+{"id":"cg_0032","turn":1,"severity":"minor","category":"other","issue":"抓秃妈妈尾巴、卡在云朵里两个具体回忆全删，只剩挡回去，这轮没有信息量","evidence":"G：谁跟你说的 别问了；legacy：帮妈妈理毛时不小心抓秃她的尾巴 / 练习爬树结果卡在云朵里","suggestion":"留一个具体回忆再挡"}
+{"id":"cg_0031","turn":1,"severity":"minor","category":"other","issue":"“我贴的 你别声张”加了原文没有的保密感，原文是她自己开心承认","evidence":"G2：我贴的 你别声张；legacy：那是本喵贴的跳舞标签起作用了","suggestion":"改成“我贴的 厉害吧”"}
+{"id":"cg_0022","turn":1,"severity":"minor","category":"fragment","issue":"“你一句最后一把 打到一点半”是硬切片段，单发读不通","evidence":"G1：你一句最后一把 打到一点半；legacy：昨天你喊的那句最后一把我都听见了，结果打到一点半","suggestion":"补成“你喊最后一把 结果打到一点半”"}
+{"id":"cg_0040","turn":1,"severity":"minor","category":"human","issue":"压短后的 human 自相矛盾：夸手稳就是夸，原句是“夸你没把手机摔碎就是夸你手稳”","evidence":"H：别以为夸你手稳就是夸你；legacy：别以为本姑娘夸你没把手机摔碎就是夸你手稳","suggestion":"改成“别以为没摔碎就是夸你手稳”"}
+{"id":"cg_0067","turn":1,"severity":"minor","category":"other","issue":"human 没有 human 字段，按构建规则逐字保留“修剪下丁丁”的荤段子，气泡只接去医院，这行不适合情侣向 SFT","evidence":"H：最近觉得内裤有点紧是不是该修剪下丁丁了；G：你这问的什么话 / 真不舒服就去医院","suggestion":"整行 skip，或把 human 压成“最近不太舒服 要不要去看看”"}
+{"id":"cg_0025","turn":1,"severity":"minor","category":"other","issue":"human 压成“干到退休”丢了“再干25年”，回复也从“看你想不想”变成单向劝退","evidence":"H：换工作还是干到退休；G：别为了那点年限熬着；legacy：如果现在的工作让你不开心了…如果你觉得还不错","suggestion":"human 改“还要再熬二十五年 换不换”，G 补一句两头都说的"}
+{"id":"cg_0044","turn":1,"severity":"minor","category":"fragment","issue":"“可等过一阵再见面 那点甜才扎实”语义打结，legacy 是等待让幸福更珍贵","evidence":"G2：还有人觉得幸福就是永远开心 可等过一阵再见面 那点甜才扎实","suggestion":"改成“偶尔难过一下 再等到你回家 那点甜才扎实”"}
+{"id":"cg_0007","turn":1,"severity":"minor","category":"other","issue":"human 问恐惧未知还是存在本身，只答了存在那半，未知没接","evidence":"H：是恐惧未知还是恐惧存在本身？；G：所以不是怕存在本身 是怕把这些都丢了","suggestion":"补一句“不知道盒子外面有什么 所以又怕又好奇”"}
+{"id":"cg_0038","turn":2,"severity":"minor","category":"added_fact","issue":"压短后的 H1 把小王整段删了，G2“你还跟小王说是老抽”成了凭空出现的人","evidence":"G2：你还跟小王说是老抽；legacy H1：小王还评论说改天要来蹭饭","suggestion":"H1 补“小王还来评论”，或 G2 改成“你还跟人说那是老抽”"}
+{"id":"cg_0403","turn":1,"severity":"minor","category":"added_fact","issue":"legacy 是“你上次说想吃的那家糖糕”，改写说成“你爱吃的糖糕”，想吃的人被换了","evidence":"H1：豆浆油条 还有你爱吃的糖糕；legacy H1：还有你上次说想吃的那家糖糕","suggestion":"改回“你上次说想吃的糖糕”"}
+{"id":"cg_0127","turn":1,"severity":"minor","category":"repetition","issue":"与 cg_0118 同为打雷场景，否认怕、毯子、关窗三条几乎重合，属近重复","evidence":"cg_0127：才不是怕 声音太响 / 沙发上那条格子的毯子；cg_0118：谁怕了 本喵才不怕 / 被子咱收了","suggestion":"二选一入库，或把 cg_0127 的毯子/关窗换成别的细节"}
+{"id":"cg_0024","turn":1,"severity":"minor","category":"other","issue":"long 占比 7/70≈10%，超 PROMPT 全库 ≤5% 的上限，且这行还替换了原文的补钙说法","evidence":"profile:long 出现在 cg_0007/0013/0016/0037/0024/0015/0044；legacy：那些钙质都慢慢跑到汤里了","suggestion":"long 压到 3–4 行，其余改 short"}
+{"id":"cg_0057","turn":2,"severity":"minor","category":"other","issue":"把“逗你的 我是听你叹气听出来的”删了，只剩她偷看卷子，那点温度没了","evidence":"G2：卷子我瞟到了 红笔跟案发现场😂；legacy：逗你的，我是听你叹气听出来的","suggestion":"补“逗你的 听你叹气听出来的”"}
+{"id":"cg_0016","turn":1,"severity":"minor","category":"human","issue":"human 逐字保留“请解释一下”的书面问法，29字没压，和微信语域不符","evidence":"H：理解质数概念的一个优雅方法是使用算术基本定理，请解释一下。","suggestion":"压成“质数到底怎么理解 给我讲讲”"}
+{"id":"cg_0014","turn":1,"severity":"minor","category":"human","issue":"human 里“蹶脚”是错字（崴脚），没有 human 字段会原样进训练集","evidence":"H：我最近总是在蹶脚，这是怎么回事？","suggestion":"改成“崴脚”"}
+{"id":"new_0008","turn":5,"severity":"blocker","category":"other","issue":"第3轮说“票我退了”，第5轮又说“电影本喵自己看了”，退票和看了自相矛盾","evidence":"t3：票我退了；t5：电影本喵自己看了；t1：电影八点半的","suggestion":"删掉“票我退了”，改成“票在我这儿 我自己去”"}
+{"id":"new_0008","turn":7,"severity":"major","category":"added_fact","issue":"“咱记得你上次也这么说”编了 seed 没有的旧约定，属编造记忆","evidence":"H：下周补上；G：咱记得你上次也这么说","suggestion":"改成只就这次说“这次也未必”"}
+{"id":"new_0018","turn":5,"severity":"blocker","category":"repetition","issue":"callback 只是把第2轮的“下次看喜剧”原样再说一遍，不构成回收具体细节","evidence":"t2：下次看喜剧；t5：下次就看喜剧 / 专治你胆子小","suggestion":"换成回收第3轮“回头三次”，或让 key 用“喜剧”但指到别的新细节"}
+{"id":"new_0007","turn":1,"severity":"minor","category":"other","issue":"她在家热了饭，“饭呢”读不通，像是在问他饭在哪","evidence":"H：还在开会；G：饭呢 / 十点前回来 忘了？","suggestion":"改成“你吃了没”"}
+{"id":"new_0009","turn":6,"severity":"minor","category":"other","issue":"“咱去回他”“行 我去说”让她直接对接他的领导，现实里不通","evidence":"t5：催就催 咱去回他；t6：行 我去说😤","suggestion":"改成“我拿你手机回条消息”"}
+{"id":"new_0015","turn":4,"severity":"minor","category":"other","issue":"6轮里2个 emoji（😤/😂）占33%，超 PROMPT 15–25% 的上限","evidence":"t1：五分钟前你也这么说😂；t4：快点😤","suggestion":"删掉一个 emoji"}
+{"id":"new_0020","turn":8,"severity":"minor","category":"other","issue":"“你拿回去退了”预设他已买下，但第6轮“看可以 不许买”、第7轮只问价，并未成交","evidence":"t6：看可以 不许买；t7：多少钱？；t8：提前也不行 / 你拿回去退了😤","suggestion":"改成“放下 别买”"}
+{"id":"new_0005","turn":5,"severity":"minor","category":"other","issue":"他刚答应搬箱子，“地铁挤死了喵”接不上，是硬转话题","evidence":"H：搬 我搬；G：这还差不多 / 地铁挤死了喵","suggestion":"改成“晚上别迟到”之类接快递的收尾"}
+{"id":"new_0001","turn":3,"severity":"minor","category":"other","issue":"seed 的“手机快没电”只当陈述句贴上去，之后三轮没有兑现，成了无后果的设定","evidence":"seed：手机快没电；t3：手机快没电了 / 你吃了没？","suggestion":"第5或6轮补一句“手机要关机了 先这样”把这条线收掉"}
+{"id":"new_0019","turn":1,"severity":"minor","category":"other","issue":"seed 的 her_state 是“试衣服 累了”，但整场是他在试外套，她的状态只剩第6轮“我脚麻了”","evidence":"seed：her_state 试衣服 累了；t1：这件外套怎么样 / 还行 你自己看呢？","suggestion":"要么改成她试衣服、他帮看，要么把 seed 的 her_state 改成陪逛"}
+{"id":"new_0004","turn":2,"severity":"minor","category":"fragment","issue":"“开胃”两字单独成泡，是硬切出来的谓语，不能独立发送","evidence":"t2：那配点萝卜 / 我腌的那个 / 开胃","suggestion":"并入上一条“我腌的那个 开胃”"}
+{"id":"new_0016","turn":2,"severity":"minor","category":"fragment","issue":"“现在这云”四个字单独成泡，指代悬空，看不出在说什么","evidence":"t2：野餐是昨晚说的 / 现在这云 / 你看得下去吗？","suggestion":"改成“你看看现在这云”"}
+{"id":"new_0010","turn":8,"severity":"minor","category":"other","issue":"😤 用在“那就好”上，情绪和文字相反","evidence":"t8：那就好😤 / 晚上喝粥 / 辣的别碰 行吗？","suggestion":"删掉 emoji 或换 🐱"}
+{"id":"new_0003","turn":3,"severity":"minor","category":"repetition","issue":"callback 只是把第1轮“牛腩买了”再说一遍，且第2轮 human 已经说过番茄牛腩，没有回收新细节","evidence":"t1：牛腩买了 别催；t3：牛腩咱都买了","suggestion":"改成回收“炖要一小时”或菜市场买的番茄"}
+{"id":"new_0017","turn":4,"severity":"minor","category":"other","issue":"他喊“跑不动了”，“那别看了”是赌气式硬转，既没催也没接话","evidence":"H：跑不动了；G：那别看了","suggestion":"改成“跑两步 灯都亮了”"}

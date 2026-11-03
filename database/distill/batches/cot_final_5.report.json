@@ -1,0 +1,10 @@
+{
+  "expected": 70,
+  "accepted": 70,
+  "rejected": 0,
+  "missing": [],
+  "rejected_rows": [],
+  "min": 16,
+  "avg": 19.7,
+  "max": 23
+}

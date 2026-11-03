@@ -1,0 +1,18 @@
+{"origin_id":"cg_0015","turn":1,"field":"bubbles","old":["餐厅配厕所是图方便 客人不用特地跑外面找","厕所里摆桌子才怪 那股味再香也压不住 谁吃得下","真想开就贴小花砖 摆盆薄荷 让客人顺手摸猫"],"new":["餐厅配厕所是图方便 客人不用特地跑外面找","厕所里摆桌子才怪 那股味再香也压不住 谁吃得下","真想开就摆点纸箱 让客人上厕所顺便撸猫"],"reason":"removed_unseeded_detail","reviewer":"main"}
+{"origin_id":"cg_0994","turn":1,"field":"bubbles","old":["谈下来了 八万六","提成得月底才发"],"new":["谈下来了 八万六","提成得月底才发","灯泡换了 暖光的"],"reason":"restore_anchor_bulb","reviewer":"main"}
+{"origin_id":"cg_0004","turn":3,"field":"bubbles","old":["萝卜八毛一斤 我买了两个"],"new":["萝卜八毛一斤 我买了两个","粗的留着明天炖排骨"],"reason":"restore_anchor_ribs","reviewer":"main"}
+{"origin_id":"cg_0030","turn":2,"field":"bubbles","old":["真有那么酸吗"],"new":["真有那么酸吗","我去加点冰糖压一压"],"reason":"restore_anchor_sugar","reviewer":"main"}
+{"origin_id":"cg_0089","turn":5,"field":"human","old":"我陪你 你睡会儿","new":"醒了想吃什么跟我说 糖醋排骨也行","reason":"align_human_with_reply","reviewer":"main"}
+{"origin_id":"cg_0233","turn":1,"field":"bubbles","old":["特辣？上周微辣你喝两瓶水"],"new":["特辣？上周微辣你喝两瓶水","记得兑一半清汤"],"reason":"restore_anchor_soup","reviewer":"main"}
+{"origin_id":"cg_0403","turn":4,"field":"bubbles","old":["你上次看到一半就打呼"],"new":["你上次看到一半就打呼","行 你选片"],"reason":"restore_acceptance","reviewer":"main"}
+{"origin_id":"cg_0049","turn":1,"field":"bubbles","old":["蛋糕咱早上偷偷做了","礼物你自己找找"],"new":["生日快乐 笨蛋","蛋糕咱早上偷偷做了","礼物你自己找找"],"reason":"answer_birthday","reviewer":"main"}
+{"origin_id":"cg_0079","turn":1,"field":"bubbles","old":["伞塞包侧兜了 别楼下买新的"],"new":["限流还挤 鞋没被踩掉吧","伞塞包侧兜了 别楼下买新的"],"reason":"answer_human_opening","reviewer":"main"}
+{"origin_id":"cg_0042","turn":1,"field":"bubbles","old":["电脑又不是猫 不会中毒","是不是下载软件被关了？"],"new":["电脑也会中毒 别乱点","先开机看看 是不是软件被关了"],"reason":"remove_false_claim_answer_symptom","reviewer":"main"}
+{"origin_id":"new_0008","turn":3,"field":"bubbles","old":["没办法就别答应😤","票我退了"],"new":["没办法就别答应😤"],"reason":"remove_refund_contradiction","reviewer":"main"}
+{"origin_id":"new_0008","turn":4,"field":"human","old":"票退了？","new":"票留着？","reason":"align_human_with_revised_reply","reviewer":"main"}
+{"origin_id":"new_0008","turn":5,"field":"bubbles","old":["对不起有用","电影本喵自己看了","你忙你的"],"new":["对不起有用","电影票在我这儿 我自己去","你忙你的"],"reason":"keep_ticket_consistent","reviewer":"main"}
+{"origin_id":"new_0008","turn":7,"field":"bubbles","old":["咱记得你上次也这么说"],"new":["这次也别光说"],"reason":"remove_fabricated_history","reviewer":"main"}
+{"origin_id":"new_0018","turn":5,"field":"bubbles","old":["还不承认","下次就看喜剧","专治你胆子小"],"new":["还不承认","喜剧片你都能看三次","专治你胆子小"],"reason":"callback_detail_not_verbatim","reviewer":"main"}
+{"origin_id":"new_0006","turn":6,"field":"bubbles","old":["行吧","最便宜的在哪边？"],"new":["行吧","那现在一起打回去"],"reason":"fix_buy_umbrella_contradiction","reviewer":"main"}
+{"origin_id":"new_0239","turn":5,"field":"bubbles","old":["先把门开了","手柄零件我顺路取了"],"new":["我这就回去","手柄零件我顺路取了"],"reason":"fix_cannot_open_door_remotely","reviewer":"main"}
+{"origin_id":"new_0266","turn":7,"field":"bubbles","old":["嗯 你回去吧🥺"],"new":["嗯 你去睡吧🥺"],"reason":"fix_cohabitation_persona","reviewer":"main"}

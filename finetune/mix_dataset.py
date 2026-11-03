@@ -15,7 +15,6 @@ Measured facts this file relies on:
 from __future__ import annotations
 
 import argparse
-import glob
 import io
 import json
 import os
@@ -93,29 +92,17 @@ def _load_jsonl(path, source):
                 continue
             turns = _turns_from_conv(conv)
             if len(turns) >= 2 and turns[-1]["role"] == "assistant":
+                cot = obj.get("cot")
+                if isinstance(cot, str) and cot.strip():
+                    turns[-1]["cot"] = cot.strip()
                 yield Record(turns, source=source)
 
 
 def load_persona(corpus, limit=None):
-    if corpus == "nekoqa":
-        recs = []
-        for item in json.load(open(os.path.join(DB, "NekoQA-10K.json"), encoding="utf-8")):
-            inp, out = item.get("instruction", ""), item.get("output", "")
-            if inp and out:
-                recs.append(Record([{"role": "user", "text": inp},
-                                    {"role": "assistant", "text": out}], source=corpus))
-    elif corpus == "qwen_ft":
-        recs = list(_load_jsonl(os.path.join(DB, "qwen_catgirl_ft", "train.jsonl"), corpus))
-    elif corpus == "batches":
-        recs = []
-        for p in sorted(glob.glob(os.path.join(DB, "catgirl_dataset", "batches", "*.jsonl"))):
-            recs += _load_jsonl(p, corpus)
-    elif corpus == "spec_data":
-        recs = []
-        for p in sorted(glob.glob(os.path.join(DB, "qwen_catgirl_ft", "data", "*.jsonl"))):
-            recs += _load_jsonl(p, corpus)
-    else:
+    path = os.path.join(DB, "train.jsonl") if corpus == "merged" else corpus
+    if not os.path.exists(path):
         raise SystemExit(f"unknown text corpus: {corpus}")
+    recs = list(_load_jsonl(path, corpus))
     return recs[:limit] if limit else recs
 
 
@@ -247,12 +234,22 @@ class Encoder:
         for i, turn in enumerate(record.turns):
             role = turn["role"]
             head = self.ids_im_start + self.role_prefix[role]
+            cot = turn.get("cot")
+            tail = self.ids_im_end_nl
+            if role == "assistant" and cot and i == len(record.turns) - 1:
+                # Qwen3.5 generation with enable_thinking=true already emits
+                # "<|im_start|>assistant\n<think>\n"; only the continuation is
+                # supervised, so the opening tag is masked out of the labels.
+                think = self._ids("<think>\n")
+                body = think + self._ids(cot + "\n</think>\n\n" + turn["text"])
+                ids += head + body + tail
+                labels += [-100] * (len(head) + len(think)) + body[len(think):] + tail
+                continue
             body = []
             if record.images and role == "user" and i == first_user:
                 for n in pads:
                     body += self.ids_vs + [self.pad_id] * n + self.ids_ve
             body += self._ids(turn["text"])
-            tail = self.ids_im_end_nl
             ids += head + body + tail
             if role == "assistant":
                 labels += [-100] * len(head) + body + tail
@@ -309,8 +306,12 @@ class Encoder:
 def build_mixture(args):
     text = load_persona(args.text, args.text_cap)
     if args.with_system:
-        path = os.path.join(DB, "qwen_catgirl_ft", "system_prompt.txt")
+        path = os.path.join(DB, "system_prompt.txt")
         text = attach_system(text, open(path, encoding="utf-8").read().strip())
+    else:
+        for r in text:
+            if r.turns and r.turns[0]["role"] == "system":
+                r.turns = r.turns[1:]
     image = load_image_text(args.image_cap)
     if not image:
         n_img = 0
@@ -323,7 +324,7 @@ def build_mixture(args):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--text", default="batches", help="nekoqa|qwen_ft|batches|spec_data")
+    ap.add_argument("--text", default="merged", help="merged (database/train.jsonl)")
     ap.add_argument("--text-cap", type=int, default=200)
     ap.add_argument("--image-cap", type=int, default=30)
     ap.add_argument("--ratio", type=float, default=0.34, help="image-text share of mixture")

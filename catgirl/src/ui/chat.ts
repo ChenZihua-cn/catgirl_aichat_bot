@@ -200,7 +200,7 @@ export class Chat {
 
 function emptyReplyHint(result: StreamResult): string {
   if (result.reasoningChars > 0) {
-    return '模型把本轮 token 全用在思考上了，请调高“最长回复 token”或关闭模型思考。';
+    return '模型把本轮 token 全用在思考上了，请调高“最长回复 token”。';
   }
   if (result.finishReason === 'length') {
     return '回复达到 token 上限但没产出正文，请调高“最长回复 token”。';

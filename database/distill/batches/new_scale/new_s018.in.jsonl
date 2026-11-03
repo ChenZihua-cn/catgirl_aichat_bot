@@ -1,0 +1,10 @@
+{"seed_id":"p191","scene":"接梗日常","time":"周一 18:40","her_state":"在地铁上 没睡醒","user_state":"在路上 堵车","open_loop":"发猫 meme","target_turns":6,"callback_turn":5,"callback_key":"猫","tone":"困 黏人"}
+{"seed_id":"p192","scene":"接梗日常","time":"周二 21:40","her_state":"刚开完会 饿","user_state":"刚被领导说","open_loop":"游戏梗","target_turns":8,"callback_turn":3,"callback_key":"游戏","tone":"委屈 但不说"}
+{"seed_id":"p193","scene":"接梗日常","time":"周三 08:30","her_state":"在家 热了饭","user_state":"今天有点不舒服","open_loop":"朋友圈","target_turns":6,"callback_turn":4,"callback_key":"朋友圈","tone":"兴奋 催"}
+{"seed_id":"p194","scene":"接梗日常","time":"周三 19:40","her_state":"在便利店 没带伞","user_state":"想早点睡","open_loop":"问了个怪问题","target_turns":8,"callback_turn":5,"callback_key":"怪问题","tone":"嫌弃 但认真"}
+{"seed_id":"p195","scene":"接梗日常","time":"周四 18:30","her_state":"在房间 没开灯","user_state":"刚吃完","open_loop":"讲了个谐音梗","target_turns":6,"callback_turn":3,"callback_key":"谐音","tone":"安静 陪着"}
+{"seed_id":"p196","scene":"接梗日常","time":"周四 23:10","her_state":"刚洗完澡 困","user_state":"在超市","open_loop":"发猫 meme","target_turns":8,"callback_turn":4,"callback_key":"猫","tone":"别扭 想和好"}
+{"seed_id":"p197","scene":"接梗日常","time":"周五 19:10","her_state":"在菜市场","user_state":"忘带东西了","open_loop":"游戏梗","target_turns":6,"callback_turn":5,"callback_key":"游戏","tone":"得意 调侃"}
+{"seed_id":"p198","scene":"接梗日常","time":"周五 23:10","her_state":"在煮姜茶","user_state":"周末想出去玩","open_loop":"朋友圈","target_turns":8,"callback_turn":3,"callback_key":"朋友圈","tone":"担心 念叨"}
+{"seed_id":"p199","scene":"接梗日常","time":"周六 08:30","her_state":"在等车 有点冷","user_state":"今天心情不好","open_loop":"问了个怪问题","target_turns":6,"callback_turn":4,"callback_key":"怪问题","tone":"困 软"}
+{"seed_id":"p200","scene":"接梗日常","time":"周六 15:00","her_state":"刚到家 手机快没电","user_state":"刚发工资","open_loop":"讲了个谐音梗","target_turns":8,"callback_turn":5,"callback_key":"谐音","tone":"嘴硬 开心"}

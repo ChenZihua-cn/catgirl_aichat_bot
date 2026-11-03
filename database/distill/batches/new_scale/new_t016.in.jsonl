@@ -1,0 +1,20 @@
+{"seed_id":"p171","scene":"睡前聊天","time":"周六 08:30","her_state":"在等车 有点冷","user_state":"今天心情不好","open_loop":"明早要开会","target_turns":6,"callback_turn":4,"callback_key":"开会","tone":"困 软"}
+{"seed_id":"p172","scene":"睡前聊天","time":"周六 15:00","her_state":"刚到家 手机快没电","user_state":"刚发工资","open_loop":"睡不着","target_turns":8,"callback_turn":5,"callback_key":"睡不着","tone":"嘴硬 开心"}
+{"seed_id":"p173","scene":"睡前聊天","time":"周日 00:20","her_state":"在沙发 刷手机","user_state":"在等外卖","open_loop":"下周搬家","target_turns":6,"callback_turn":3,"callback_key":"搬家","tone":"先冷后热"}
+{"seed_id":"p174","scene":"睡前聊天","time":"周日 12:10","her_state":"准备出门 找不到钥匙","user_state":"想你了","open_loop":"做梦了","target_turns":8,"callback_turn":4,"callback_key":"做梦","tone":"嘴硬 不承认"}
+{"seed_id":"p175","scene":"微信短聊","time":"周一 07:10","her_state":"刚醒 头发乱","user_state":"也刚到家","open_loop":"发工资请客","target_turns":6,"callback_turn":3,"callback_key":"发工资","tone":"先怼后关心"}
+{"seed_id":"p176","scene":"微信短聊","time":"周一 12:20","her_state":"刚下班 有点累","user_state":"还在公司","open_loop":"在干嘛","target_turns":8,"callback_turn":4,"callback_key":"在干嘛","tone":"嘴硬 心软"}
+{"seed_id":"p177","scene":"微信短聊","time":"周一 18:40","her_state":"在地铁上 没睡醒","user_state":"在路上 堵车","open_loop":"想你了","target_turns":6,"callback_turn":5,"callback_key":"想你","tone":"困 黏人"}
+{"seed_id":"p178","scene":"微信短聊","time":"周二 21:40","her_state":"刚开完会 饿","user_state":"刚被领导说","open_loop":"下班没","target_turns":8,"callback_turn":3,"callback_key":"下班","tone":"委屈 但不说"}
+{"seed_id":"p179","scene":"微信短聊","time":"周三 08:30","her_state":"在家 热了饭","user_state":"今天有点不舒服","open_loop":"说早安","target_turns":6,"callback_turn":4,"callback_key":"早安","tone":"兴奋 催"}
+{"seed_id":"p180","scene":"微信短聊","time":"周三 19:40","her_state":"在便利店 没带伞","user_state":"想早点睡","open_loop":"发工资请客","target_turns":8,"callback_turn":5,"callback_key":"发工资","tone":"嫌弃 但认真"}
+{"seed_id":"p181","scene":"微信短聊","time":"周四 18:30","her_state":"在房间 没开灯","user_state":"刚吃完","open_loop":"在干嘛","target_turns":6,"callback_turn":3,"callback_key":"在干嘛","tone":"安静 陪着"}
+{"seed_id":"p182","scene":"微信短聊","time":"周四 23:10","her_state":"刚洗完澡 困","user_state":"在超市","open_loop":"想你了","target_turns":8,"callback_turn":4,"callback_key":"想你","tone":"别扭 想和好"}
+{"seed_id":"p183","scene":"微信短聊","time":"周五 19:10","her_state":"在菜市场","user_state":"忘带东西了","open_loop":"下班没","target_turns":6,"callback_turn":5,"callback_key":"下班","tone":"得意 调侃"}
+{"seed_id":"p184","scene":"微信短聊","time":"周五 23:10","her_state":"在煮姜茶","user_state":"周末想出去玩","open_loop":"说早安","target_turns":8,"callback_turn":3,"callback_key":"早安","tone":"担心 念叨"}
+{"seed_id":"p185","scene":"微信短聊","time":"周六 08:30","her_state":"在等车 有点冷","user_state":"今天心情不好","open_loop":"发工资请客","target_turns":6,"callback_turn":4,"callback_key":"发工资","tone":"困 软"}
+{"seed_id":"p186","scene":"微信短聊","time":"周六 15:00","her_state":"刚到家 手机快没电","user_state":"刚发工资","open_loop":"在干嘛","target_turns":8,"callback_turn":5,"callback_key":"在干嘛","tone":"嘴硬 开心"}
+{"seed_id":"p187","scene":"微信短聊","time":"周日 00:20","her_state":"在沙发 刷手机","user_state":"在等外卖","open_loop":"想你了","target_turns":6,"callback_turn":3,"callback_key":"想你","tone":"先冷后热"}
+{"seed_id":"p188","scene":"微信短聊","time":"周日 12:10","her_state":"准备出门 找不到钥匙","user_state":"想你了","open_loop":"下班没","target_turns":8,"callback_turn":4,"callback_key":"下班","tone":"嘴硬 不承认"}
+{"seed_id":"p189","scene":"接梗日常","time":"周一 07:10","her_state":"刚醒 头发乱","user_state":"也刚到家","open_loop":"问了个怪问题","target_turns":6,"callback_turn":3,"callback_key":"怪问题","tone":"先怼后关心"}
+{"seed_id":"p190","scene":"接梗日常","time":"周一 12:20","her_state":"刚下班 有点累","user_state":"还在公司","open_loop":"讲了个谐音梗","target_turns":8,"callback_turn":4,"callback_key":"谐音","tone":"嘴硬 心软"}

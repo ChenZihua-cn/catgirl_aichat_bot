@@ -1,0 +1,57 @@
+{
+  "kind": "new",
+  "input": "distill/batches/new_scale/new_t024.in.jsonl",
+  "output": "distill/batches/new_scale/new_t024.out.jsonl",
+  "input_count": 20,
+  "output_count": 20,
+  "accepted_count": 20,
+  "rejected_count": 0,
+  "pass_rate": 1.0,
+  "missing_ids": [],
+  "accepted_ids": [
+    "p251",
+    "p252",
+    "p253",
+    "p254",
+    "p255",
+    "p256",
+    "p257",
+    "p258",
+    "p259",
+    "p260",
+    "p261",
+    "p262",
+    "p263",
+    "p264",
+    "p265",
+    "p266",
+    "p267",
+    "p268",
+    "p269",
+    "p270"
+  ],
+  "rejected": [],
+  "assistant_turns": 140,
+  "bubbles": 240,
+  "bubble_count": {
+    "1": 60,
+    "2": 60,
+    "3": 20
+  },
+  "bubble_len": {
+    "min": 2,
+    "avg": 6.9,
+    "max": 16
+  },
+  "turn_len": {
+    "min": 3,
+    "avg": 13.3,
+    "max": 28
+  },
+  "single_bubble_share": 0.4286,
+  "multi_bubble_share": 0.5714,
+  "emoji_turn_share": 0.2071,
+  "question_turn_share": 0.2643,
+  "cat_turn_share": 0.2857,
+  "user_changed": 0
+}

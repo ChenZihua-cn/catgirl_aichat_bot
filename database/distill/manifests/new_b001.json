@@ -1,0 +1,20 @@
+{
+  "batch_id": "new_b001",
+  "kind": "new",
+  "prompt_version": "wechat-v1.1",
+  "input": "distill/batches/new_b001.in.jsonl",
+  "input_count": 10,
+  "input_sha256": "f7ca709031918fedbf66480fe78b0ceff352aedf265c7293db67860d58aae4fe",
+  "expected_ids": [
+    "p001",
+    "p002",
+    "p003",
+    "p004",
+    "p005",
+    "p006",
+    "p007",
+    "p008",
+    "p009",
+    "p010"
+  ]
+}

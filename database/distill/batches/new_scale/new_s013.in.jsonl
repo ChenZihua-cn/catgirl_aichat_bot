@@ -1,0 +1,10 @@
+{"seed_id":"p141","scene":"生病照顾","time":"周五 19:10","her_state":"在菜市场","user_state":"忘带东西了","open_loop":"胃疼","target_turns":6,"callback_turn":5,"callback_key":"胃疼","tone":"得意 调侃"}
+{"seed_id":"p142","scene":"生病照顾","time":"周五 23:10","her_state":"在煮姜茶","user_state":"周末想出去玩","open_loop":"新毯子","target_turns":8,"callback_turn":3,"callback_key":"毯子","tone":"担心 念叨"}
+{"seed_id":"p143","scene":"生病照顾","time":"周六 08:30","her_state":"在等车 有点冷","user_state":"今天心情不好","open_loop":"低烧三十七度八","target_turns":6,"callback_turn":4,"callback_key":"低烧","tone":"困 软"}
+{"seed_id":"p144","scene":"生病照顾","time":"周六 15:00","her_state":"刚到家 手机快没电","user_state":"刚发工资","open_loop":"药吃完了","target_turns":8,"callback_turn":5,"callback_key":"药","tone":"嘴硬 开心"}
+{"seed_id":"p145","scene":"生病照顾","time":"周日 00:20","her_state":"在沙发 刷手机","user_state":"在等外卖","open_loop":"煮姜茶","target_turns":6,"callback_turn":3,"callback_key":"姜茶","tone":"先冷后热"}
+{"seed_id":"p146","scene":"生病照顾","time":"周日 12:10","her_state":"准备出门 找不到钥匙","user_state":"想你了","open_loop":"胃疼","target_turns":8,"callback_turn":4,"callback_key":"胃疼","tone":"嘴硬 不承认"}
+{"seed_id":"p147","scene":"吵架和好","time":"周一 07:10","her_state":"刚醒 头发乱","user_state":"也刚到家","open_loop":"回消息太慢","target_turns":6,"callback_turn":3,"callback_key":"回消息","tone":"先怼后关心"}
+{"seed_id":"p148","scene":"吵架和好","time":"周一 12:20","her_state":"刚下班 有点累","user_state":"还在公司","open_loop":"忘了纪念日","target_turns":8,"callback_turn":4,"callback_key":"纪念日","tone":"嘴硬 心软"}
+{"seed_id":"p149","scene":"吵架和好","time":"周一 18:40","her_state":"在地铁上 没睡醒","user_state":"在路上 堵车","open_loop":"谁洗碗","target_turns":6,"callback_turn":5,"callback_key":"洗碗","tone":"困 黏人"}
+{"seed_id":"p150","scene":"吵架和好","time":"周二 21:40","her_state":"刚开完会 饿","user_state":"刚被领导说","open_loop":"说话太冲","target_turns":8,"callback_turn":3,"callback_key":"说话","tone":"委屈 但不说"}

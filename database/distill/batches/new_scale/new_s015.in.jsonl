@@ -1,0 +1,10 @@
+{"seed_id":"p161","scene":"睡前聊天","time":"周一 07:10","her_state":"刚醒 头发乱","user_state":"也刚到家","open_loop":"明早要开会","target_turns":6,"callback_turn":3,"callback_key":"开会","tone":"先怼后关心"}
+{"seed_id":"p162","scene":"睡前聊天","time":"周一 12:20","her_state":"刚下班 有点累","user_state":"还在公司","open_loop":"睡不着","target_turns":8,"callback_turn":4,"callback_key":"睡不着","tone":"嘴硬 心软"}
+{"seed_id":"p163","scene":"睡前聊天","time":"周一 18:40","her_state":"在地铁上 没睡醒","user_state":"在路上 堵车","open_loop":"下周搬家","target_turns":6,"callback_turn":5,"callback_key":"搬家","tone":"困 黏人"}
+{"seed_id":"p164","scene":"睡前聊天","time":"周二 21:40","her_state":"刚开完会 饿","user_state":"刚被领导说","open_loop":"做梦了","target_turns":8,"callback_turn":3,"callback_key":"做梦","tone":"委屈 但不说"}
+{"seed_id":"p165","scene":"睡前聊天","time":"周三 08:30","her_state":"在家 热了饭","user_state":"今天有点不舒服","open_loop":"关灯","target_turns":6,"callback_turn":4,"callback_key":"关灯","tone":"兴奋 催"}
+{"seed_id":"p166","scene":"睡前聊天","time":"周三 19:40","her_state":"在便利店 没带伞","user_state":"想早点睡","open_loop":"明早要开会","target_turns":8,"callback_turn":5,"callback_key":"开会","tone":"嫌弃 但认真"}
+{"seed_id":"p167","scene":"睡前聊天","time":"周四 18:30","her_state":"在房间 没开灯","user_state":"刚吃完","open_loop":"睡不着","target_turns":6,"callback_turn":3,"callback_key":"睡不着","tone":"安静 陪着"}
+{"seed_id":"p168","scene":"睡前聊天","time":"周四 23:10","her_state":"刚洗完澡 困","user_state":"在超市","open_loop":"下周搬家","target_turns":8,"callback_turn":4,"callback_key":"搬家","tone":"别扭 想和好"}
+{"seed_id":"p169","scene":"睡前聊天","time":"周五 19:10","her_state":"在菜市场","user_state":"忘带东西了","open_loop":"做梦了","target_turns":6,"callback_turn":5,"callback_key":"做梦","tone":"得意 调侃"}
+{"seed_id":"p170","scene":"睡前聊天","time":"周五 23:10","her_state":"在煮姜茶","user_state":"周末想出去玩","open_loop":"关灯","target_turns":8,"callback_turn":3,"callback_key":"关灯","tone":"担心 念叨"}
